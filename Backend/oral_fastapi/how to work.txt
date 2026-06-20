@@ -1,0 +1,5 @@
+pip install -r requirements.txt
+
+بعد ما كل المكتبات تتثبت، شغلي السيرفر
+
+uvicorn main:app --reload

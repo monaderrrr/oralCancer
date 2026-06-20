@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "name": "Dr.Ammar Dental Clinics - عيادات د.عمار لطب الأسنان",
+    "type": "dentist",
+    "lat":31.0458369,
+    "lng":31.3618076,
+    "rating": 4.9,
+    "address": "51 Al Mashayah Al Sofleya St, El Mansoura 1, Dakahlia Governorate"
+  },
+  {
+    "id": 2,
+    "name": "مراكز أمان لطب الأسنان - Aman Dental Centers",
+    "type": "dentist",
+    "lat":31.0673408,
+    "lng":31.4277888,
+    "rating": 4.9,
+    "address": "Gehan Al Sadat, Mansoura Qism 2, El Mansoura 1, Dakahlia Governorate"
+  },
+    {
+        "id": 3,
+        "name": "Dr hazem sultan dental center",
+        "type": "dentist",
+        "lat":31.0673408,
+        "lng":31.4277888,
+        "rating": 5,
+        "address": "79 Kanat Al Sweis, Mansoura Qism 2, El Mansoura, Dakahlia Governorate "
+    },
+    {
+        "id": 4,
+        "name": "دكتور مصطفى الشافعى أخصائى تقويم وتجميل وزراعه الاسنان ومحاضر دولى فى تقويم الاسنان - Dr. Mostafa El Shafaei Orthodontics, Cosmetic Dentistry, and Dental Implants Specialist and International Lecturer in Orthodontics",
+        "type": "dentist",
+        "lat":31.0673408,
+        "lng":31.4277888,
+        "rating": 4.9,
+        "address": "امام بنك CIB, Ahmed Maher, Dakahlia Governorate"
+    },
+    {
+        "id": 5,
+        "name": "دكتور عمرو فتحى لطب و جراحة الفم و تجميل الاسنان - Dr. Amr Fathy Oral and Maxillofacial Surgery and Cosmetic Dentistry Specialist",
+        "type": "dentist",
+        "lat":31.0673408,
+        "lng":31.4277888,
+        "rating": 4.9,
+        "address": "toreil, El Mansoura, Dakahlia Governorate"
+    },
+    {
+        "id": 6,
+        "name": "Badr Dental Center -مركز بدر للأسنان - مركز الدكتور أحمد عبدالله بدر لطب الأسنان",
+        "type": "dentist",
+        "lat":31.0673408,
+        "lng":31.4277888,
+        "rating": 4.8,
+        "address": "Mansoura Qism 2, El Mansoura, Dakahlia Governorate"
+    },
+    {
+        "id": 7,
+        "name": "عيادة الدكتور محمد عبدالوهاب السعدني لطب الفم والأسنان - Dr. Mohamed Abdelwahab El Saadany Oral and Dental Clinic",
+        "type": "dentist",
+        "lat":31.0673408,
+        "lng":31.4277888,
+        "rating": 5,
+        "address": "24 شارع قناة السويس، أعلي مطعم المحمدي الدور السادس، المنصورة (ثان)، الدقهلية 24 Kanat Al Sweis St. Above Al-Mohamady Restarunt, Dakahlia Governorate"
+    },
+    {
+        "id": 8,
+        "name": "Te Agia Dental Clinic - عيادة تي أجيا لطب الأسنان",
+        "type": "dentist",
+        "lat":31.0673408,
+        "lng":31.4277888,
+        "rating": 4.9,
+        "address": "29V9+GVJ، شارع الثانوية, Mansoura Qism 2, El Mansoura, Dakahlia Governorate"
+    },
+    {
+        "id": 9,
+        "name": "مركز الأستاذ الدكتور أسامه طه لعلاج الأورام Prof. Dr. Osama Taha",
+        "type": "Oncologist",
+        "lat":31.0673408,
+        "lng":31.4277888,
+        "rating": 4.9,
+        "address": "ـ برج ساريدار ـ الدقي ـ الدور 6 ـ عيادة 71 Egypt, 92 El Tahrir, Ad Doqi, Dokki, Giza Governorate "
+    },
+    {
+        "id": 10,
+        "name": "عيادة دكتور عادل فتحي - جراحة الأورام و المناظير",
+        "type": "Oncologist",
+        "lat":31.0673408,
+        "lng":31.4277888,
+        "rating": 5,
+        "address": "Mansoura Qism 2, El Mansoura 2, Dakahlia Governorate"
+    }
+]

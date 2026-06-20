@@ -1,0 +1,2288 @@
+{
+  "info": {
+    "_postman_id": "b06293f0-9eb1-4854-bebf-a4d834397575",
+    "name": "oral",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "38637498",
+    "_collection_link": "https://go.postman.co/collection/38637498-b06293f0-9eb1-4854-bebf-a4d834397575?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "Signup doctor",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fullName",
+                  "type": "text",
+                  "uuid": "55dafd25-c591-4817-957c-9ea99a4ba213",
+                  "value": "Samaa Mohamed"
+                },
+                {
+                  "key": "email",
+                  "value": "+92sm4786400@gmail.com",
+                  "type": "text",
+                  "uuid": "35abde4a-1451-4cb4-a52a-103631ea74f4"
+                },
+                {
+                  "key": "password",
+                  "value": "Sama123@",
+                  "type": "text",
+                  "uuid": "ac318463-df81-4cc1-b1c8-4380a19cb338"
+                },
+                {
+                  "key": "confirmPassword",
+                  "value": "Sama123@",
+                  "type": "text",
+                  "uuid": "abf96350-d08b-4dd4-9c06-4a5c4b84d943"
+                },
+                {
+                  "key": "dateOfBirth",
+                  "value": "2004-09-01",
+                  "type": "text",
+                  "uuid": "48fe7666-c6f6-4c9b-9aa9-bffe7a88dc10",
+                  "disabled": true
+                },
+                {
+                  "key": "phone",
+                  "value": "01220930536",
+                  "type": "text",
+                  "uuid": "b843992c-5157-4bf5-af32-8ca133e00695",
+                  "disabled": true
+                },
+                {
+                  "key": "gender",
+                  "value": "female",
+                  "type": "text",
+                  "uuid": "dd50bd9e-6b4c-4dcc-b642-a2745965e7ab",
+                  "disabled": true
+                },
+                {
+                  "key": "role",
+                  "value": "doctor",
+                  "type": "text",
+                  "uuid": "dcb87d81-029f-4ca4-94da-e06bf5244ab0"
+                },
+                {
+                  "key": "license",
+                  "type": "file",
+                  "uuid": "9f5febdd-8e9e-48bb-befb-c40db60e37d8",
+                  "src": "postman-cloud:///1f0fb941-ea84-4080-a40d-567027181f96"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:3000/auth/signUp",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "signUp"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Signup patient",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fullName\": \"Samaa Mohamed\",\r\n  \"email\": \"+79sm4786400@gmail.com\",\r\n  \"password\": \"Sama123@\",\r\n  \"confirmPassword\": \"Sama123@\",\r\n  //\"phone\": \"01220930536\",\r\n  //\"gender\": \"female\",\r\n  \"role\": \"patient\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/auth/signUp",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "signUp"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sign In patient",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"email\": \"+79sm4786400@gmail.com\",\r\n    \"password\": \"Sama123@\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/auth/signIn",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "signIn"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sign In doctor",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"email\": \"+92sm4786400@gmail.com\",\r\n    \"password\": \"Sama123@\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/auth/signIn",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "signIn"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/auth/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk3MjYyOTQsImV4cCI6MTc3MjMxODI5NH0.rFhgvx-gXpiN7B8_ieLbyBUbUm_zfKiR63nGldYdqIk",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "verify",
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk3MjYyOTQsImV4cCI6MTc3MjMxODI5NH0.rFhgvx-gXpiN7B8_ieLbyBUbUm_zfKiR63nGldYdqIk"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "refresh Token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "refreshtoken",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDEwNTAsImV4cCI6MTc3MDA3Mzg1MCwianRpIjoiZGFmMjU3ZDItM2NjOS00OTQzLTliNGMtMjhkZDg4MTVjMzUyIn0.Q3gMAhhm9szi6sasfm8gyGCayPmSk9Uj-pNEpzJis18",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/auth/refreshToken",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "refreshToken"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Signout",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDEwNTAsImV4cCI6MTc2OTkwNDY1MCwianRpIjoiYjljYjI2MWQtZmViMy00ZWVhLTg4OTYtZDgzNzExMTgzOWZiIn0.uY38866mu2jGFYEm8o9Jp43_FiEiK7Ce8RGKLnSMwYI",
+                "type": "text"
+              },
+              {
+                "key": "refreshToken",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDEwNTAsImV4cCI6MTc3MDA3Mzg1MCwianRpIjoiZGFmMjU3ZDItM2NjOS00OTQzLTliNGMtMjhkZDg4MTVjMzUyIn0.Q3gMAhhm9szi6sasfm8gyGCayPmSk9Uj-pNEpzJis18",
+                "type": "text"
+              },
+              {
+                "key": "accesstoken",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDExMzMsImV4cCI6MTc2OTkwNDczMywianRpIjoiNDRmODc1ZjYtZGJkYy00YmM5LTg4NTktMTIxN2Q2MjIxNTk5In0.qdd_PwwO7M4sSFdcWtcisVVI5H5oq4O9SeetAxrh-B0",
+                "type": "text"
+              },
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/auth/signOut",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "signOut"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "forgetPassword",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"+77sm4786400@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/auth/forgetPassword",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "forgetPassword"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset password",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"+77sm4786400@gmail.com\",\r\n    \"otp\": \"9667\" ,\r\n    \"password\": \"Sama@1234\",\r\n    \"confirmPassword\": \"Sama@1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/auth/resetPassword",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "resetPassword"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sign In admin",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"email\": \"admin@oral.com\",\r\n    \"password\": \"Admin@123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/auth/signin",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "signin"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "wait doctor",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQG9yYWwuY29tIiwiaWF0IjoxNzY5OTAxMzY1LCJleHAiOjE3Njk5MDQ5NjUsImp0aSI6IjJlZmIxNGY3LWUyMTgtNDQxZC1iZjVjLTk4NWFiNjcwYzNmNiJ9.Wvj723-WRGuD-mtRBHHCmZdB38DII6gOKX3FzQHkDqo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/admin/doctors/pending",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "doctors",
+                "pending"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "approve doctor",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQG9yYWwuY29tIiwiaWF0IjoxNzcyMzE5ODIwLCJleHAiOjE3NzIzMjM0MjAsImp0aSI6Ijk1ODc0NWNmLWExZmUtNDFjZC1iYzVmLTVhNWRlMzg2ODc1YyJ9.9PcChm75M6H9FnRZA3kR--5FhMdL9VyzOseVTm7BA1U",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/admin/doctors/69a373efb872a38dbc39e1b6/approve",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "doctors",
+                "69a373efb872a38dbc39e1b6",
+                "approve"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "reject doctor",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQG9yYWwuY29tIiwiaWF0IjoxNzY5OTAxMzY1LCJleHAiOjE3Njk5MDQ5NjUsImp0aSI6IjJlZmIxNGY3LWUyMTgtNDQxZC1iZjVjLTk4NWFiNjcwYzNmNiJ9.Wvj723-WRGuD-mtRBHHCmZdB38DII6gOKX3FzQHkDqo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"reason\": \"الوثائق غير واضحة/غير مكتملة\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/admin/doctors/697c3ceb9e41dbe4e4c1a94e/reject",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "doctors",
+                "697c3ceb9e41dbe4e4c1a94e",
+                "reject"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "list doctor",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQG9yYWwuY29tIiwiaWF0IjoxNzY5OTAxMzY1LCJleHAiOjE3Njk5MDQ5NjUsImp0aSI6IjJlZmIxNGY3LWUyMTgtNDQxZC1iZjVjLTk4NWFiNjcwYzNmNiJ9.Wvj723-WRGuD-mtRBHHCmZdB38DII6gOKX3FzQHkDqo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/admin/doctors?status=approved",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "doctors"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "approved"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search doctor",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQG9yYWwuY29tIiwiaWF0IjoxNzY5OTAxMzY1LCJleHAiOjE3Njk5MDQ5NjUsImp0aSI6IjJlZmIxNGY3LWUyMTgtNDQxZC1iZjVjLTk4NWFiNjcwYzNmNiJ9.Wvj723-WRGuD-mtRBHHCmZdB38DII6gOKX3FzQHkDqo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/admin/doctors?search=Samaa Mohamed",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "doctors"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Samaa Mohamed"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Fail token doctor",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQG9yYWwuY29tIiwiaWF0IjoxNzY5OTAxMzY1LCJleHAiOjE3Njk5MDQ5NjUsImp0aSI6IjJlZmIxNGY3LWUyMTgtNDQxZC1iZjVjLTk4NWFiNjcwYzNmNiJ9.Wvj723-WRGuD-mtRBHHCmZdB38DII6gOKX3FzQHkDqo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/admin/doctors/pending",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "doctors",
+                "pending"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWEzNzNlZmI4NzJhMzhkYmMzOWUxYjYiLCJlbWFpbCI6Iis5MnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3NzI0OTU0NjgsImV4cCI6MTc3MjQ5OTA2OCwianRpIjoiZmNiNzExNDMtYzAyMC00N2VhLTkxMTgtOTNmODQ4NWEzY2FkIn0.UfUg89fJliG80oSbRv7-SkR4sTGEJME5TGr8B3C1K-A",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fullName\": \"Samaa\",\r\n  \"email\": \"10sm4786400@gmail.com\",\r\n  \"phone\": \"+201001234567\",\r\n  \"specialization\": \"Oral Oncology\",\r\n  \"medicalLicenseNumber\": \"MD-12345-CA\",\r\n  \"hospital\": \"City General Hospital\",\r\n  \"yearsOfExperience\": 15,\r\n  \"bio\": \"Board-certified oral oncologist with over 15 years of experience in early cancer detection and treatment.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/user/updateProfile",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "user",
+                "updateProfile"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "book",
+      "item": [
+        {
+          "name": "Create Doctor Slot",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2NlYjllNDFkYmU0ZTRjMWE5NGUiLCJlbWFpbCI6IisyMnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDIxMDIsImV4cCI6MTc2OTkwNTcwMiwianRpIjoiNGJiMmYwYTctNmIzMS00NjdhLTgyMmEtMDgyNGExODA4N2M1In0.Ybb7KGtkvQl4Njp6qJ-_Dt_igT8xUewrT6TQf6yJCNI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"2026-02-05\",\r\n  \"startTime\": \"14:00\",\r\n  \"endTime\": \"15:00\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/booking/slots",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "booking",
+                "slots"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Doctor Available Slots",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/booking/slots/available/697c3ceb9e41dbe4e4c1a94e",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "booking",
+                "slots",
+                "available",
+                "697c3ceb9e41dbe4e4c1a94e"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "My Slots (Doctor)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2NlYjllNDFkYmU0ZTRjMWE5NGUiLCJlbWFpbCI6IisyMnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDIxMDIsImV4cCI6MTc2OTkwNTcwMiwianRpIjoiNGJiMmYwYTctNmIzMS00NjdhLTgyMmEtMDgyNGExODA4N2M1In0.Ybb7KGtkvQl4Njp6qJ-_Dt_igT8xUewrT6TQf6yJCNI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/booking/my-slots",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "booking",
+                "my-slots"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Book Slot (Patient)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDEwNTAsImV4cCI6MTc2OTkwNDY1MCwianRpIjoiYjljYjI2MWQtZmViMy00ZWVhLTg4OTYtZDgzNzExMTgzOWZiIn0.uY38866mu2jGFYEm8o9Jp43_FiEiK7Ce8RGKLnSMwYI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"slotId\": \"697e949c63f2af4c6c7afea0\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/booking/book",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "booking",
+                "book"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Booking (Patient)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDEwNTAsImV4cCI6MTc2OTkwNDY1MCwianRpIjoiYjljYjI2MWQtZmViMy00ZWVhLTg4OTYtZDgzNzExMTgzOWZiIn0.uY38866mu2jGFYEm8o9Jp43_FiEiK7Ce8RGKLnSMwYI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/booking/cancel/697e949c63f2af4c6c7afea0",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "booking",
+                "cancel",
+                "697e949c63f2af4c6c7afea0"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "My Bookings (Patient",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDEwNTAsImV4cCI6MTc2OTkwNDY1MCwianRpIjoiYjljYjI2MWQtZmViMy00ZWVhLTg4OTYtZDgzNzExMTgzOWZiIn0.uY38866mu2jGFYEm8o9Jp43_FiEiK7Ce8RGKLnSMwYI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/booking/my-bookings",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "booking",
+                "my-bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "consultationFee",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2NlYjllNDFkYmU0ZTRjMWE5NGUiLCJlbWFpbCI6IisyMnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDc1NDYsImV4cCI6MTc2OTkxMTE0NiwianRpIjoiMDQ5MzgyMWMtOWZlOC00ODRhLWIzOTgtNDRmMTljMGZhZjEwIn0.vmzWlHm7TKym6fGbqNmGK8xpGT-tVjP9xd0Kfo3n7HE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"fee\": 150 }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/consultation/fee",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "consultation",
+                "fee"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "community",
+      "item": [
+        {
+          "name": "Create Post",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDg3MTksImV4cCI6MTc2OTkxMjMxOSwianRpIjoiM2E5YmYzN2MtM2YwYS00MDZlLTliMGMtMzRlZjkyYjM4Zjk3In0.5Y3dhXh5Z-BrurhbKFpvFUwdfh-dFY41UrtrPLU4_Uk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "\"My Healthcare Tip\"",
+                  "type": "text",
+                  "uuid": "69a25772-6761-4420-96f5-987599654bc9"
+                },
+                {
+                  "key": "body",
+                  "value": "\"Always drink enough water daily\"",
+                  "type": "text",
+                  "uuid": "0901b996-86da-4078-9e90-09dd2dba9a4b"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "9f6dfd1f-08ee-421d-8a4c-f12759e29a39",
+                  "src": "/C:/Users/ma3/OneDrive/Pictures/133894166576567018.jpg"
+                },
+                {
+                  "key": "category",
+                  "value": "Q&A",
+                  "type": "text",
+                  "uuid": "330dde2a-e09e-4009-a40a-0263c91ec7fd"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/community/posts",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "community",
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List All Posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/community/posts",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "community",
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Single Post",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/community/posts/697eaa20c1b2bf346b9eae78",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "community",
+                "posts",
+                "697eaa20c1b2bf346b9eae78"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDg3MTksImV4cCI6MTc2OTkxMjMxOSwianRpIjoiM2E5YmYzN2MtM2YwYS00MDZlLTliMGMtMzRlZjkyYjM4Zjk3In0.5Y3dhXh5Z-BrurhbKFpvFUwdfh-dFY41UrtrPLU4_Uk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/community/posts/697eaa20c1b2bf346b9eae78",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "community",
+                "posts",
+                "697eaa20c1b2bf346b9eae78"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDg3MTksImV4cCI6MTc2OTkxMjMxOSwianRpIjoiM2E5YmYzN2MtM2YwYS00MDZlLTliMGMtMzRlZjkyYjM4Zjk3In0.5Y3dhXh5Z-BrurhbKFpvFUwdfh-dFY41UrtrPLU4_Uk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/community/posts/697eaa20c1b2bf346b9eae78",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "community",
+                "posts",
+                "697eaa20c1b2bf346b9eae78"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Comment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDg3MTksImV4cCI6MTc2OTkxMjMxOSwianRpIjoiM2E5YmYzN2MtM2YwYS00MDZlLTliMGMtMzRlZjkyYjM4Zjk3In0.5Y3dhXh5Z-BrurhbKFpvFUwdfh-dFY41UrtrPLU4_Uk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"postId\": \"697eac46c1b2bf346b9eae89\",\r\n  \"body\": \"Great tip! I'll try this starting today.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/community/comments",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "community",
+                "comments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Comment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDg3MTksImV4cCI6MTc2OTkxMjMxOSwianRpIjoiM2E5YmYzN2MtM2YwYS00MDZlLTliMGMtMzRlZjkyYjM4Zjk3In0.5Y3dhXh5Z-BrurhbKFpvFUwdfh-dFY41UrtrPLU4_Uk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/community/comments/697eac79c1b2bf346b9eae8e",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "community",
+                "comments",
+                "697eac79c1b2bf346b9eae8e"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "like",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDg3MTksImV4cCI6MTc2OTkxMjMxOSwianRpIjoiM2E5YmYzN2MtM2YwYS00MDZlLTliMGMtMzRlZjkyYjM4Zjk3In0.5Y3dhXh5Z-BrurhbKFpvFUwdfh-dFY41UrtrPLU4_Uk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/community/posts/697eac46c1b2bf346b9eae89/like",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "community",
+                "posts",
+                "697eac46c1b2bf346b9eae89",
+                "like"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "unlike",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDg3MTksImV4cCI6MTc2OTkxMjMxOSwianRpIjoiM2E5YmYzN2MtM2YwYS00MDZlLTliMGMtMzRlZjkyYjM4Zjk3In0.5Y3dhXh5Z-BrurhbKFpvFUwdfh-dFY41UrtrPLU4_Uk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/community/posts/697eac46c1b2bf346b9eae89/like",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "community",
+                "posts",
+                "697eac46c1b2bf346b9eae89",
+                "like"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "favorite",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDg3MTksImV4cCI6MTc2OTkxMjMxOSwianRpIjoiM2E5YmYzN2MtM2YwYS00MDZlLTliMGMtMzRlZjkyYjM4Zjk3In0.5Y3dhXh5Z-BrurhbKFpvFUwdfh-dFY41UrtrPLU4_Uk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/community/posts/697eac46c1b2bf346b9eae89/favorite",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "community",
+                "posts",
+                "697eac46c1b2bf346b9eae89",
+                "favorite"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "unfavorite",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDg3MTksImV4cCI6MTc2OTkxMjMxOSwianRpIjoiM2E5YmYzN2MtM2YwYS00MDZlLTliMGMtMzRlZjkyYjM4Zjk3In0.5Y3dhXh5Z-BrurhbKFpvFUwdfh-dFY41UrtrPLU4_Uk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/community/posts/697eac46c1b2bf346b9eae89/favorite",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "community",
+                "posts",
+                "697eac46c1b2bf346b9eae89",
+                "favorite"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "content",
+      "item": [
+        {
+          "name": "Create Content",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDg3MTksImV4cCI6MTc2OTkxMjMxOSwianRpIjoiM2E5YmYzN2MtM2YwYS00MDZlLTliMGMtMzRlZjkyYjM4Zjk3In0.5Y3dhXh5Z-BrurhbKFpvFUwdfh-dFY41UrtrPLU4_Uk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Benefits of Regular Exercise\",\r\n  \"body\": \"Regular exercise has numerous health benefits including improved cardiovascular health, better mental health, and increased energy levels. Exercise helps reduce the risk of chronic diseases...\",\r\n  \"category\": \"fitness\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/content",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "content"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List All",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDg3MTksImV4cCI6MTc2OTkxMjMxOSwianRpIjoiM2E5YmYzN2MtM2YwYS00MDZlLTliMGMtMzRlZjkyYjM4Zjk3In0.5Y3dhXh5Z-BrurhbKFpvFUwdfh-dFY41UrtrPLU4_Uk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/content",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "content"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Single Content",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTMxY2UxZmUzMWEyMTAyNzMyY2RlMjUiLCJlbWFpbCI6InNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3NjQ5Mjk2MjQsImV4cCI6MTc2NDkzMzIyNCwianRpIjoiZTEyZmJlMDItM2RjYS00ODNiLTg0MmMtZWNmYjE5ZDkyOTc5In0.JpitDpBChK1DDkVnWNJCbEVGelNvgLizo6thj1u_WKI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/content/6932b0c0860757c6df3fbe37",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "content",
+                "6932b0c0860757c6df3fbe37"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTMxY2UxZmUzMWEyMTAyNzMyY2RlMjUiLCJlbWFpbCI6InNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3NjQ5Mjk2MjQsImV4cCI6MTc2NDkzMzIyNCwianRpIjoiZTEyZmJlMDItM2RjYS00ODNiLTg0MmMtZWNmYjE5ZDkyOTc5In0.JpitDpBChK1DDkVnWNJCbEVGelNvgLizo6thj1u_WKI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Updated Benefits of Regular Exercise\",\r\n  \"body\": \"Regular exercise has numerous health benefits including improved cardiovascular health, better mental health, and increased energy levels. Updated information...\",\r\n  \"category\": \"health\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/content/6932b0c0860757c6df3fbe37",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "content",
+                "6932b0c0860757c6df3fbe37"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDg3MTksImV4cCI6MTc2OTkxMjMxOSwianRpIjoiM2E5YmYzN2MtM2YwYS00MDZlLTliMGMtMzRlZjkyYjM4Zjk3In0.5Y3dhXh5Z-BrurhbKFpvFUwdfh-dFY41UrtrPLU4_Uk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/content/697eaf0ec1b2bf346b9eaea9",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "content",
+                "697eaf0ec1b2bf346b9eaea9"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "payment",
+      "item": [
+        {
+          "name": "pay chat",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDQ5ODUsImV4cCI6MTc2OTkwODU4NSwianRpIjoiMGY2NzIwYWItMjNmYi00YjgwLTlmYjUtMmQxZmYyNTc4NjVkIn0.D9gdmSXBN2zObcxOi5UxnjluBY_mHC2xpKIRgHdd6oM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"doctorId\": \"697c3ceb9e41dbe4e4c1a94e\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/Subscription/payment",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "Subscription",
+                "payment"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "session-status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTMxZjQxYzFjMDhmYzJkN2U1NGY5ZWYiLCJlbWFpbCI6Iisyc200Nzg2NDAwQGdtYWlsLmNvbSIsImlhdCI6MTc2NTMxOTA5MSwiZXhwIjoxNzY1MzIyNjkxLCJqdGkiOiJmMTVlMjBlYS04YWZjLTRlNjQtYmQyYi1hMDgzYTI0ODFhNDQifQ.lSBx4zmbRjUhPJjT3a9CZzpzuIgaE5e7jtpsjQKi14o",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/subscription/session-status?session_id=cs_test_a1JQfi51vPZqFN6w8ZWQexL8NF6tuVrREAWaRrT3moy0tc5rFzt0blKR5p",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "subscription",
+                "session-status"
+              ],
+              "query": [
+                {
+                  "key": "session_id",
+                  "value": "cs_test_a1JQfi51vPZqFN6w8ZWQexL8NF6tuVrREAWaRrT3moy0tc5rFzt0blKR5p"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Chat",
+      "item": [
+        {
+          "name": "Conversation",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5Njg1NTAsImV4cCI6MTc2OTk3MjE1MCwianRpIjoiMjhjYzJiZjYtNDY3ZC00YjU4LTgyODQtZjUwYWRhNzFiZjE4In0.FlauV6xi2Cra1N5QJfPSg4m3ZLC6Wz34h_ow9tIcrwg",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"doctorId\": \"697c3ceb9e41dbe4e4c1a94e\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/chat/conversations",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "chat",
+                "conversations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Conversations",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2NlYjllNDFkYmU0ZTRjMWE5NGUiLCJlbWFpbCI6IisyMnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5NzA4NTUsImV4cCI6MTc2OTk3NDQ1NSwianRpIjoiYmZlZmJhNmYtMjdmZi00Y2JiLTg0MGYtOWRkMWRiYmRmYWY3In0.VYCXinU8MiWfKpUZCqpl0YWH_IY3CXZR2QfU_n2lAyM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/chat/conversations",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "chat",
+                "conversations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Conversation by ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2NlYjllNDFkYmU0ZTRjMWE5NGUiLCJlbWFpbCI6IisyMnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5NzA4NTUsImV4cCI6MTc2OTk3NDQ1NSwianRpIjoiYmZlZmJhNmYtMjdmZi00Y2JiLTg0MGYtOWRkMWRiYmRmYWY3In0.VYCXinU8MiWfKpUZCqpl0YWH_IY3CXZR2QfU_n2lAyM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"doctorId\": \"697c3ceb9e41dbe4e4c1a94e\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/chat/conversations/697f9b470cb65a5e0f26d2d0",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "chat",
+                "conversations",
+                "697f9b470cb65a5e0f26d2d0"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Close Conversation",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2NlYjllNDFkYmU0ZTRjMWE5NGUiLCJlbWFpbCI6IisyMnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5NzA4NTUsImV4cCI6MTc2OTk3NDQ1NSwianRpIjoiYmZlZmJhNmYtMjdmZi00Y2JiLTg0MGYtOWRkMWRiYmRmYWY3In0.VYCXinU8MiWfKpUZCqpl0YWH_IY3CXZR2QfU_n2lAyM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/chat/conversations/697f9b470cb65a5e0f26d2d0/close",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "chat",
+                "conversations",
+                "697f9b470cb65a5e0f26d2d0",
+                "close"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Message",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTMxY2UxZmUzMWEyMTAyNzMyY2RlMjUiLCJlbWFpbCI6InNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3NjU0MDAxODAsImV4cCI6MTc2NTQwMzc4MCwianRpIjoiZWI4NTBkNDUtNjNlMS00ZTUwLWE5OTUtY2UxNzMyNDFiMmVjIn0.i9ji-Smle6H_Y7AiFSKO8POdBNbCrG8DhFJG7fo3y7g",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"text\": \"Hello doctor!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/chat/conversations/6939df782ff8652d8bb6bded/messages",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "chat",
+                "conversations",
+                "6939df782ff8652d8bb6bded",
+                "messages"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Messages",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2NlYjllNDFkYmU0ZTRjMWE5NGUiLCJlbWFpbCI6IisyMnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5NzA4NTUsImV4cCI6MTc2OTk3NDQ1NSwianRpIjoiYmZlZmJhNmYtMjdmZi00Y2JiLTg0MGYtOWRkMWRiYmRmYWY3In0.VYCXinU8MiWfKpUZCqpl0YWH_IY3CXZR2QfU_n2lAyM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/chat/conversations/697f9b470cb65a5e0f26d2d0/messages",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "chat",
+                "conversations",
+                "697f9b470cb65a5e0f26d2d0",
+                "messages"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unread Message Count",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2NlYjllNDFkYmU0ZTRjMWE5NGUiLCJlbWFpbCI6IisyMnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5NzA4NTUsImV4cCI6MTc2OTk3NDQ1NSwianRpIjoiYmZlZmJhNmYtMjdmZi00Y2JiLTg0MGYtOWRkMWRiYmRmYWY3In0.VYCXinU8MiWfKpUZCqpl0YWH_IY3CXZR2QfU_n2lAyM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/chat/conversations/697f9b470cb65a5e0f26d2d0/unread-count",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "chat",
+                "conversations",
+                "697f9b470cb65a5e0f26d2d0",
+                "unread-count"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AI",
+      "item": [
+        {
+          "name": "OC Model",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "c5f5a810-aad8-42c3-8d3c-ba1ea0d49920",
+                  "src": "postman-cloud:///1f0fae5a-7af1-4750-b479-dcc05d738d4c"
+                },
+                {
+                  "key": "localization",
+                  "value": "Tongue",
+                  "type": "text",
+                  "uuid": "c8c4484e-b915-461d-8d8b-f1fcd5d2872a"
+                },
+                {
+                  "key": "tobacco",
+                  "value": "no",
+                  "type": "text",
+                  "uuid": "1301e462-b37e-478f-a2a4-acddf3ddbb1b"
+                },
+                {
+                  "key": "alcohol",
+                  "value": "no",
+                  "type": "text",
+                  "uuid": "88836e31-a0a7-46d4-9f86-edd39cee8b8c"
+                },
+                {
+                  "key": "sun",
+                  "value": "no",
+                  "type": "text",
+                  "uuid": "d60f0bae-0463-47c9-aeb6-2c22cabccf24"
+                },
+                {
+                  "key": "gender",
+                  "value": "female",
+                  "type": "text",
+                  "uuid": "3c46993c-084c-4c28-99e6-714a52679c95"
+                },
+                {
+                  "key": "age",
+                  "value": "33",
+                  "type": "text",
+                  "uuid": "1f02ece5-38c6-43dd-9c77-8a0a4e2a85ca"
+                },
+                {
+                  "key": "ulcer_3_weeks",
+                  "value": "no",
+                  "type": "text",
+                  "uuid": "ce2cfdea-3cd2-4181-8ccd-5146c9631794"
+                },
+                {
+                  "key": "ulcer_spreading",
+                  "value": "no",
+                  "type": "text",
+                  "uuid": "3ab6126b-1ecc-46aa-a88a-8630a49cf0ba"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8000/predict",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "predict"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "dashboard patient",
+      "item": [
+        {
+          "name": "send scan",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2UxYTllNDFkYmU0ZTRjMWE5NWQiLCJlbWFpbCI6Iis3N3NtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDQ5ODUsImV4cCI6MTc2OTkwODU4NSwianRpIjoiMGY2NzIwYWItMjNmYi00YjgwLTlmYjUtMmQxZmYyNTc4NjVkIn0.D9gdmSXBN2zObcxOi5UxnjluBY_mHC2xpKIRgHdd6oM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "c5f5a810-aad8-42c3-8d3c-ba1ea0d49920",
+                  "src": "postman-cloud:///1f0fae58-a2cc-4510-ae64-27823653294c"
+                },
+                {
+                  "key": "localization",
+                  "value": "buccal_mucosa",
+                  "type": "text",
+                  "uuid": "c8c4484e-b915-461d-8d8b-f1fcd5d2872a"
+                },
+                {
+                  "key": "tobacco",
+                  "value": "no",
+                  "type": "text",
+                  "uuid": "1301e462-b37e-478f-a2a4-acddf3ddbb1b"
+                },
+                {
+                  "key": "alcohol",
+                  "value": "no",
+                  "type": "text",
+                  "uuid": "88836e31-a0a7-46d4-9f86-edd39cee8b8c"
+                },
+                {
+                  "key": "sun",
+                  "value": "no",
+                  "type": "text",
+                  "uuid": "d60f0bae-0463-47c9-aeb6-2c22cabccf24"
+                },
+                {
+                  "key": "gender",
+                  "value": "male",
+                  "type": "text",
+                  "uuid": "3c46993c-084c-4c28-99e6-714a52679c95"
+                },
+                {
+                  "key": "age",
+                  "value": "100",
+                  "type": "text",
+                  "uuid": "1f02ece5-38c6-43dd-9c77-8a0a4e2a85ca"
+                },
+                {
+                  "key": "ulcer_3_weeks",
+                  "value": "no",
+                  "type": "text",
+                  "uuid": "ce2cfdea-3cd2-4181-8ccd-5146c9631794"
+                },
+                {
+                  "key": "ulcer_spreading",
+                  "value": "no",
+                  "type": "text",
+                  "uuid": "3ab6126b-1ecc-46aa-a88a-8630a49cf0ba"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/scans",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "scans"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Scan History",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWEzNzJkM2I4NzJhMzhkYmMzOWUxYTciLCJlbWFpbCI6Iis3OXNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3NzI0ODExNjIsImV4cCI6MTc3MjQ4NDc2MiwianRpIjoiYWRkNTQ0YTAtYzI2Ny00OTM4LWIzZTctNmJkMjAzOGQ3MzZhIn0.lromdHlCiWfJj7EEqrFndRuziUz1_5B7U1nYLSR30UA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/scans/history?page=1&limit=10",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "scans",
+                "history"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Recommendations",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWEzNzJkM2I4NzJhMzhkYmMzOWUxYTciLCJlbWFpbCI6Iis3OXNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3NzIzMzAyNDAsImV4cCI6MTc3MjMzMzg0MCwianRpIjoiYzNjNDFjNDUtNDA5OC00NjMyLTlhNjYtYjQ4ZjcyNTY1ZjdmIn0.XMi5d8zBXLsijlVyRxdPKqnm6zdpVNaWR5s2n2m4G9U",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/recommendations",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "recommendations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Activity Timeline",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWEzNzJkM2I4NzJhMzhkYmMzOWUxYTciLCJlbWFpbCI6Iis3OXNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3NzIzMzAyNDAsImV4cCI6MTc3MjMzMzg0MCwianRpIjoiYzNjNDFjNDUtNDA5OC00NjMyLTlhNjYtYjQ4ZjcyNTY1ZjdmIn0.XMi5d8zBXLsijlVyRxdPKqnm6zdpVNaWR5s2n2m4G9U",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/patient/activity?limit=20",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "patient",
+                "activity"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Patient Dashboard Overview",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWEzNzJkM2I4NzJhMzhkYmMzOWUxYTciLCJlbWFpbCI6Iis3OXNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3NzIzMzAyNDAsImV4cCI6MTc3MjMzMzg0MCwianRpIjoiYzNjNDFjNDUtNDA5OC00NjMyLTlhNjYtYjQ4ZjcyNTY1ZjdmIn0.XMi5d8zBXLsijlVyRxdPKqnm6zdpVNaWR5s2n2m4G9U",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/patient/dashboard",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "patient",
+                "dashboard"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "dashboard doctor",
+      "item": [
+        {
+          "name": "Doctor Dashboard Overview",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWEzNzNlZmI4NzJhMzhkYmMzOWUxYjYiLCJlbWFpbCI6Iis5MnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3NzI0ODU3MDAsImV4cCI6MTc3MjQ4OTMwMCwianRpIjoiMDBhY2RlMTUtNWM4Zi00NDM1LWFhNGUtZTVlNzU3OWM5MDFmIn0.yPqQTOXjQOcAITjfhSzQIwIzsu0CtSwNFE8ca-0-wCA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/doctor/dashboard",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "doctor",
+                "dashboard"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Doctor Activity Feed",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2NlYjllNDFkYmU0ZTRjMWE5NGUiLCJlbWFpbCI6IisyMnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDc1NDYsImV4cCI6MTc2OTkxMTE0NiwianRpIjoiMDQ5MzgyMWMtOWZlOC00ODRhLWIzOTgtNDRmMTljMGZhZjEwIn0.vmzWlHm7TKym6fGbqNmGK8xpGT-tVjP9xd0Kfo3n7HE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/doctor/activity?limit=10",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "doctor",
+                "activity"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Patient Directory",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdjM2NlYjllNDFkYmU0ZTRjMWE5NGUiLCJlbWFpbCI6IisyMnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3Njk5MDc1NDYsImV4cCI6MTc2OTkxMTE0NiwianRpIjoiMDQ5MzgyMWMtOWZlOC00ODRhLWIzOTgtNDRmMTljMGZhZjEwIn0.vmzWlHm7TKym6fGbqNmGK8xpGT-tVjP9xd0Kfo3n7HE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/doctor/patients",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "doctor",
+                "patients"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Scan Details (Review Page)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWEzNzNlZmI4NzJhMzhkYmMzOWUxYjYiLCJlbWFpbCI6Iis5MnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3NzI0OTAwODksImV4cCI6MTc3MjQ5MzY4OSwianRpIjoiNGFkNTg3ZDAtYTQyYS00NGM2LTkzNDMtYjY0OTY2ZTY4OGRiIn0.HZXYKB08Pl1XgJFnMsHBeKqjN3-AbhSQm8xZbIQIAkc",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/doctor/scans/69a6097a3f6009591171c61a",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "doctor",
+                "scans",
+                "69a6097a3f6009591171c61a"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Scan Review",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWEzNzNlZmI4NzJhMzhkYmMzOWUxYjYiLCJlbWFpbCI6Iis5MnNtNDc4NjQwMEBnbWFpbC5jb20iLCJpYXQiOjE3NzIzMzAwMzAsImV4cCI6MTc3MjMzMzYzMCwianRpIjoiYjZlNjM4NjgtNDEzZC00NDZlLWI0MWItNjNkYTQ2M2RiMTk4In0.26WhiNTg8fdQmzROnZl_HDQx02s1t4Zwh59sxExElSs",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"clinicalNotes\": \"Monitor lesion\",\r\n  \"decision\": \"follow-up\",\r\n  \"messageToPatient\": \"Please repeat scan after 2 weeks\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/doctor/scans/69a39d1cb0c3ea3a8084aee8/review",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v1",
+                "doctor",
+                "scans",
+                "69a39d1cb0c3ea3a8084aee8",
+                "review"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oral Chat - Realtime Consultation</title>
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .chat-container {
+      width: 100%;
+      max-width: 600px;
+      height: 90vh;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-header h1 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .chat-header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .auth-section {
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .auth-section input {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .auth-section button {
+      padding: 10px 20px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .auth-section button:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+    }
+
+    .auth-section button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .conversation-select {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .conversation-select input,
+    .conversation-select button {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .conversation-select button {
+      background: #667eea;
+      color: white;
+      cursor: pointer;
+      border: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .conversation-select button:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+    }
+
+    .messages-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .message {
+      display: flex;
+      margin-bottom: 10px;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.sent {
+      justify-content: flex-end;
+    }
+
+    .message.received {
+      justify-content: flex-start;
+    }
+
+    .message-content {
+      max-width: 70%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      word-wrap: break-word;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .message.sent .message-content {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-bottom-right-radius: 2px;
+    }
+
+    .message.received .message-content {
+      background: #f0f0f0;
+      color: #333;
+      border-bottom-left-radius: 2px;
+    }
+
+    .message-sender {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 5px;
+      margin-left: 5px;
+    }
+
+    .message.sent .message-sender {
+      text-align: right;
+      margin-right: 5px;
+      margin-left: 0;
+    }
+
+    .message-time {
+      font-size: 11px;
+      color: #999;
+      margin-top: 5px;
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 5px;
+      padding: 12px 16px;
+      color: #999;
+      font-size: 12px;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #999;
+      animation: typing 1.4s infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typing {
+      0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.7;
+      }
+      30% {
+        transform: translateY(-10px);
+        opacity: 1;
+      }
+    }
+
+    .input-section {
+      padding: 15px;
+      border-top: 1px solid #eee;
+      display: flex;
+      gap: 10px;
+      background: #f9f9f9;
+    }
+
+    .input-section input {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.3s ease;
+    }
+
+    .input-section input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .input-section button {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .input-section button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .input-section button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .status {
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      background: #f5f5f5;
+      border-bottom: 1px solid #eee;
+    }
+
+    .status.connected {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status.disconnected {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .info-box {
+      background: #e7f3ff;
+      border-left: 4px solid #2196F3;
+      padding: 12px;
+      margin: 10px;
+      border-radius: 3px;
+      font-size: 13px;
+      color: #0c3d8c;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">
+      <h1>💬 Oral Chat</h1>
+      <p>Realtime Consultation System</p>
+    </div>
+
+    <!-- Status Section -->
+    <div class="status" id="status">
+      Not connected
+    </div>
+
+    <!-- Authentication Section -->
+    <div class="auth-section" id="authSection">
+      <input
+        type="text"
+        id="authToken"
+        placeholder="Paste your JWT token here..."
+        style="flex: 1; min-width: 100%"
+      />
+      <button id="authBtn" onclick="authenticate()">Authenticate</button>
+    </div>
+
+    <!-- Conversation Select Section -->
+    <div class="conversation-select hidden" id="conversationSection">
+      <input
+        type="text"
+        id="conversationId"
+        placeholder="Enter Conversation ID..."
+        style="flex: 1"
+      />
+      <button onclick="joinConversation()">Join Conversation</button>
+      <span style="flex: 1; min-width: 100%; text-align: center; color: #999; font-size: 13px">
+        Or enter a conversation ID above and click Join
+      </span>
+    </div>
+
+    <!-- Messages Container -->
+    <div class="messages-container" id="messagesContainer">
+      <div class="info-box">
+        ℹ️ Welcome to Oral Chat! 
+        <br />Paste your JWT token above and click Authenticate to get started.
+      </div>
+    </div>
+
+    <!-- Input Section -->
+    <div class="input-section" id="inputSection" style="display: none">
+      <input
+        type="text"
+        id="messageInput"
+        placeholder="Type your message..."
+        onkeypress="handleKeyPress(event)"
+      />
+      <button id="sendBtn" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const socket = io();
+    let currentUserId = null;
+    let currentConversationId = null;
+    let isAuthenticated = false;
+    let typingTimeout = null;
+
+    // Connect to Socket.IO
+    socket.on('connect', () => {
+      updateStatus('Connected', 'connected');
+      console.log('Socket connected:', socket.id);
+    });
+
+    socket.on('disconnect', () => {
+      updateStatus('Disconnected', 'disconnected');
+      isAuthenticated = false;
+      console.log('Socket disconnected');
+    });
+
+    socket.on('authenticated', (data) => {
+      isAuthenticated = true;
+      currentUserId = data.userId;
+      updateStatus(`Authenticated as ${data.username}`, 'connected');
+      document.getElementById('authSection').style.display = 'none';
+      document.getElementById('conversationSection').classList.remove('hidden');
+      addInfoMessage(`✅ Successfully authenticated as ${data.username}`);
+    });
+
+    socket.on('authError', (data) => {
+      updateStatus('Authentication Failed', 'error');
+      alert('Authentication failed: ' + data.message);
+      console.error('Auth error:', data);
+    });
+
+    socket.on('joinedConversation', (data) => {
+      currentConversationId = data.conversationId;
+      updateStatus(`Connected to conversation ${data.conversationId}`, 'connected');
+      document.getElementById('inputSection').style.display = 'flex';
+      document.getElementById('conversationSection').style.display = 'none';
+      addInfoMessage(`✅ Joined conversation. Ready to chat!`);
+      document.getElementById('messagesContainer').innerHTML = '';
+    });
+
+    socket.on('receiveMessage', (data) => {
+      const isOwn = data.senderId === currentUserId;
+      addMessage(data.text, isOwn, data.senderName, data.createdAt);
+    });
+
+    socket.on('userJoined', (data) => {
+      addInfoMessage(`👤 A user joined the conversation`);
+    });
+
+    socket.on('userDisconnected', (data) => {
+      addInfoMessage(`👤 A user disconnected`);
+    });
+
+    socket.on('typingIndicator', (data) => {
+      if (data.isTyping && data.userId !== currentUserId) {
+        showTypingIndicator();
+      } else {
+        hideTypingIndicator();
+      }
+    });
+
+    socket.on('error', (data) => {
+      console.error('Socket error:', data);
+      alert('Error: ' + data.message);
+      updateStatus('Error: ' + data.message, 'error');
+    });
+
+    // Functions
+    function authenticate() {
+      const token = document.getElementById('authToken').value.trim();
+      if (!token) {
+        alert('Please enter a JWT token');
+        return;
+      }
+      socket.emit('authenticate', token);
+    }
+
+    function joinConversation() {
+      const convId = document.getElementById('conversationId').value.trim();
+      if (!convId) {
+        alert('Please enter a Conversation ID');
+        return;
+      }
+      socket.emit('joinConversation', { conversationId: convId });
+    }
+
+    function sendMessage() {
+      const messageInput = document.getElementById('messageInput');
+      const text = messageInput.value.trim();
+
+      if (!text) {
+        return;
+      }
+
+      if (!currentConversationId) {
+        alert('Please join a conversation first');
+        return;
+      }
+
+      socket.emit('sendMessage', {
+        conversationId: currentConversationId,
+        text: text,
+      });
+
+      messageInput.value = '';
+      socket.emit('userStoppedTyping', { conversationId: currentConversationId });
+    }
+
+    function handleKeyPress(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      } else {
+        // Show typing indicator
+        if (typingTimeout) clearTimeout(typingTimeout);
+        if (currentConversationId) {
+          socket.emit('userTyping', { conversationId: currentConversationId });
+        }
+        typingTimeout = setTimeout(() => {
+          if (currentConversationId) {
+            socket.emit('userStoppedTyping', { conversationId: currentConversationId });
+          }
+        }, 3000);
+      }
+    }
+
+    function addMessage(text, isOwn = false, senderName = 'You', timestamp = new Date()) {
+      const container = document.getElementById('messagesContainer');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${isOwn ? 'sent' : 'received'}`;
+
+      const time = new Date(timestamp).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+
+      messageDiv.innerHTML = `
+        ${!isOwn ? `<div class="message-sender">${senderName}</div>` : ''}
+        <div>
+          <div class="message-content">${escapeHtml(text)}</div>
+          <div class="message-time">${time}</div>
+        </div>
+      `;
+
+      container.appendChild(messageDiv);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function addInfoMessage(text) {
+      const container = document.getElementById('messagesContainer');
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'info-box';
+      infoDiv.textContent = text;
+      container.appendChild(infoDiv);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+      let indicator = document.getElementById('typingIndicator');
+      if (!indicator) {
+        const container = document.getElementById('messagesContainer');
+        indicator = document.createElement('div');
+        indicator.id = 'typingIndicator';
+        indicator.className = 'typing-indicator';
+        indicator.innerHTML = `
+          <span>Someone is typing</span>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        `;
+        container.appendChild(indicator);
+      }
+      const container = document.getElementById('messagesContainer');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function hideTypingIndicator() {
+      const indicator = document.getElementById('typingIndicator');
+      if (indicator) {
+        indicator.remove();
+      }
+    }
+
+    function updateStatus(message, type) {
+      const statusEl = document.getElementById('status');
+      statusEl.textContent = message;
+      statusEl.className = `status ${type}`;
+    }
+
+    function escapeHtml(text) {
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;',
+      };
+      return text.replace(/[&<>"']/g, (m) => map[m]);
+    }
+
+    // Initial status
+    updateStatus('Connecting...', '');
+  </script>
+</body>
+</html>

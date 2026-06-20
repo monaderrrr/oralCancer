@@ -1,0 +1,107 @@
+[
+  {
+    "name": "57357 Hospital",
+    "address": "Cairo, Egypt",
+    "lat": 30.0189,
+    "lng": 31.2336,
+    "rating": 4.7
+  },
+  {
+    "name": "International Medical Center",
+    "address": "El Shorouk, Cairo, Egypt",
+    "lat": 30.1685,
+    "lng": 31.6290,
+    "rating": 4.6
+  },
+  {
+    "name": "Dar Al Fouad Hospital",
+    "address": "6th of October, Egypt",
+    "lat": 29.9737,
+    "lng": 30.9445,
+    "rating": 4.5
+  },
+  {
+    "name": "Cleopatra Hospital",
+    "address": "Heliopolis, Cairo, Egypt",
+    "lat": 30.0910,
+    "lng": 31.3300,
+    "rating": 4.3
+  },
+  {
+    "name": "As-Salam International Hospital",
+    "address": "Maadi, Cairo, Egypt",
+    "lat": 29.9602,
+    "lng": 31.2610,
+    "rating": 4.4
+  },
+  {
+    "name": "Mansoura University Hospitals",
+    "address": "Mansoura, Egypt",
+    "lat": 31.0419,
+    "lng": 31.3785,
+    "rating": 4.5
+  },
+  {
+    "name": "Mansoura General Hospital",
+    "address": "Mansoura, Egypt",
+    "lat": 31.0409,
+    "lng": 31.3785,
+    "rating": 4.2
+  },
+  {
+    "name": "Alexandria Main University Hospital",
+    "address": "Alexandria, Egypt",
+    "lat": 31.2001,
+    "lng": 29.9187,
+    "rating": 4.4
+  },
+  {
+    "name": "El Demerdash Hospital",
+    "address": "Cairo, Egypt",
+    "lat": 30.0772,
+    "lng": 31.2778,
+    "rating": 4.3
+  },
+  {
+    "name": "Ain Shams University Hospital",
+    "address": "Cairo, Egypt",
+    "lat": 30.0770,
+    "lng": 31.2850,
+    "rating": 4.2
+  },
+  {
+    "name": "Kasr Al Ainy Hospital",
+    "address": "Cairo, Egypt",
+    "lat": 30.0286,
+    "lng": 31.2297,
+    "rating": 4.4
+  },
+  {
+    "name": "Tanta University Hospital",
+    "address": "Tanta, Egypt",
+    "lat": 30.7865,
+    "lng": 31.0004,
+    "rating": 4.3
+  },
+  {
+    "name": "Zagazig University Hospital",
+    "address": "Zagazig, Egypt",
+    "lat": 30.5877,
+    "lng": 31.5020,
+    "rating": 4.2
+  },
+  {
+    "name": "Assiut University Hospital",
+    "address": "Assiut, Egypt",
+    "lat": 27.1800,
+    "lng": 31.1837,
+    "rating": 4.4
+  },
+  {
+    "name": "Sohag University Hospital",
+    "address": "Sohag, Egypt",
+    "lat": 26.5569,
+    "lng": 31.6948,
+    "rating": 4.3
+  }
+]
