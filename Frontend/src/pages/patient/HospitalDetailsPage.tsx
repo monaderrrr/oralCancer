@@ -23,7 +23,7 @@ export function HospitalDetailsPage() {
     const fetchHospital = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`http://127.0.0.1:8000/api/hospitals/${id}`);
+        const res = await fetch(`${import.meta.env.VITE_AI_URL}/api/hospitals/${id}`);
         const data = await res.json();
         setHospital(data?.error ? null : data);
       } catch (error) {

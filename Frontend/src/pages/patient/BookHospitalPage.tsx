@@ -51,8 +51,8 @@ export function BookHospitalPage() {
 
       try {
         const url = debouncedCity
-          ? `http://127.0.0.1:8000/api/hospitals?city=${debouncedCity}`
-          : `http://127.0.0.1:8000/api/hospitals`;
+          ? `${import.meta.env.VITE_AI_URL}/api/hospitals?city=${debouncedCity}`
+          : `${import.meta.env.VITE_AI_URL}/api/hospitals`;
 
         const res = await fetch(url);
         const data = await res.json();
