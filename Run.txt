@@ -1,10 +1,8 @@
+
 cd E:\Oral_Cancer-Project\Backend\oral_fastapi
 python -m uvicorn main:app --reload
-
 
 cd E:\Oral_Cancer-Project\Backend
 node index.js
 
-
-cd E:\Oral_Cancer-Project\Frontend
-npm run dev
+ngrok http 5000

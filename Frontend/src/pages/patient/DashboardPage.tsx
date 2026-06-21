@@ -53,7 +53,7 @@ interface DashboardData {
 }
 
 interface Place {
-  id: string; 
+  id: string;
   name: string;
   address?: string;
   lat?: number;
@@ -63,12 +63,12 @@ interface Place {
 }
 
 const mapActivityType = (type: string): EventType => {
-  const t = type.toUpperCase(); 
+  const t = type.toUpperCase();
   if (t.includes("SCAN") || t.includes("REVIEWED")) return "scan";
   if (t.includes("RECOMMENDATION")) return "recommendation";
   if (t.includes("MESSAGE") || t.includes("CHAT")) return "message";
   if (t.includes("APPOINTMENT")) return "appointment";
-  return "symptom"; 
+  return "symptom";
 };
 
 const distanceInKm = (fromLat: number, fromLng: number, toLat?: number, toLng?: number) => {
@@ -157,7 +157,7 @@ export function DashboardPage() {
       try {
         const [doctorsRes, hospitalsRes] = await Promise.all([
           API.get("/api/v1/patient/doctors"),
-          fetch("http://127.0.0.1:8000/api/hospitals").then(res => res.json()).catch(() => [])
+          fetch(`${import.meta.env.VITE_AI_URL}/api/hospitals`).then(res => res.json()).catch(() => [])
         ]);
 
         const nextDoctors = (doctorsRes.data?.data || []).map((doc: any) => ({

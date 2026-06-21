@@ -40,9 +40,9 @@ const distanceInKm = (fromLat: number, fromLng: number, toLat?: number, toLng?: 
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(toRad(fromLat)) *
-      Math.cos(toRad(toLat)) *
-      Math.sin(dLng / 2) *
-      Math.sin(dLng / 2);
+    Math.cos(toRad(toLat)) *
+    Math.sin(dLng / 2) *
+    Math.sin(dLng / 2);
 
   return earthRadiusKm * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 };
@@ -102,7 +102,7 @@ export function ResultsPage() {
       try {
         const [doctorsRes, hospitalsRes] = await Promise.all([
           API.get("/api/v1/patient/doctors").catch(() => ({ data: { data: [] } })),
-          fetch("http://127.0.0.1:8000/api/hospitals"),
+          fetch(`${import.meta.env.VITE_AI_URL}/api/hospitals`),
         ]);
         const doctors = (doctorsRes.data?.data || []).map((doctor: any) => ({
           id: doctor._id,
@@ -181,8 +181,8 @@ export function ResultsPage() {
     typeof aiResult.confidence === "number"
       ? aiResult.confidence
       : typeof aiResult.riskScore === "number"
-      ? aiResult.riskScore
-      : 0;
+        ? aiResult.riskScore
+        : 0;
   const resultDate = aiResult.date || aiResult.createdAt;
 
   return (
@@ -220,9 +220,8 @@ export function ResultsPage() {
               <div className="flex justify-between items-center border-b border-slate-50 pb-2">
                 <span className="text-slate-500 text-sm">Analysis Status:</span>
                 <span
-                  className={`px-2 py-0.5 rounded text-xs font-bold ${
-                    aiResult.status === "SUCCESS" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"
-                  }`}
+                  className={`px-2 py-0.5 rounded text-xs font-bold ${aiResult.status === "SUCCESS" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"
+                    }`}
                 >
                   {aiResult.status || "SUCCESS"}
                 </span>
