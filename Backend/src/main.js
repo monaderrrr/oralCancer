@@ -65,35 +65,26 @@ const bootstrap = async () => {
 
     /* ================= CORS ================= */
 
-    app.use(cors({
-        origin: process.env.FRONTEND_URL || "http://localhost:5173",
-        credentials: true,
-        allowedHeaders: [
-            "Content-Type",
-            "Authorization",
-            "x-refresh-token"
-        ],
-        methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-    }));
+    app.use(cors());
 
     app.use(express.json());
 
-    app.use((req, res, next) => {
-        res.header(
-            "Access-Control-Allow-Origin",
-            process.env.FRONTEND_URL || "http://localhost:5173"
-        );
-        res.header("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS");
-        res.header(
-            "Access-Control-Allow-Headers",
-            "Content-Type, Authorization, x-refresh-token"
-        );
+    // app.use((req, res, next) => {
+    //     res.header(
+    //         "Access-Control-Allow-Origin",
+    //         process.env.FRONTEND_URL || "http://localhost:5173"
+    //     );
+    //     res.header("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS");
+    //     res.header(
+    //         "Access-Control-Allow-Headers",
+    //         "Content-Type, Authorization, x-refresh-token"
+    //     );
 
-        if (req.method === "OPTIONS") {
-            return res.sendStatus(200);
-        }
-        next();
-    });
+    //     if (req.method === "OPTIONS") {
+    //         return res.sendStatus(200);
+    //     }
+    //     next();
+    // });
 
     app.use((req, res, next) => {
         console.log(`[Request] ${req.method} ${req.url}`);
