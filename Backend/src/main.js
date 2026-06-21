@@ -65,24 +65,15 @@ const bootstrap = async () => {
 
     /* ================= CORS ================= */
 
+
+
     app.use(
         cors({
-            origin: [
-                "http://localhost:5173",
-                "https://oralcancer-ashen.vercel.app",
-                "https://oralcancer-ou8ze0fc9-mohamed-nader.vercel.app",
-            ],
-            methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+            origin: true,
             credentials: true,
-            allowedHeaders: [
-                "Content-Type",
-                "Authorization",
-                "x-refresh-token",
-            ],
         })
     );
 
-    app.options("*", cors());
     app.use(express.json());
 
     // app.use((req, res, next) => {
