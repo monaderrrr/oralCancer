@@ -1,7 +1,7 @@
 # 🦷 OralScan AI – AI-Based Early Oral Cancer Detection System
 
 <p align="center">
-  <img src="./Frontend/public/logo.png" width="180" alt="OralScan AI Logo" />
+  <img src="./Frontend/src/assets/logo.png" width="180" alt="OralScan AI Logo" />
 </p>
 
 <p align="center">
