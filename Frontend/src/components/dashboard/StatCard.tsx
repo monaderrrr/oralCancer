@@ -1,21 +1,16 @@
 import React from "react";
 import { Card } from "../ui/Card";
 import { LucideIcon } from "lucide-react";
+import { useTranslation } from "react-i18next"; // استدعاء الترجمة هنا
 
 interface StatCardProps {
   label: string;
   value: string | number;
   icon: LucideIcon;
-
-  /**
-   * Backend trend object (optional)
-   * Example: from /doctor/dashboard
-   */
   trend?: {
     value: number;
     direction: "up" | "down";
   };
-
   color?: "teal" | "blue" | "indigo" | "emerald" | "amber" | "rose";
   loading?: boolean;
 }
@@ -37,12 +32,13 @@ export function StatCard({
   color = "teal",
   loading = false,
 }: StatCardProps) {
+  const { t } = useTranslation(); // تفعيل الهُوك
+
   return (
     <Card className="p-6">
 
       {/* Header */}
       <div className="flex items-center justify-between">
-
         <div>
           <p className="text-sm font-medium text-slate-500">
             {label}
@@ -78,8 +74,9 @@ export function StatCard({
             {trend.value}%
           </span>
 
-          <span className="ml-2 text-slate-500">
-            from backend analytics
+          {/* ترجمة الجملة الثابتة هنا */}
+          <span className="mx-2 text-slate-500">
+            {t("dashboard.fromAnalytics", "from backend analytics")}
           </span>
         </div>
       )}

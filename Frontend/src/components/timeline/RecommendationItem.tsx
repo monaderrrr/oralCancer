@@ -1,7 +1,8 @@
-import { motion } from 'framer-motion';
-import { Card } from '../ui/Card';
-import { Badge } from '../ui/Badge';
-import { Button } from '../ui/Button';
+import React from "react";
+import { Button } from "../ui/Button";
+import { Badge } from "../ui/Badge";
+import { motion } from "framer-motion";
+import { Card } from "../ui/Card";
 import {
   CheckCircle2,
   Clock,
@@ -9,12 +10,9 @@ import {
   Calendar,
   Camera,
   FileText
-} from 'lucide-react';
+} from "lucide-react";
+import { useTranslation } from "react-i18next"; 
 
-/**
- * Backend Model
- * dashboard.service.js
- */
 export interface Recommendation {
   _id: string;
   message: string;
@@ -30,59 +28,54 @@ interface RecommendationItemProps {
   onComplete?: (id: string) => void;
 }
 
-/**
- * Priority UI mapping
- */
-const priorityConfig = {
-  high: {
-    icon: AlertTriangle,
-    label: 'Urgent',
-    badgeVariant: 'danger' as const,
-    bg: 'bg-red-50',
-    iconColor: 'text-red-600',
-    border: 'border-red-200'
-  },
-  medium: {
-    icon: Clock,
-    label: 'Important',
-    badgeVariant: 'warning' as const,
-    bg: 'bg-amber-50',
-    iconColor: 'text-amber-600',
-    border: 'border-amber-200'
-  },
-  low: {
-    icon: CheckCircle2,
-    label: 'Routine',
-    badgeVariant: 'success' as const,
-    bg: 'bg-slate-50',
-    iconColor: 'text-slate-600',
-    border: 'border-slate-200'
-  }
-};
-
-/**
- * Type mapping (backend only — no booking logic)
- */
-const typeConfig = {
-  'specialist-visit': {
-    label: 'Specialist Visit',
-    icon: Calendar
-  },
-  'follow-up-scan': {
-    label: 'Follow-up Scan',
-    icon: Camera
-  },
-  'routine-check': {
-    label: 'Routine Check',
-    icon: FileText
-  }
-};
-
 export function RecommendationItem({
   recommendation,
   index = 0,
   onComplete
 }: RecommendationItemProps) {
+  const { t } = useTranslation(); 
+
+  const priorityConfig = {
+    high: {
+      icon: AlertTriangle,
+      label: t('priority.high', 'Urgent'),
+      badgeVariant: 'danger' as const,
+      bg: 'bg-red-50',
+      iconColor: 'text-red-600',
+      border: 'border-red-200'
+    },
+    medium: {
+      icon: Clock,
+      label: t('priority.medium', 'Important'),
+      badgeVariant: 'warning' as const,
+      bg: 'bg-amber-50',
+      iconColor: 'text-amber-600',
+      border: 'border-amber-200'
+    },
+    low: {
+      icon: CheckCircle2,
+      label: t('priority.low', 'Routine'),
+      badgeVariant: 'success' as const,
+      bg: 'bg-slate-50',
+      iconColor: 'text-slate-600',
+      border: 'border-slate-200'
+    }
+  };
+
+  const typeConfig = {
+    'specialist-visit': {
+      label: t('recommendationTypes.specialist', 'Specialist Visit'),
+      icon: Calendar
+    },
+    'follow-up-scan': {
+      label: t('recommendationTypes.scan', 'Follow-up Scan'),
+      icon: Camera
+    },
+    'routine-check': {
+      label: t('recommendationTypes.routine', 'Routine Check'),
+      icon: FileText
+    }
+  };
 
   const priority = priorityConfig[recommendation.priority] || priorityConfig.low;
   const type = typeConfig[recommendation.recommendationType] || typeConfig['routine-check'];
@@ -106,16 +99,13 @@ export function RecommendationItem({
           recommendation.status === 'completed' ? 'opacity-60' : ''
         }`}
       >
-
         <div className="flex items-start gap-4">
-
           {/* Priority Icon */}
           <div className={`p-3 rounded-xl ${priority.bg}`}>
             <PriorityIcon className={`w-5 h-5 ${priority.iconColor}`} />
           </div>
 
           <div className="flex-1">
-
             <div className="flex justify-between items-start mb-2">
               <h3 className="font-semibold text-slate-900">
                 {type.label}
@@ -131,7 +121,6 @@ export function RecommendationItem({
             </p>
 
             <div className="flex items-center gap-3 text-sm text-slate-500 mb-4">
-
               <div className="flex items-center gap-1.5">
                 <TypeIcon className="w-4 h-4" />
                 {type.label}
@@ -141,7 +130,6 @@ export function RecommendationItem({
                 <Clock className="w-4 h-4" />
                 {formattedDate}
               </div>
-
             </div>
 
             {recommendation.status === 'pending' && onComplete && (
@@ -151,17 +139,16 @@ export function RecommendationItem({
                 className="bg-emerald-600 hover:bg-emerald-700"
               >
                 <CheckCircle2 className="w-4 h-4 mr-1.5" />
-                Mark Complete
+                {t('actions.markComplete', 'Mark Complete')}
               </Button>
             )}
 
             {recommendation.status === 'completed' && (
               <div className="flex items-center gap-2 text-emerald-600">
                 <CheckCircle2 className="w-4 h-4" />
-                <span className="text-sm font-medium">Completed</span>
+                <span className="text-sm font-medium">{t('actions.completed', 'Completed')}</span>
               </div>
             )}
-
           </div>
         </div>
       </Card>

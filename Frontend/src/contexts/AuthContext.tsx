@@ -10,6 +10,7 @@ import {
   connectSocket,
   disconnectSocket,
 } from "../socket/SocketManager";
+import { useTranslation } from "react-i18next"; 
 
 export type UserRole = "patient" | "doctor" | "admin";
 
@@ -27,11 +28,9 @@ interface AuthContextType {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-
   isDoctor: boolean;
   isPatient: boolean;
   isAdmin: boolean;
-
   login: (email: string, password: string) => Promise<User>;
   register: (
     email: string,
@@ -40,7 +39,6 @@ interface AuthContextType {
     role: UserRole,
     fullName: string
   ) => Promise<void>;
-
   logout: () => void;
   sendVerificationEmail: (email: string) => Promise<void>;
   setAuthData: (user: User, accessToken?: string, refreshToken?: string) => void;
@@ -49,6 +47,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const { t } = useTranslation(); 
   const [user, setUser] = useState<User | null>(() => {
     const storedUser = localStorage.getItem("oral_scan_user");
     return storedUser ? JSON.parse(storedUser) : null;
@@ -83,27 +82,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => {
       disconnectSocket();
     };
-  }, [user, token]);
+  }, [user?._id, token]);
   
 
   /* ================= VALIDATE USER ================= */
-useEffect(() => {
-  const validateUser = async () => {
-    try {
-      const res = await API.get("/auth/me");
-      if (res.data && res.data.user) {
-        const userData = res.data.user;
-        
-        setUser(userData);
-        localStorage.setItem("oral_scan_user", JSON.stringify(userData));
+  useEffect(() => {
+    const validateUser = async () => {
+      try {
+        const res = await API.get("/auth/me");
+        if (res.data && res.data.user) {
+          const userData = res.data.user;
+          
+          setUser(userData);
+          localStorage.setItem("oral_scan_user", JSON.stringify(userData));
+        }
+      } catch (err) {
+        console.error("Validation failed", err);
       }
-    } catch (err) {
-      console.error("Validation failed", err);
-    }
-  };
+    };
 
-  if (token) validateUser();
-}, [token]);
+    if (token) validateUser();
+  }, [token]);
 
   // ================= LOGIN =================
   const login = async (email: string, password: string): Promise<User> => {
@@ -131,7 +130,7 @@ useEffect(() => {
       const role = err?.response?.data?.role || "patient";
 
       if (status === 403 && needsVerification) {
-        alert("Email not verified. OTP sent again.");
+        alert(t("auth.alerts.notVerified", "Email not verified. OTP sent again."));
         window.location.href = `/verify-code?email=${encodeURIComponent(
           email
         )}&flow=login&role=${encodeURIComponent(role)}`;
@@ -159,34 +158,34 @@ useEffect(() => {
       fullName,
     });
 
-    alert("Account created! Please verify your email.");
+    alert(t("auth.alerts.accountCreated", "Account created! Please verify your email."));
   };
 
   // ================= VERIFY EMAIL =================
   const sendVerificationEmail = async (email: string) => {
     await API.post("/auth/verify-email", { email });
-    alert("Verification email sent!");
+    alert(t("auth.alerts.emailSent", "Verification email sent!"));
   };
 
   // ================= LOGOUT =================
-const logout = async () => {
-  try {
-    const accessToken = token;
-    const refreshToken = localStorage.getItem("oral_scan_refresh_token");
+  const logout = async () => {
+    try {
+      const accessToken = token;
+      const refreshToken = localStorage.getItem("oral_scan_refresh_token");
 
-    if (accessToken && refreshToken) {
-      await API.post(
-        "/auth/signOut",
-        { refreshtoken: refreshToken }, 
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-    }
-  } catch (err) {
-    console.error("Logout error", err);
+      if (accessToken && refreshToken) {
+        await API.post(
+          "/auth/signOut",
+          { refreshtoken: refreshToken }, 
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+      }
+    } catch (err) {
+      console.error("Logout error", err);
     } finally {
       disconnectSocket(); 
 
@@ -215,11 +214,9 @@ const logout = async () => {
         token,
         isAuthenticated,
         isLoading,
-
         isDoctor,
         isPatient,
         isAdmin,
-
         login,
         register,
         logout,
@@ -232,7 +229,6 @@ const logout = async () => {
   );
 }
 
-// ================= HOOK =================
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) throw new Error("useAuth must be used inside AuthProvider");

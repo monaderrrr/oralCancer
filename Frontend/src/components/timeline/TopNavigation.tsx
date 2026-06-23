@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from "react-i18next"; 
 import {
   Home,
   History,
@@ -22,7 +23,6 @@ interface NavItem {
   badge?: number;
 }
 
-/* ================= LOCAL STORAGE ================= */
 const getSeenAlerts = (): string[] => {
   return JSON.parse(localStorage.getItem('seen_alerts') || '[]');
 };
@@ -34,6 +34,7 @@ const saveSeenAlerts = (ids: string[]) => {
 export function TopNavigation() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation(); 
 
   const [counts, setCounts] = useState({
     messages: 0,
@@ -41,14 +42,11 @@ export function TopNavigation() {
     actions: 0
   });
 
-  /* ================= FETCH COUNTS ================= */
   const fetchBadgeCounts = async () => {
     try {
-      /* ===== CHAT ===== */
       const chatRes = await API.get('/api/v1/chat/unread-count');
       const totalUnread = chatRes.data?.data?.unreadCount || 0;
 
-      /* ===== SCANS / ALERTS ===== */
       const scanRes = await API.get('/api/v1/patient/scans/history?limit=100');
       const scans = scanRes.data?.data?.scans || [];
 
@@ -60,18 +58,10 @@ export function TopNavigation() {
           !seen.includes(s._id)
       );
 
-      /* ===== ACTIONS ===== */
-     const actionRes = await API.get('/api/v1/patient/recommendations');
-
-const actionsData = actionRes.data?.data;
-
-const actions = Array.isArray(actionsData)
-  ? actionsData
-  : actionsData?.recommendations || [];
-
-const pendingActions = actions.filter(
-  (a: any) => a.status !== 'completed'
-).length;
+      const actionRes = await API.get('/api/v1/patient/recommendations');
+      const actionsData = actionRes.data?.data;
+      const actions = Array.isArray(actionsData) ? actionsData : actionsData?.recommendations || [];
+      const pendingActions = actions.filter((a: any) => a.status !== 'completed').length;
 
       setCounts({
         messages: totalUnread,
@@ -84,11 +74,9 @@ const pendingActions = actions.filter(
     }
   };
 
-  /* ================= INITIAL + SOCKET ================= */
   useEffect(() => {
     fetchBadgeCounts();
 
-    /* 🔥 REAL-TIME SOCKET EVENTS */
     socket.on('new_message', fetchBadgeCounts);
     socket.on('new_alert', fetchBadgeCounts);
     socket.on('new_action', fetchBadgeCounts);
@@ -97,28 +85,23 @@ const pendingActions = actions.filter(
 
     return () => {
       clearInterval(interval);
-
       socket.off('new_message', fetchBadgeCounts);
       socket.off('new_alert', fetchBadgeCounts);
       socket.off('new_action', fetchBadgeCounts);
     };
   }, []);
 
-  /* ================= MARK AS SEEN ================= */
   useEffect(() => {
     if (location.pathname === '/patient/notifications') {
       API.get('/api/v1/patient/scans/history?limit=100').then(res => {
         const scans = res.data?.data?.scans || [];
-
         const ids = scans
           .filter((s: any) => s.riskLevel === 'high' || s.riskLevel === 'medium')
           .map((s: any) => s._id);
 
         const prev = getSeenAlerts();
         const updated = Array.from(new Set([...prev, ...ids]));
-
         saveSeenAlerts(updated);
-
         setCounts(prev => ({ ...prev, alerts: 0 }));
       });
     }
@@ -128,34 +111,14 @@ const pendingActions = actions.filter(
     }
   }, [location.pathname]);
 
-  /* ================= NAV ITEMS ================= */
   const navItems: NavItem[] = [
-    { icon: Home, label: 'Dashboard', path: '/patient/dashboard' },
-    { icon: Upload, label: 'New Scan', path: '/patient/upload' },
-    { icon: History, label: 'History', path: '/patient/medical-history' },
-
-    {
-      icon: CheckSquare,
-      label: 'Actions',
-      path: '/patient/recommendations',
-      badge: counts.actions
-    },
-
-    {
-      icon: MessageCircle,
-      label: 'Messages',
-      path: '/patient/chat',
-      badge: counts.messages
-    },
-
-    {
-      icon: Bell,
-      label: 'Alerts',
-      path: '/patient/notifications',
-      badge: counts.alerts
-    },
-
-    { icon: Settings, label: 'Settings', path: '/patient/settings' }
+    { icon: Home, label: t('nav.dashboard', 'Dashboard'), path: '/patient/dashboard' },
+    { icon: Upload, label: t('nav.newScan', 'New Scan'), path: '/patient/upload' },
+    { icon: History, label: t('nav.history', 'History'), path: '/patient/scan-history' },
+    { icon: CheckSquare, label: t('nav.actions', 'Actions'), path: '/patient/recommendations', badge: counts.actions },
+    { icon: MessageCircle, label: t('nav.messages', 'Messages'), path: '/patient/chat', badge: counts.messages },
+    { icon: Bell, label: t('nav.alerts', 'Alerts'), path: '/patient/notifications', badge: counts.alerts },
+    { icon: Settings, label: t('nav.settings', 'Settings'), path: '/patient/settings' }
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -168,14 +131,13 @@ const pendingActions = actions.filter(
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-
           {/* LOGO */}
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">OC</span>
             </div>
             <span className="font-bold text-slate-900 hidden sm:inline">
-              Health Journey
+              {t('nav.journeyTitle', 'Health Journey')}
             </span>
           </div>
 
@@ -191,24 +153,16 @@ const pendingActions = actions.filter(
                   onClick={() => navigate(item.path)}
                   className={`
                     relative px-3 py-2 rounded-lg flex items-center gap-2 transition-all
-                    ${active
-                      ? 'bg-teal-50 text-teal-700'
-                      : 'text-slate-600 hover:bg-slate-50'
-                    }
+                    ${active ? 'bg-teal-50 text-teal-700' : 'text-slate-600 hover:bg-slate-50'}
                   `}
                 >
                   <Icon className="w-5 h-5" />
-
                   <span className="text-sm font-medium hidden lg:inline">
                     {item.label}
                   </span>
 
                   {item.badge ? (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="absolute -top-1 -right-1 lg:relative"
-                    >
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute -top-1 -right-1 lg:relative">
                       <Badge variant="danger">
                         {item.badge > 9 ? '9+' : item.badge}
                       </Badge>
@@ -219,18 +173,13 @@ const pendingActions = actions.filter(
                     <motion.div
                       layoutId="activeTab"
                       className="absolute bottom-0 left-0 right-0 h-0.5 bg-teal-600"
-                      transition={{
-                        type: 'spring',
-                        stiffness: 380,
-                        damping: 30
-                      }}
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
                 </button>
               );
             })}
           </div>
-
         </div>
       </div>
     </motion.nav>

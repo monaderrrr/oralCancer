@@ -1,5 +1,7 @@
- import { Card } from "../ui/Card";
+import React from "react";
+import { Card } from "../ui/Card";
 import { Badge } from "../ui/Badge";
+import { useTranslation } from "react-i18next"; 
 
 interface PatientCardProps {
   patient: {
@@ -14,9 +16,10 @@ interface PatientCardProps {
 }
 
 export function PatientCard({ patient }: PatientCardProps) {
+  const { t } = useTranslation(); 
 
   const patientName =
-    patient.fullName ?? patient.name ?? "Unknown Patient";
+    patient.fullName ?? patient.name ?? t("patientCard.unknownPatient", "Unknown Patient");
 
   // ================= RISK BADGE =================
   const renderRiskBadge = (level?: string) => {
@@ -30,15 +33,15 @@ export function PatientCard({ patient }: PatientCardProps) {
     };
 
     const label: Record<string, string> = {
-      low: "Low Risk",
-      medium: "Medium Risk",
-      high: "High Risk",
-      unknown: "No Data",
+      low: t("riskLevels.low", "Low Risk"),
+      medium: t("riskLevels.medium", "Medium Risk"),
+      high: t("riskLevels.high", "High Risk"),
+      unknown: t("riskLevels.noData", "No Data"),
     };
 
     return (
       <Badge className={`px-3 py-1 text-xs rounded-full border ${styles[safe]}`}>
-        {label[safe] || "No Data"}
+        {label[safe] || t("riskLevels.noData", "No Data")}
       </Badge>
     );
   };
@@ -48,7 +51,7 @@ export function PatientCard({ patient }: PatientCardProps) {
     if (!type) {
       return (
         <Badge className="bg-slate-100 text-slate-600 border-slate-200 px-3 py-1 text-xs rounded-full">
-          Not Specified
+          {t("patientCard.notSpecified", "Not Specified")}
         </Badge>
       );
     }
@@ -72,10 +75,10 @@ export function PatientCard({ patient }: PatientCardProps) {
   };
 
   const formatDate = (date?: string | null) => {
-    if (!date) return "No scans yet";
+    if (!date) return t("patientCard.noScans", "No scans yet");
 
     const d = new Date(date);
-    if (isNaN(d.getTime())) return "Invalid date";
+    if (isNaN(d.getTime())) return t("patientCard.invalidDate", "Invalid date");
 
     return d.toLocaleDateString("en-US", {
       year: "numeric",
@@ -85,7 +88,7 @@ export function PatientCard({ patient }: PatientCardProps) {
   };
 
   const displayValue = (value?: string | null) =>
-    value && value.trim() !== "" ? value : "Not available";
+    value && value.trim() !== "" ? value : t("patientCard.notAvailable", "Not available");
 
   return (
     <Card className="p-6 rounded-2xl border border-slate-200 bg-white shadow-sm hover:shadow-lg transition-all duration-300">
@@ -99,7 +102,7 @@ export function PatientCard({ patient }: PatientCardProps) {
           </h3>
 
           <p className="text-xs text-slate-500">
-            Oral Cancer Screening Patient
+            {t("patientCard.subtitle", "Oral Cancer Screening Patient")}
           </p>
         </div>
 
@@ -112,10 +115,10 @@ export function PatientCard({ patient }: PatientCardProps) {
       {/* BODY */}
       <div className="grid grid-cols-2 gap-5">
 
-        {/* LESION TYPE (IMPORTANT - PROMINENT) */}
+        {/* LESION TYPE */}
         <div className="col-span-2 p-4 rounded-xl bg-gradient-to-r from-slate-50 to-white border">
           <p className="text-[11px] uppercase text-slate-400 mb-2">
-            Lesion Type
+            {t("patientCard.lesionTypeLabel", "Lesion Type")}
           </p>
           {renderLesionBadge(patient.lesionType)}
         </div>
@@ -123,7 +126,7 @@ export function PatientCard({ patient }: PatientCardProps) {
         {/* LAST SCAN */}
         <div className="p-3 rounded-xl bg-slate-50">
           <p className="text-[11px] uppercase text-slate-400 mb-1">
-            Last Scan
+            {t("patientCard.lastScanLabel", "Last Scan")}
           </p>
           <p className="text-sm font-semibold text-slate-800">
             {formatDate(patient.lastScanDate)}
@@ -133,7 +136,7 @@ export function PatientCard({ patient }: PatientCardProps) {
         {/* DIAGNOSIS */}
         <div className="p-3 rounded-xl bg-slate-50">
           <p className="text-[11px] uppercase text-slate-400 mb-1">
-            Latest Diagnosis
+            {t("patientCard.diagnosisLabel", "Latest Diagnosis")}
           </p>
           <p className="text-sm font-semibold text-slate-800">
             {displayValue(patient.diagnosis)}
@@ -142,11 +145,11 @@ export function PatientCard({ patient }: PatientCardProps) {
 
       </div>
 
-      {/* FOOTER (ID REMOVED بالكامل) */}
+      {/* FOOTER */}
       <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
 
         <span className="text-xs text-slate-400">
-          Status updated from latest scan
+          {t("patientCard.statusUpdated", "Status updated from latest scan")}
         </span>
 
         <span className="text-xs text-slate-400">

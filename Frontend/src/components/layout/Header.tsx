@@ -1,26 +1,34 @@
 import logo from '../../assets/logo.png';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, LogOut, LayoutDashboard, ChevronDown, Bell, Settings, MessageCircle } from 'lucide-react';
+import { Menu, X, LogOut, LayoutDashboard, ChevronDown, Bell, Settings, MessageCircle, Globe } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
 import API from '../../Api';
 import socket from '../../socket/Socket';
+import { useTranslation } from 'react-i18next'; 
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const { user, logout } = useAuth(); // دالة logout من AuthContext
+  const { user, logout } = useAuth(); 
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
+  
+  const { t, i18n } = useTranslation();
+
+  const toggleLanguage = () => {
+    const nextLang = i18n.language === 'en' ? 'ar' : 'en';
+    i18n.changeLanguage(nextLang);
+  };
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'How It Works', path: '/how-it-works' },
-    { name: 'Symptoms', path: '/symptoms' },
-    { name: 'Awareness', path: '/awareness' },
-    { name: 'About', path: '/about' }
+    { name: t('nav.home', 'Home'), path: '/' },
+    { name: t('nav.howItWorks', 'How It Works'), path: '/how-it-works' },
+    { name: t('nav.symptoms', 'Symptoms'), path: '/symptoms' },
+    { name: t('nav.awareness', 'Awareness'), path: '/awareness' },
+    { name: t('nav.about', 'About'), path: '/about' }
   ];
 
   const [unreadCount, setUnreadCount] = useState(0);
@@ -109,11 +117,21 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Desktop Auth/Profile */}
+          {/* Desktop Auth/Profile & Language Button */}
           <div className="hidden md:flex items-center gap-3">
+            
+            {/* 4. زرار تغيير اللغة لنسخة شاشات الكمبيوتر */}
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-slate-600 hover:text-teal-600 hover:bg-slate-50 border border-slate-200 transition-colors"
+            >
+              <Globe className="w-4 h-4" />
+              <span>{i18n.language === 'en' ? 'العربية' : 'English'}</span>
+            </button>
+
             {user ? (
               <>
-                {/* Notifications Bell */}
+                {/* Messages Button */}
                 <Link
                   to={user.role === "doctor" ? "/doctor/messages" : "/patient/chat"}
                   className="relative p-2 rounded-lg hover:bg-slate-50 transition-colors"
@@ -127,6 +145,7 @@ export function Header() {
                   )}
                 </Link>
 
+                {/* Notifications Button */}
                 <Link
                   to={`/${user.role}/notifications`}
                   className="relative p-2 rounded-lg hover:bg-slate-50 transition-colors"
@@ -186,7 +205,6 @@ export function Header() {
                           <Settings className="w-4 h-4" /> Settings
                         </Link>
 
-                        {/* Sign Out button */}
                         <button
                           onClick={() => logout()}
                           className="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors w-full text-left"
@@ -236,6 +254,18 @@ export function Header() {
                 {link.name}
               </Link>
             ))}
+
+            {/* 5. زرار تغيير اللغة لنسخة شاشات الموبايل */}
+            <button
+              onClick={() => {
+                toggleLanguage();
+                setIsMenuOpen(false);
+              }}
+              className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-base font-medium text-slate-600 hover:text-teal-600 hover:bg-slate-50 border border-slate-100 transition-colors"
+            >
+              <Globe className="w-5 h-5 text-slate-500" />
+              <span>{i18n.language === 'en' ? 'العربية' : 'English'}</span>
+            </button>
           </div>
 
           <div className="px-4 py-3 border-t border-slate-100">
@@ -292,10 +322,8 @@ export function Header() {
                   <Settings className="w-4 h-4" /> Settings
                 </Link>
 
-
-                {/* Mobile Sign Out */}
                 <button
-                  onClick={logout} // نفس الشيء
+                  onClick={logout}
                   className="flex items-center gap-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors w-full text-left"
                 >
                   <LogOut className="w-4 h-4" /> Sign Out

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
+import { useTranslation } from "react-i18next"; 
 import { 
   Camera, 
   AlertCircle, 
@@ -88,20 +89,21 @@ export function TimelineEvent({
   isLast = false,
   onClick
 }: TimelineEventProps) {
+  const { t } = useTranslation(); 
   const config = eventConfig[event.type] || eventConfig.scan;
   const Icon = config.icon;
 
   const formatDate = (date: Date) => {
     const now = new Date();
     const d = new Date(date);
-    if (isNaN(d.getTime())) return 'Recent';
+    if (isNaN(d.getTime())) return t('timeline.time.recent', 'Recent');
     
     const diffTime = Math.abs(now.getTime() - d.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Yesterday';
-    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffDays === 0) return t('timeline.time.today', 'Today');
+    if (diffDays === 1) return t('timeline.time.yesterday', 'Yesterday');
+    if (diffDays < 7) return `${diffDays} ${t('timeline.time.daysAgo', 'days ago')}`;
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
@@ -148,7 +150,7 @@ export function TimelineEvent({
             {/* Content Area */}
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-3 mb-1">
-                <h3 className="font-bold text-slate-900 text-lg leading-tight">
+                <h3 className="font-bold text-slate-900 text-lg leading-tight text-left">
                   {event.title}
                 </h3>
                 <span className="text-xs font-medium text-slate-400 whitespace-nowrap bg-slate-50 px-2 py-1 rounded">
@@ -167,12 +169,12 @@ export function TimelineEvent({
                     )}
                   </div>
                   <span className="text-xs font-bold text-teal-700">
-                    Dr. {event.metadata.doctorName}
+                    {t('timeline.doctorPrefix', 'Dr.')} {event.metadata.doctorName}
                   </span>
                 </div>
               )}
 
-              <p className="text-slate-600 text-sm mb-3 line-clamp-2">
+              <p className="text-slate-600 text-sm mb-3 line-clamp-2 text-left">
                 {event.description}
               </p>
 
@@ -180,7 +182,7 @@ export function TimelineEvent({
               <div className="flex items-center gap-3 flex-wrap">
                 {event.status && (
                   <Badge variant="secondary" className="text-[10px] uppercase tracking-wider px-2 py-0">
-                    {event.status}
+                    {t(`timeline.status.${event.status.toLowerCase()}`, event.status)}
                   </Badge>
                 )}
 
@@ -189,15 +191,8 @@ export function TimelineEvent({
                     variant={event.urgency === 'high' ? 'destructive' : event.urgency === 'medium' ? 'warning' : 'secondary'} 
                     className="text-[10px] uppercase tracking-wider px-2 py-0"
                   >
-                    {event.urgency} Risk
+                    {t(`riskLevels.${event.urgency}`, event.urgency)} {t('timeline.risk', 'Risk')}
                   </Badge>
-                )}
-
-                {onClick && (
-                  <button className="ml-auto text-xs text-teal-600 hover:text-teal-700 font-bold flex items-center gap-1 group">
-                    View Details
-                    <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                  </button>
                 )}
               </div>
             </div>

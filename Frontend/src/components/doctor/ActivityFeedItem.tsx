@@ -7,6 +7,7 @@ import {
   Activity,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next"; 
 
 interface ActivityFeedItemProps {
   id: string;
@@ -28,6 +29,7 @@ export function ActivityFeedItem({
   message,
   metadata,
 }: ActivityFeedItemProps) {
+  const { t } = useTranslation(); 
 
   // 🔥 Normalize type (important fix)
   const safeType = (type || "activity").toLowerCase();
@@ -37,25 +39,25 @@ export function ActivityFeedItem({
       icon: MessageSquare,
       color: "text-blue-600",
       bg: "bg-blue-50",
-      label: "Message",
+      label: t("activity.message", "Message"),
     },
     scan: {
       icon: FileText,
       color: "text-teal-600",
       bg: "bg-teal-50",
-      label: "Scan",
+      label: t("activity.scan", "Scan"),
     },
     alert: {
       icon: AlertTriangle,
       color: "text-red-600",
       bg: "bg-red-50",
-      label: "Alert",
+      label: t("activity.alert", "Alert"),
     },
     symptom: {
       icon: Activity,
       color: "text-purple-600",
       bg: "bg-purple-50",
-      label: "Symptom",
+      label: t("activity.symptom", "Symptom"),
     },
   };
 
@@ -77,10 +79,10 @@ export function ActivityFeedItem({
 
   // 🔥 SAFE DATE
   const formatDate = (date?: string) => {
-    if (!date) return "Just now";
+    if (!date) return t("activity.justNow", "Just now");
 
     const parsed = new Date(date);
-    if (isNaN(parsed.getTime())) return "Recent";
+    if (isNaN(parsed.getTime())) return t("activity.recent", "Recent");
 
     return parsed.toLocaleTimeString([], {
       hour: "2-digit",
@@ -101,7 +103,7 @@ export function ActivityFeedItem({
         <div className="flex-1 min-w-0">
           <div className="flex justify-between items-center">
             <p className="font-semibold text-slate-900 truncate">
-              {patientName || "Unknown Patient"}
+              {patientName || t("activity.unknownPatient", "Unknown Patient")}
             </p>
 
             <span className="text-xs text-slate-400">
@@ -117,7 +119,7 @@ export function ActivityFeedItem({
             <span className="text-slate-300">•</span>
 
             <p className="text-sm text-slate-600 truncate">
-              {message || "No activity details"}
+              {message || t("activity.noDetails", "No activity details")}
             </p>
           </div>
         </div>

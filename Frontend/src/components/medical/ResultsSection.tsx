@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDownIcon, CheckCircleIcon, AlertCircleIcon, InfoIcon } from 'lucide-react';
+import { useTranslation } from "react-i18next"; 
 
 export type Finding = {
   id: string;
   title: string;
   description: string;
   status: 'normal' | 'attention' | 'concern';
-  confidence?: number; // Optional: AI confidence score (0-100)
+  confidence?: number;
 };
 
 type ResultsSectionProps = {
@@ -15,17 +16,17 @@ type ResultsSectionProps = {
   findings: Finding[];
 };
 
-const statusConfig = {
-  normal: { icon: CheckCircleIcon, color: 'text-emerald-600', bg: 'bg-emerald-50', label: 'Normal' },
-  attention: { icon: InfoIcon, color: 'text-amber-600', bg: 'bg-amber-50', label: 'Needs Attention' },
-  concern: { icon: AlertCircleIcon, color: 'text-red-600', bg: 'bg-red-50', label: 'Concern' },
-};
-
 export function ResultsSection({ title, findings }: ResultsSectionProps) {
+  const { t } = useTranslation(); 
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [expandAll, setExpandAll] = useState(false);
 
-  // Sort findings: concern -> attention -> normal
+  const statusConfig = {
+    normal: { icon: CheckCircleIcon, color: 'text-emerald-600', bg: 'bg-emerald-50', label: t("results.status.normal", "Normal") },
+    attention: { icon: InfoIcon, color: 'text-amber-600', bg: 'bg-amber-50', label: t("results.status.attention", "Needs Attention") },
+    concern: { icon: AlertCircleIcon, color: 'text-red-600', bg: 'bg-red-50', label: t("results.status.concern", "Concern") },
+  };
+
   const sortedFindings = [...findings].sort((a, b) => {
     const order = { concern: 0, attention: 1, normal: 2 };
     return order[a.status] - order[b.status];
@@ -39,7 +40,7 @@ export function ResultsSection({ title, findings }: ResultsSectionProps) {
           onClick={() => setExpandAll(prev => !prev)}
           className="text-sm text-teal-600 font-medium hover:underline"
         >
-          {expandAll ? 'Collapse All' : 'Expand All'}
+          {expandAll ? t("results.collapseAll", "Collapse All") : t("results.expandAll", "Expand All")}
         </button>
       </div>
 
@@ -69,7 +70,7 @@ export function ResultsSection({ title, findings }: ResultsSectionProps) {
                     {config.label}
                   </span>
                   {finding.confidence !== undefined && (
-                    <span className="ml-2 text-xs text-slate-500">{finding.confidence}% AI Confidence</span>
+                    <span className="ml-2 text-xs text-slate-500">{finding.confidence}% {t("results.aiConfidence", "AI Confidence")}</span>
                   )}
                 </div>
 

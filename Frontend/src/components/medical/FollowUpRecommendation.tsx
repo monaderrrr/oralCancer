@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
 import { Calendar, Clock, Bell, Activity } from "lucide-react";
+import { useTranslation } from "react-i18next"; 
 
 interface FollowUpRecommendationProps {
   riskLevel: "low" | "medium" | "high";
@@ -14,25 +15,24 @@ export function FollowUpRecommendation({
   onSetReminder,
   onSchedule,
 }: FollowUpRecommendationProps) {
+  const { t } = useTranslation(); 
 
-  // حساب عدد الأيام الموصى بها بناءً على مستوى الخطر
   const recommendedDays = useMemo(() => {
     switch (riskLevel) {
       case "high":
-        return 7;   // متابعة عاجلة بعد أسبوع
+        return 7;  
       case "medium":
-        return 30;  // متابعة بعد شهر
+        return 30;  
       case "low":
       default:
-        return 90;  // متابعة روتينية بعد 3 أشهر
+        return 90;  
     }
   }, [riskLevel]);
 
-  // حساب التاريخ المقترح بناءً على اليوم الحالي + recommendedDays
   const suggestedDate = useMemo(() => {
     const date = new Date();
     date.setDate(date.getDate() + recommendedDays);
-    return date.toLocaleDateString(); // يمكن استخدام toLocaleString أو تنسيق آخر إذا أردت
+    return date.toLocaleDateString(); 
   }, [recommendedDays]);
 
   const getRiskColor = () => {
@@ -51,11 +51,11 @@ export function FollowUpRecommendation({
   const getRiskMessage = () => {
     switch (riskLevel) {
       case "high":
-        return "Your scan shows patterns that require urgent medical follow-up.";
+        return t("followUp.messages.high", "Your scan shows patterns that require urgent medical follow-up.");
       case "medium":
-        return "Some irregularities were detected. Monitoring your condition is recommended.";
+        return t("followUp.messages.medium", "Some irregularities were detected. Monitoring your condition is recommended.");
       case "low":
-        return "No significant risk detected, but routine monitoring is still advised.";
+        return t("followUp.messages.low", "No significant risk detected, but routine monitoring is still advised.");
       default:
         return "";
     }
@@ -71,7 +71,7 @@ export function FollowUpRecommendation({
           <div className="flex items-center gap-2 mb-2">
             <Activity className="w-5 h-5 text-teal-600" />
             <h3 className="text-lg font-semibold text-gray-900">
-              AI Follow-up Recommendation
+              {t("followUp.title", "AI Follow-up Recommendation")}
             </h3>
           </div>
 
@@ -82,9 +82,9 @@ export function FollowUpRecommendation({
 
           {/* Days */}
           <p className="text-gray-700">
-            Recommended follow-up scan in
-            <span className="font-bold ml-1">
-              {recommendedDays} days
+            {t("followUp.recommendedIn", "Recommended follow-up scan in")}
+            <span className="font-bold mx-1">
+              {recommendedDays} {t("followUp.days", "days")}
             </span>
           </p>
 
@@ -92,7 +92,7 @@ export function FollowUpRecommendation({
           <div className="flex items-center gap-2 text-sm text-gray-600 mt-2">
             <Clock className="w-4 h-4" />
             <span>
-              Suggested date:
+              {t("followUp.suggestedDate", "Suggested date:")}
               <span className="font-medium text-gray-900 ml-1">
                 {suggestedDate}
               </span>
@@ -110,7 +110,7 @@ export function FollowUpRecommendation({
             className="flex items-center justify-center gap-2"
           >
             <Bell className="w-4 h-4" />
-            Set Reminder
+            {t("followUp.setReminder", "Set Reminder")}
           </Button>
 
           <Button
@@ -119,7 +119,7 @@ export function FollowUpRecommendation({
             className="flex items-center justify-center gap-2"
           >
             <Calendar className="w-4 h-4" />
-            Schedule Follow-up
+            {t("followUp.scheduleFollowUp", "Schedule Follow-up")}
           </Button>
 
         </div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next"; 
 
 interface Props {
   onCapture: (file: File) => void;
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export function CameraCapture({ onCapture, onClose }: Props) {
+  const { t } = useTranslation(); 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -23,6 +25,7 @@ export function CameraCapture({ onCapture, onClose }: Props) {
       }
     };
   }, []);
+
   useEffect(() => {
     if (videoRef.current && stream) {
       videoRef.current.srcObject = stream;
@@ -44,9 +47,10 @@ export function CameraCapture({ onCapture, onClose }: Props) {
     } catch (err) {
       console.error(err);
       setPermission("denied");
-      alert("Camera not working");
+      alert(t("camera.alertNotWorking", "Camera not working"));
     }
   };
+
   const isImageBlurry = (canvas: HTMLCanvasElement) => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return true;
@@ -87,7 +91,7 @@ export function CameraCapture({ onCapture, onClose }: Props) {
     const ctx = canvas.getContext("2d");
     ctx?.drawImage(video, 0, 0);
     if (isImageBlurry(canvas)) {
-      alert("The image is not clear ❌ Try to steady your hand and take another picture");
+      alert(t("camera.alertBlurry", "The image is not clear ❌ Try to steady your hand and take another picture"));
       return;
     }
 
@@ -107,7 +111,7 @@ export function CameraCapture({ onCapture, onClose }: Props) {
     <div className="bg-white p-4 rounded-xl text-center">
 
       {permission === "denied" && (
-        <p className="text-red-500">Camera access denied</p>
+        <p className="text-red-500">{t("camera.accessDenied", "Camera access denied")}</p>
       )}
 
       {permission === "granted" && !preview && (
@@ -124,14 +128,14 @@ export function CameraCapture({ onCapture, onClose }: Props) {
               onClick={capture}
               className="px-4 py-2 bg-green-600 text-white rounded"
             >
-              Capture
+              {t("camera.captureBtn", "Capture")}
             </button>
 
             <button
               onClick={onClose}
               className="px-4 py-2 bg-red-200 rounded"
             >
-              Close
+              {t("camera.closeBtn", "Close")}
             </button>
           </div>
         </>
@@ -139,10 +143,10 @@ export function CameraCapture({ onCapture, onClose }: Props) {
 
       {preview && (
         <>
-          <img src={preview} className="rounded mb-4" />
+          <img src={preview} className="rounded mb-4" alt="Captured preview" />
 
           <p className="text-sm text-gray-500">
-            Processing image...
+            {t("camera.processing", "Processing image...")}
           </p>
         </>
       )}

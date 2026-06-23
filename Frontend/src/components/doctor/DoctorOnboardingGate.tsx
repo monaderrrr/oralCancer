@@ -7,6 +7,7 @@ import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 import { Input } from "../ui/Input";
 import { useAuth } from "../../contexts/AuthContext";
+import { useTranslation } from "react-i18next"; 
 
 const DAYS = [
   { label: "Sun", value: 0 },
@@ -22,6 +23,7 @@ const DURATIONS = [15, 30, 45, 60];
 
 export function DoctorOnboardingGate() {
   const { user } = useAuth();
+  const { t } = useTranslation(); 
   const [showApproval, setShowApproval] = useState(false);
   const [showWizard, setShowWizard] = useState(false);
   const [step, setStep] = useState(1);
@@ -65,7 +67,7 @@ export function DoctorOnboardingGate() {
       setShowApproval(false);
       setShowWizard(true);
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Could not continue");
+      toast.error(err?.response?.data?.message || t("onboarding.errorContinue", "Could not continue"));
     }
   };
 
@@ -79,10 +81,10 @@ export function DoctorOnboardingGate() {
         lat: form.lat ? Number(form.lat) : null,
         lng: form.lng ? Number(form.lng) : null,
       });
-      toast.success("Clinic setup saved");
+      toast.success(t("onboarding.toastSuccess", "Clinic setup saved"));
       setStep(3);
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Failed to save setup");
+      toast.error(err?.response?.data?.message || t("onboarding.toastFailed", "Failed to save setup"));
     } finally {
       setLoading(false);
     }
@@ -94,7 +96,7 @@ export function DoctorOnboardingGate() {
       const res = await API.post("/api/v1/subscription/doctor/checkout");
       window.location.href = res.data.url;
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Failed to start Stripe Checkout");
+      toast.error(err?.response?.data?.message || t("onboarding.stripeError", "Failed to start Stripe Checkout"));
     } finally {
       setLoading(false);
     }
@@ -113,11 +115,11 @@ export function DoctorOnboardingGate() {
                 </motion.div>
               </div>
               <div className="mb-2 flex items-center justify-center gap-2 text-sm font-bold uppercase tracking-wider text-emerald-600">
-                <Sparkles className="h-4 w-4" /> Approved
+                <Sparkles className="h-4 w-4" /> {t("onboarding.approved", "Approved")}
               </div>
-              <h2 className="text-2xl font-bold text-slate-950">Your account has been approved successfully</h2>
-              <p className="mt-3 text-sm leading-6 text-slate-500">Set up your clinic schedule, location, and subscription to activate patient bookings.</p>
-              <Button className="mt-7 w-full rounded-2xl py-3" onClick={continueAfterApproval}>Continue</Button>
+              <h2 className="text-2xl font-bold text-slate-950">{t("onboarding.approvalTitle", "Your account has been approved successfully")}</h2>
+              <p className="mt-3 text-sm leading-6 text-slate-500">{t("onboarding.approvalDesc", "Set up your clinic schedule, location, and subscription to activate patient bookings.")}</p>
+              <Button className="mt-7 w-full rounded-2xl py-3" onClick={continueAfterApproval}>{t("onboarding.continue", "Continue")}</Button>
             </motion.div>
           </motion.div>
         )}
@@ -129,11 +131,11 @@ export function DoctorOnboardingGate() {
             <div className="mx-auto max-w-3xl">
               <Card className="overflow-hidden rounded-[2rem] border-none shadow-2xl">
                 <div className="border-b border-slate-100 bg-slate-50 p-6">
-                  <p className="text-sm font-semibold text-teal-700">Doctor setup</p>
-                  <h2 className="text-2xl font-bold text-slate-950">Activate your booking profile</h2>
+                  <p className="text-sm font-semibold text-teal-700">{t("onboarding.wizardSubtitle", "Doctor setup")}</p>
+                  <h2 className="text-2xl font-bold text-slate-950">{t("onboarding.wizardTitle", "Activate your booking profile")}</h2>
                   <div className="mt-5 grid grid-cols-3 gap-2">
-                    {["Schedule", "Clinic", "Subscription"].map((label, index) => (
-                      <div key={label} className={`h-2 rounded-full ${step >= index + 1 ? "bg-teal-600" : "bg-slate-200"}`} />
+                    {[t("onboarding.steps.schedule", "Schedule"), t("onboarding.steps.clinic", "Clinic"), t("onboarding.steps.subscription", "Subscription")].map((label, index) => (
+                      <div key={index} className={`h-2 rounded-full ${step >= index + 1 ? "bg-teal-600" : "bg-slate-200"}`} />
                     ))}
                   </div>
                 </div>
@@ -141,49 +143,49 @@ export function DoctorOnboardingGate() {
                 <div className="p-6">
                   {step === 1 && (
                     <div className="space-y-6">
-                      <div className="flex items-center gap-2 text-lg font-bold text-slate-900"><CalendarDays className="h-5 w-5 text-teal-600" /> Clinic Schedule</div>
+                      <div className="flex items-center gap-2 text-lg font-bold text-slate-900"><CalendarDays className="h-5 w-5 text-teal-600" /> {t("onboarding.scheduleTitle", "Clinic Schedule")}</div>
                       <div className="grid grid-cols-7 gap-2">
                         {DAYS.map((day) => (
                           <button key={day.value} onClick={() => toggleDay(day.value)} className={`rounded-2xl border px-3 py-3 text-sm font-bold transition ${form.workingDays.includes(day.value) ? "border-teal-600 bg-teal-50 text-teal-700" : "border-slate-200 text-slate-500 hover:bg-slate-50"}`}>
-                            {day.label}
+                            {t(`days.${day.label.toLowerCase()}`, day.label)}
                           </button>
                         ))}
                       </div>
                       <div className="grid gap-4 md:grid-cols-2">
-                        <Input label="Start time" type="time" value={form.startTime} onChange={(e) => setForm({ ...form, startTime: e.target.value })} />
-                        <Input label="End time" type="time" value={form.endTime} onChange={(e) => setForm({ ...form, endTime: e.target.value })} />
+                        <Input label={t("onboarding.inputs.startTime", "Start time")} type="time" value={form.startTime} onChange={(e) => setForm({ ...form, startTime: e.target.value })} />
+                        <Input label={t("onboarding.inputs.endTime", "End time")} type="time" value={form.endTime} onChange={(e) => setForm({ ...form, endTime: e.target.value })} />
                       </div>
                       <div>
-                        <p className="mb-2 text-sm font-semibold text-slate-700">Appointment duration</p>
+                        <p className="mb-2 text-sm font-semibold text-slate-700">{t("onboarding.durationTitle", "Appointment duration")}</p>
                         <div className="grid grid-cols-4 gap-2">
                           {DURATIONS.map((duration) => (
                             <button key={duration} onClick={() => setForm({ ...form, appointmentDuration: duration })} className={`rounded-2xl border py-3 text-sm font-bold ${form.appointmentDuration === duration ? "border-teal-600 bg-teal-600 text-white" : "border-slate-200 text-slate-600"}`}>
-                              {duration} min
+                              {duration} {t("onboarding.min", "min")}
                             </button>
                           ))}
                         </div>
                       </div>
-                      <Button className="w-full rounded-2xl py-3" onClick={() => setStep(2)}>Next</Button>
+                      <Button className="w-full rounded-2xl py-3" onClick={() => setStep(2)}>{t("onboarding.next", "Next")}</Button>
                     </div>
                   )}
 
                   {step === 2 && (
                     <div className="space-y-5">
-                      <div className="flex items-center gap-2 text-lg font-bold text-slate-900"><MapPin className="h-5 w-5 text-teal-600" /> Clinic Information</div>
+                      <div className="flex items-center gap-2 text-lg font-bold text-slate-900"><MapPin className="h-5 w-5 text-teal-600" /> {t("onboarding.clinicTitle", "Clinic Information")}</div>
                       <div className="grid gap-4 md:grid-cols-2">
-                        <Input label="Clinic name" value={form.clinicName} onChange={(e) => setForm({ ...form, clinicName: e.target.value })} />
-                        <Input label="Clinic phone" value={form.clinicPhone} onChange={(e) => setForm({ ...form, clinicPhone: e.target.value })} leftIcon={<Phone className="h-4 w-4" />} />
+                        <Input label={t("onboarding.inputs.clinicName", "Clinic name")} value={form.clinicName} onChange={(e) => setForm({ ...form, clinicName: e.target.value })} />
+                        <Input label={t("onboarding.inputs.clinicPhone", "Clinic phone")} value={form.clinicPhone} onChange={(e) => setForm({ ...form, clinicPhone: e.target.value })} leftIcon={<Phone className="h-4 w-4" />} />
                       </div>
-                      <Input label="Manual address" value={form.clinicAddress} onChange={(e) => setForm({ ...form, clinicAddress: e.target.value })} />
-                      <Input label="Google Maps URL" value={form.googleMapsUrl} onChange={(e) => setForm({ ...form, googleMapsUrl: e.target.value })} placeholder="https://maps.google.com/..." />
+                      <Input label={t("onboarding.inputs.manualAddress", "Manual address")} value={form.clinicAddress} onChange={(e) => setForm({ ...form, clinicAddress: e.target.value })} />
+                      <Input label={t("onboarding.inputs.mapsUrl", "Google Maps URL")} value={form.googleMapsUrl} onChange={(e) => setForm({ ...form, googleMapsUrl: e.target.value })} placeholder="https://maps.google.com/..." />
                       <div className="grid gap-4 md:grid-cols-3">
-                        <Input label="Latitude" value={form.lat} onChange={(e) => setForm({ ...form, lat: e.target.value })} />
-                        <Input label="Longitude" value={form.lng} onChange={(e) => setForm({ ...form, lng: e.target.value })} />
-                        <Input label="Visit fee (EGP)" value={form.consultationFee} onChange={(e) => setForm({ ...form, consultationFee: e.target.value })} />
+                        <Input label={t("onboarding.inputs.lat", "Latitude")} value={form.lat} onChange={(e) => setForm({ ...form, lat: e.target.value })} />
+                        <Input label={t("onboarding.inputs.lng", "Longitude")} value={form.lng} onChange={(e) => setForm({ ...form, lng: e.target.value })} />
+                        <Input label={t("onboarding.inputs.fee", "Visit fee (EGP)")} value={form.consultationFee} onChange={(e) => setForm({ ...form, consultationFee: e.target.value })} />
                       </div>
                       <div className="flex gap-3">
-                        <Button variant="secondary" className="flex-1 rounded-2xl py-3" onClick={() => setStep(1)}>Back</Button>
-                        <Button className="flex-1 rounded-2xl py-3" onClick={saveSetup} disabled={loading}>{loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save setup"}</Button>
+                        <Button variant="secondary" className="flex-1 rounded-2xl py-3" onClick={() => setStep(1)}>{t("onboarding.back", "Back")}</Button>
+                        <Button className="flex-1 rounded-2xl py-3" onClick={saveSetup} disabled={loading}>{loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t("onboarding.saveSetup", "Save setup")}</Button>
                       </div>
                     </div>
                   )}
@@ -193,9 +195,9 @@ export function DoctorOnboardingGate() {
                       <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-50 text-teal-700">
                         <CreditCard className="h-8 w-8" />
                       </div>
-                      <h3 className="text-2xl font-bold text-slate-950">Subscribe to activate bookings</h3>
-                      <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">Stripe Checkout will securely activate your profile after payment. Patients will see your available slots only after the subscription is active.</p>
-                      <Button className="mt-6 rounded-2xl px-8 py-3" onClick={subscribe} disabled={loading}>{loading ? "Opening Stripe..." : "Continue to Stripe"}</Button>
+                      <h3 className="text-2xl font-bold text-slate-950">{t("onboarding.subTitle", "Subscribe to activate bookings")}</h3>
+                      <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">{t("onboarding.subDesc", "Stripe Checkout will securely activate your profile after payment. Patients will see your available slots only after the subscription is active.")}</p>
+                      <Button className="mt-6 rounded-2xl px-8 py-3" onClick={subscribe} disabled={loading}>{loading ? t("onboarding.openingStripe", "Opening Stripe...") : t("onboarding.goToStripe", "Continue to Stripe")}</Button>
                     </div>
                   )}
                 </div>

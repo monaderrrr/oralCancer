@@ -1,13 +1,9 @@
 import { CheckCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next'; 
 
 interface VerifiedBadgeProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
-
-  /**
-   * Comes directly from backend doctor object:
-   * doctor.status = 'verified' | 'approved' | 'pending'
-   */
   status?: 'verified' | 'approved' | 'pending' | string;
   role?: 'doctor' | 'patient' | string;
 }
@@ -18,6 +14,7 @@ export function VerifiedBadge({
   status,
   role
 }: VerifiedBadgeProps) {
+  const { t } = useTranslation(); 
 
   /**
    * Backend-based verification logic
@@ -43,11 +40,11 @@ export function VerifiedBadge({
   return (
     <div
       className={`inline-flex items-center font-bold bg-teal-50 text-teal-700 border border-teal-200 rounded-full shadow-sm ${sizeClasses[size]} ${className}`}
-      title="Verified Medical Professional"
+      title={t("verifiedBadge.title", "Verified Medical Professional")}
     >
       <CheckCircle className={`${iconSizes[size]} fill-teal-600 text-white`} />
       <span className="uppercase tracking-wider">
-        Verified
+        {t("verifiedBadge.text", "Verified")}
       </span>
     </div>
   );

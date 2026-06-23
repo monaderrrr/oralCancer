@@ -2,6 +2,7 @@ import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
 import { MapPin, Stethoscope, Star } from "lucide-react";
 import { IMAGE_BASE_URL } from "../../Api";
+import { useTranslation } from "react-i18next"; 
 
 interface Doctor {
   _id: string;
@@ -23,11 +24,12 @@ interface Props {
 }
 
 export function DoctorCard({ doctor, onSelect }: Props) {
+  const { t } = useTranslation(); 
   const doctorId = doctor._id;
 
-  const name = doctor.fullName?.trim() || "Unknown Doctor";
+  const name = doctor.fullName?.trim() || t("doctorCard.unknown", "Unknown Doctor");
 
-  const specialization = doctor.specialization?.trim() || "Medical Specialist";
+  const specialization = doctor.specialization?.trim() || t("doctorCard.specialist", "Medical Specialist");
 
   const image = doctor.profileImage
     ? `${IMAGE_BASE_URL}${doctor.profileImage}`
@@ -35,7 +37,7 @@ export function DoctorCard({ doctor, onSelect }: Props) {
 
   const address =
     `${doctor.clinicAddress || ""} ${doctor.hospital || ""}`.trim() ||
-    "Location not available";
+    t("doctorCard.noLocation", "Location not available");
 
   const ratingValue = Number(doctor.rating ?? 0);
   const hasCoordinates = typeof doctor.lat === "number" && typeof doctor.lng === "number";
@@ -64,12 +66,12 @@ export function DoctorCard({ doctor, onSelect }: Props) {
         {/* INFO */}
         <div className="flex-1 min-w-0">
           <h3 className="font-bold text-slate-900 truncate text-base leading-tight">
-            Dr. {name}
+            {t("doctorCard.prefix", "Dr.")} {name}
           </h3>
 
           {isNewDoctor && (
             <span className="mt-1 inline-flex rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-700">
-              New Doctor
+              {t("doctorCard.newDoctor", "New Doctor")}
             </span>
           )}
 
@@ -102,7 +104,7 @@ export function DoctorCard({ doctor, onSelect }: Props) {
             className="mt-2 block text-xs font-semibold text-teal-700 hover:text-teal-800"
             onClick={(event) => event.stopPropagation()}
           >
-            Open in Google Maps
+            {t("doctorCard.openMaps", "Open in Google Maps")}
           </a>
         ) : null}
       </div>
@@ -114,7 +116,7 @@ export function DoctorCard({ doctor, onSelect }: Props) {
         className="mt-5 bg-teal-600 hover:bg-teal-700 text-xs h-10 rounded-xl font-bold shadow-sm shadow-teal-100"
         onClick={() => onSelect(doctorId)}
       >
-        View Profile
+        {t("doctorCard.viewProfile", "View Profile")}
       </Button>
 
     </Card>

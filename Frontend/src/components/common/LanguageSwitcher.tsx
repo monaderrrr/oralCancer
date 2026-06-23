@@ -64,7 +64,6 @@ export function LanguageSwitcher() {
     if (language !== currentLanguage) {
       await changeLanguage(language);
     }
-
     setIsOpen(false);
   };
 
@@ -105,7 +104,7 @@ export function LanguageSwitcher() {
         type="button"
         onClick={() => setIsOpen((open) => !open)}
         className="inline-flex min-h-10 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm shadow-slate-950/5 transition-colors duration-150 hover:border-teal-600 hover:bg-teal-50 hover:text-teal-700 focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-teal-300 dark:focus-visible:ring-offset-slate-950"
-        aria-label={t("languageSwitcher.ariaLabel")}
+        aria-label={t("languageSwitcher.ariaLabel", "Change language")}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
       >
@@ -127,7 +126,7 @@ export function LanguageSwitcher() {
             isRTL ? "left-0" : "right-0"
           }`}
           role="listbox"
-          aria-label={t("languageSwitcher.ariaLabel")}
+          aria-label={t("languageSwitcher.ariaLabel", "Change language")}
           onKeyDown={handleMenuKeyDown}
         >
           {languages.map((language, index) => {
@@ -149,7 +148,7 @@ export function LanguageSwitcher() {
                     : "text-slate-700 hover:bg-slate-50 hover:text-teal-700 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-teal-300"
                 }`}
                 role="option"
-                aria-label={`Switch to ${language.name}`}
+                aria-label={`${t("languageSwitcher.switchTo", "Switch to")} ${language.name}`}
                 aria-selected={active}
               >
                 <span className="flex items-center gap-2">

@@ -3,6 +3,8 @@ import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
 import { Star, Clock, MapPin, CheckCircle } from 'lucide-react';
+import { useTranslation } from "react-i18next"; 
+
 export interface Doctor {
   id: string;
   name: string;
@@ -24,24 +26,26 @@ export function DoctorBooking({
   onBookAppointment,
   isLoading = false
 }: DoctorBookingProps) {
+  const { t } = useTranslation(); 
+
   if (isLoading) {
     return <div className="py-12 text-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-        <p className="text-gray-500">Loading available doctors...</p>
+        <p className="text-gray-500">{t("booking.loading", "Loading available doctors...")}</p>
       </div>;
   }
   if (doctors.length === 0) {
     return <div className="py-12 text-center bg-gray-50 rounded-lg border border-dashed border-gray-300">
-        <p className="text-gray-500">No doctors available at this time.</p>
+        <p className="text-gray-500">{t("booking.noDoctors", "No doctors available at this time.")}</p>
       </div>;
   }
   return <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex items-center justify-between">
         <h3 className="text-xl font-semibold text-gray-900">
-          Available Doctors
+          {t("booking.header", "Available Doctors")}
         </h3>
         <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-          {doctors.length} Specialists Found
+          {doctors.length} {t("booking.specialistsFound", "Specialists Found")}
         </Badge>
       </div>
 
@@ -77,13 +81,13 @@ export function DoctorBooking({
                   </div>
                   <div className="flex items-center text-sm text-green-700 bg-green-50 w-fit px-2 py-0.5 rounded">
                     <Clock className="w-3.5 h-3.5 mr-1.5" />
-                    Next: {doctor.nextAvailable}
+                    {t("booking.next", "Next")}: {doctor.nextAvailable}
                   </div>
                 </div>
 
                 <div className="mt-4">
                   <Button variant="primary" className="w-full text-sm py-2" onClick={() => onBookAppointment(doctor.id)}>
-                    Book Appointment
+                    {t("booking.bookBtn", "Book Appointment")}
                   </Button>
                 </div>
               </div>

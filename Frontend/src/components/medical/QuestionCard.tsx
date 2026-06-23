@@ -1,6 +1,7 @@
 import React from "react";
 import { CheckCircle, ArrowRight, ArrowLeft } from "lucide-react";
 import { Button } from "../ui/Button";
+import { useTranslation } from "react-i18next"; 
 
 export interface Question {
   id: string;
@@ -32,11 +33,13 @@ export function QuestionCard({
   isFirst,
   isLast,
 }: QuestionCardProps) {
+  const { t } = useTranslation(); 
+
   return (
     <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm max-w-2xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <span className="text-sm font-bold text-teal-600 uppercase tracking-wider">
-          Step {currentStep} of {totalSteps}
+          {t("questions.step", "Step")} {currentStep} {t("questions.of", "of")} {totalSteps}
         </span>
         <div className="flex gap-1">
           {Array.from({ length: totalSteps }).map((_, i) => (
@@ -54,7 +57,6 @@ export function QuestionCard({
 
       <div className="space-y-3 mb-8">
         {question.options?.map((option, idx) => {
-          // استخراج الـ label والـ value سواء كان الخيار string أو object
           const label = typeof option === "string" ? option : option.label;
           const value = typeof option === "string" ? option.toLowerCase() : option.value;
           const isSelected = answer === value;
@@ -81,7 +83,7 @@ export function QuestionCard({
       <div className="flex gap-3">
         {!isFirst && (
           <Button variant="outline" onClick={onBack} className="flex-1 gap-2">
-            <ArrowLeft className="w-4 h-4" /> Previous
+            <ArrowLeft className="w-4 h-4" /> {t("questions.previous", "Previous")}
           </Button>
         )}
         <Button
@@ -89,7 +91,7 @@ export function QuestionCard({
           disabled={!answer}
           className="flex-1 gap-2 bg-slate-900 hover:bg-slate-800"
         >
-          {isLast ? "Review Summary" : "Next Question"} <ArrowRight className="w-4 h-4" />
+          {isLast ? t("questions.reviewSummary", "Review Summary") : t("questions.nextQuestion", "Next Question")} <ArrowRight className="w-4 h-4" />
         </Button>
       </div>
     </div>

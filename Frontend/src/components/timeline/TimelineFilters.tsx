@@ -1,45 +1,31 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from "react-i18next"; 
 import { Camera, AlertCircle, CheckSquare, MessageCircle, LayoutList } from 'lucide-react';
 import { EventType } from './TimelineEvent';
+
 interface TimelineFiltersProps {
   activeFilter: EventType | 'all';
   onFilterChange: (filter: EventType | 'all') => void;
   counts: Record<EventType | 'all', number>;
 }
-const filterConfig = {
-  all: {
-    icon: LayoutList,
-    label: 'All Events',
-    color: 'slate'
-  },
-  scan: {
-    icon: Camera,
-    label: 'Scans',
-    color: 'teal'
-  },
-  symptom: {
-    icon: AlertCircle,
-    label: 'Symptoms',
-    color: 'amber'
-  },
-  recommendation: {
-    icon: CheckSquare,
-    label: 'Actions',
-    color: 'emerald'
-  },
-  message: {
-    icon: MessageCircle,
-    label: 'Messages',
-    color: 'violet'
-  }
-};
+
 export function TimelineFilters({
   activeFilter,
   onFilterChange,
   counts
 }: TimelineFiltersProps) {
+  const { t } = useTranslation(); 
   const filters: (EventType | 'all')[] = ['all', 'scan', 'symptom', 'recommendation', 'message'];
+  
+  const filterConfig = {
+    all: { icon: LayoutList, label: t('timeline.filters.all', 'All Events'), color: 'slate' },
+    scan: { icon: Camera, label: t('timeline.filters.scans', 'Scans'), color: 'teal' },
+    symptom: { icon: AlertCircle, label: t('timeline.filters.symptoms', 'Symptoms'), color: 'amber' },
+    recommendation: { icon: CheckSquare, label: t('timeline.filters.actions', 'Actions'), color: 'emerald' },
+    message: { icon: MessageCircle, label: t('timeline.filters.messages', 'Messages'), color: 'violet' }
+  };
+
   return <div className="flex flex-wrap gap-2">
       {filters.map(filter => {
       const config = filterConfig[filter];

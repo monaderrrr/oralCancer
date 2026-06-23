@@ -17,6 +17,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useDoctor } from "../../contexts/DoctorContext";
 import API from "../../Api";
 import socket from "../../socket/Socket";
+import { useTranslation } from "react-i18next"; 
 
 interface DoctorSidebarProps {
   isOpen: boolean;
@@ -27,6 +28,7 @@ export function DoctorSidebar({ isOpen, onClose }: DoctorSidebarProps) {
   const location = useLocation();
   const { logout, user } = useAuth(); 
   const { dashboard } = useDoctor();
+  const { t } = useTranslation(); 
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [notificationCount, setNotificationCount] = useState(0);
 
@@ -76,40 +78,40 @@ export function DoctorSidebar({ isOpen, onClose }: DoctorSidebarProps) {
   // ================= NAV ITEMS (DYNAMIC BADGES) =================
   const navItems = [
     {
-      name: "Dashboard",
+      name: t("sidebar.dashboard", "Dashboard"),
       path: "/doctor/dashboard",
       icon: LayoutDashboard,
     },
     {
-      name: "Messages",
+      name: t("sidebar.messages", "Messages"),
       path: "/doctor/messages",
       icon: MessageSquare,
       badge: unreadMessages, 
     },
     {
-      name: "Patients",
+      name: t("sidebar.patients", "Patients"),
       path: "/doctor/patients",
       icon: Users,
     },
     {
-      name: "Community",
+      name: t("sidebar.community", "Community"),
       path: "/doctor/community",
       icon: HeartHandshake,
     },
     {
-       name: "Scan Reviews",
-       path: "/doctor/scans", 
+      name: t("sidebar.scanReviews", "Scan Reviews"),
+      path: "/doctor/scans", 
       icon: ClipboardCheck,
       badge: stats.pendingScanReviewsCount || 0, 
     },
     {
-      name: "Notifications",
+      name: t("sidebar.notifications", "Notifications"),
       path: "/doctor/notifications",
       icon: Bell,
       badge: notificationCount || 0,
     },
     {
-      name: "Settings",
+      name: t("sidebar.settings", "Settings"),
       path: "/doctor/settings",
       icon: Settings,
     },
@@ -152,11 +154,11 @@ export function DoctorSidebar({ isOpen, onClose }: DoctorSidebarProps) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-bold text-slate-900 truncate">
-                  Dr. {user?.fullName || "Ola Samy"}
+                  {t("sidebar.doctorPrefix", "Dr.")} {user?.fullName || "Ola Samy"}
                 </p>
                 {stats.verificationStatus === "approved" && (
                   <div className="flex items-center gap-1 text-[10px] text-teal-600 font-medium">
-                    <CheckCircle className="w-3 h-3" /> Verified
+                    <CheckCircle className="w-3 h-3" /> {t("sidebar.verified", "Verified")}
                   </div>
                 )}
               </div>
@@ -222,7 +224,7 @@ export function DoctorSidebar({ isOpen, onClose }: DoctorSidebarProps) {
               className="flex items-center gap-3 w-full px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition"
             >
               <LogOut className="w-5 h-5" />
-              Sign Out
+              {t("sidebar.signOut", "Sign Out")}
             </button>
           </div>
         </div>

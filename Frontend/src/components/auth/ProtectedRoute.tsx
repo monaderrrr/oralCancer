@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth, UserRole } from "../../contexts/AuthContext";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next"; 
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -16,6 +17,7 @@ export function ProtectedRoute({
 }: ProtectedRouteProps) {
   const { user, isAuthenticated, isLoading } = useAuth();
   const location = useLocation();
+  const { t } = useTranslation();
 
   if (isLoading) {
     return (

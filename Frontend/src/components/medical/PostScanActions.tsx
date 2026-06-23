@@ -7,11 +7,12 @@ import {
   RefreshCw,
   Activity
 } from "lucide-react";
+import { useTranslation } from "react-i18next"; 
 
 type RiskLevel = "low" | "medium" | "high";
 
 interface PostScanActionsProps {
-  riskLevel?: RiskLevel;              // يأتي من نتائج AI
+  riskLevel?: RiskLevel;      
   onBookDoctor: () => void;
   onFindHospital: () => void;
   onScanAgain?: () => void;
@@ -23,17 +24,18 @@ export function PostScanActions({
   onFindHospital,
   onScanAgain
 }: PostScanActionsProps) {
+  const { t } = useTranslation(); 
 
   const getMessage = () => {
     switch (riskLevel) {
       case "high":
-        return "Your scan suggests a high risk. Please consult a specialist as soon as possible.";
+        return t("postScan.messages.high", "Your scan suggests a high risk. Please consult a specialist as soon as possible.");
       case "medium":
-        return "Some irregularities were detected. A medical consultation is recommended.";
+        return t("postScan.messages.medium", "Some irregularities were detected. A medical consultation is recommended.");
       case "low":
-        return "No major risks detected, but you may still consult a specialist if needed.";
+        return t("postScan.messages.low", "No major risks detected, but you may still consult a specialist if needed.");
       default:
-        return "Choose an option below to proceed with professional medical consultation.";
+        return t("postScan.messages.default", "Choose an option below to proceed with professional medical consultation.");
     }
   };
 
@@ -42,7 +44,7 @@ export function PostScanActions({
 
       <h3 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
         <Activity className="w-5 h-5 text-teal-600" />
-        Next Steps
+        {t("postScan.title", "Next Steps")}
       </h3>
 
       <p className="text-gray-600">
@@ -62,8 +64,8 @@ export function PostScanActions({
               <Stethoscope className="w-6 h-6" />
             </div>
             <div className="text-left">
-              <div className="font-semibold text-lg">Book a Doctor</div>
-              <div className="text-sm opacity-90 font-normal">Find a specialist near you</div>
+              <div className="font-semibold text-lg">{t("postScan.bookDoctor.title", "Book a Doctor")}</div>
+              <div className="text-sm opacity-90 font-normal">{t("postScan.bookDoctor.desc", "Find a specialist near you")}</div>
             </div>
           </div>
           <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
@@ -80,8 +82,8 @@ export function PostScanActions({
               <Building2 className="w-6 h-6" />
             </div>
             <div className="text-left">
-              <div className="font-semibold text-lg text-gray-900">Find a Hospital</div>
-              <div className="text-sm text-gray-500 font-normal">Locate nearby clinics</div>
+              <div className="font-semibold text-lg text-gray-900">{t("postScan.findHospital.title", "Find a Hospital")}</div>
+              <div className="text-sm text-gray-500 font-normal">{t("postScan.findHospital.desc", "Locate nearby clinics")}</div>
             </div>
           </div>
           <ChevronRight className="w-5 h-5 text-gray-400 transition-transform group-hover:translate-x-1" />
@@ -98,7 +100,7 @@ export function PostScanActions({
             className="flex items-center gap-2 text-gray-600"
           >
             <RefreshCw className="w-4 h-4" />
-            Scan Again
+            {t("postScan.scanAgain", "Scan Again")}
           </Button>
         </div>
       )}

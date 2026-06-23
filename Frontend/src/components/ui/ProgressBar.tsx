@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next'; 
+
 type ProgressBarProps = {
   value: number;
   max?: number;
@@ -7,12 +9,14 @@ type ProgressBarProps = {
   className?: string;
   showLabel?: boolean;
 };
+
 const variantStyles = {
   default: 'from-teal-500 to-cyan-500',
   success: 'from-emerald-500 to-green-500',
   warning: 'from-amber-500 to-orange-500',
   danger: 'from-red-500 to-rose-500'
 };
+
 export function ProgressBar({
   value,
   max = 100,
@@ -20,10 +24,12 @@ export function ProgressBar({
   className = '',
   showLabel = false
 }: ProgressBarProps) {
+  const { t } = useTranslation(); 
   const percentage = Math.min(Math.max(value / max * 100, 0), 100);
+
   return <div className={`w-full ${className}`}>
       {showLabel && <div className="flex justify-between text-sm mb-1">
-          <span className="text-slate-600">Progress</span>
+          <span className="text-slate-600">{t("quiz.progress", "Progress")}</span>
           <span className="font-medium text-slate-900">
             {Math.round(percentage)}%
           </span>

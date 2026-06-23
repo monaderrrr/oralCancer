@@ -3,7 +3,9 @@ import { motion } from 'framer-motion';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
+import { useTranslation } from "react-i18next";
 import { CheckCircle2, Calendar, MessageCircle, AlertCircle, ChevronRight } from 'lucide-react';
+
 interface ActionItem {
   id: string;
   type: 'task' | 'appointment' | 'message';
@@ -15,79 +17,58 @@ interface TodaysActionsProps {
   tasks: ActionItem[];
   onActionClick?: (item: ActionItem) => void;
 }
+
 export function TodaysActions({
   tasks,
   onActionClick
 }: TodaysActionsProps) {
+  const { t } = useTranslation(); 
   const urgentCount = tasks.filter(t => t.urgent).length;
+  
   const getIcon = (type: ActionItem['type']) => {
     switch (type) {
-      case 'task':
-        return CheckCircle2;
-      case 'appointment':
-        return Calendar;
-      case 'message':
-        return MessageCircle;
+      case 'task': return CheckCircle2;
+      case 'appointment': return Calendar;
+      case 'message': return MessageCircle;
     }
   };
   const getIconColor = (type: ActionItem['type']) => {
     switch (type) {
-      case 'task':
-        return 'text-emerald-600';
-      case 'appointment':
-        return 'text-blue-600';
-      case 'message':
-        return 'text-violet-600';
+      case 'task': return 'text-emerald-600';
+      case 'appointment': return 'text-blue-600';
+      case 'message': return 'text-violet-600';
     }
   };
   const getBgColor = (type: ActionItem['type']) => {
     switch (type) {
-      case 'task':
-        return 'bg-emerald-50';
-      case 'appointment':
-        return 'bg-blue-50';
-      case 'message':
-        return 'bg-violet-50';
+      case 'task': return 'bg-emerald-50';
+      case 'appointment': return 'bg-blue-50';
+      case 'message': return 'bg-violet-50';
     }
   };
+
   if (tasks.length === 0) {
-    return <motion.div initial={{
-      opacity: 0,
-      y: -10
-    }} animate={{
-      opacity: 1,
-      y: 0
-    }} transition={{
-      duration: 0.4
-    }}>
-        <Card className="p-6 bg-gradient-to-br from-teal-50 to-cyan-50 border-teal-100">
+    return <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+        <Card className="p-6 bg-gradient-to-br from-teal-50 to-cyan-50 border-teal-100 text-left">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
               <CheckCircle2 className="w-6 h-6 text-teal-600" />
             </div>
             <div>
               <h3 className="font-semibold text-slate-900 mb-1">
-                All Caught Up!
+                {t('todaysActions.empty.title', 'All Caught Up!')}
               </h3>
               <p className="text-sm text-slate-600">
-                No pending actions for today. Great job staying on top of your
-                health.
+                {t('todaysActions.empty.desc', 'No pending actions for today. Great job staying on top of your health.')}
               </p>
             </div>
           </div>
         </Card>
       </motion.div>;
   }
-  return <motion.div initial={{
-    opacity: 0,
-    y: -10
-  }} animate={{
-    opacity: 1,
-    y: 0
-  }} transition={{
-    duration: 0.4
-  }}>
-      <Card className="p-6 border-2 border-slate-200 shadow-lg">
+
+  return <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+      <Card className="p-6 border-2 border-slate-200 shadow-lg text-left">
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-3">
@@ -96,24 +77,18 @@ export function TodaysActions({
             </div>
             <div>
               <h2 className="text-xl font-bold text-slate-900">
-                Today's Actions
+                {t('todaysActions.header', "Today's Actions")}
               </h2>
               <p className="text-sm text-slate-600">
-                {tasks.length} {tasks.length === 1 ? 'item' : 'items'} need your
-                attention
+                {tasks.length} {tasks.length === 1 ? t('todaysActions.item', 'item') : t('todaysActions.items', 'items')} {t('todaysActions.needAttention', 'need your attention')}
               </p>
             </div>
           </div>
 
-          {urgentCount > 0 && <motion.div animate={{
-          scale: [1, 1.05, 1]
-        }} transition={{
-          duration: 2,
-          repeat: Infinity
-        }}>
+          {urgentCount > 0 && <motion.div animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 2, repeat: Infinity }}>
               <Badge variant="danger" className="gap-1">
                 <AlertCircle className="w-3 h-3" />
-                {urgentCount} Urgent
+                {urgentCount} {t('priority.high', 'Urgent')}
               </Badge>
             </motion.div>}
         </div>
@@ -122,16 +97,7 @@ export function TodaysActions({
         <div className="space-y-3">
           {tasks.map((item, index) => {
           const Icon = getIcon(item.type);
-          return <motion.div key={item.id} initial={{
-            opacity: 0,
-            x: -10
-          }} animate={{
-            opacity: 1,
-            x: 0
-          }} transition={{
-            duration: 0.3,
-            delay: index * 0.05
-          }}>
+          return <motion.div key={item.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3, delay: index * 0.05 }}>
                 <button onClick={() => onActionClick?.(item)} className="w-full p-4 rounded-xl border-2 border-slate-100 hover:border-teal-200 hover:bg-slate-50 transition-all duration-200 text-left group">
                   <div className="flex items-center gap-4">
                     <div className={`p-2.5 rounded-lg ${getBgColor(item.type)} flex-shrink-0`}>
@@ -144,7 +110,7 @@ export function TodaysActions({
                           {item.title}
                         </h4>
                         {item.urgent && <Badge variant="danger" className="text-xs">
-                            Urgent
+                            {t('priority.high', 'Urgent')}
                           </Badge>}
                       </div>
                       {item.time && <p className="text-sm text-slate-500">{item.time}</p>}

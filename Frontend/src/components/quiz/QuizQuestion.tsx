@@ -2,18 +2,23 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { QuizQuestion as QuestionType } from '../../utils/mockQuizData';
 import { Button } from '../ui/Button';
+import { useTranslation } from 'react-i18next';
+
 interface QuizQuestionProps {
   question: QuestionType;
   value: any;
   onChange: (value: any) => void;
   onNext: () => void;
 }
+
 export function QuizQuestion({
   question,
   value,
   onChange,
   onNext
 }: QuizQuestionProps) {
+  const { t } = useTranslation(); 
+
   const handleOptionClick = (optionValue: any) => {
     if (question.type === 'multiple') {
       const currentValues = Array.isArray(value) ? value : [];
@@ -27,6 +32,7 @@ export function QuizQuestion({
       }
     }
   };
+
   return <motion.div initial={{
     opacity: 0,
     x: 20
@@ -56,7 +62,7 @@ export function QuizQuestion({
               <span>{question.maxLabel}</span>
             </div>
             <Button onClick={onNext} className="mt-4" disabled={!value}>
-              Next Question
+              {t("quiz.nextBtn", "Next Question")}
             </Button>
           </div> : question.options?.map(option => {
         const isSelected = question.type === 'multiple' ? Array.isArray(value) && value.includes(option.value) : value === option.value;
@@ -69,7 +75,7 @@ export function QuizQuestion({
             scale: 0
           }} animate={{
             scale: 1
-          }} className="w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center">
+          }} className="w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center shrink-0">
                     <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                     </svg>
@@ -80,7 +86,7 @@ export function QuizQuestion({
 
       {question.type === 'multiple' && <div className="mt-8 text-center">
           <Button onClick={onNext} size="lg" className="px-12">
-            Continue
+            {t("quiz.continueBtn", "Continue")}
           </Button>
         </div>}
     </motion.div>;

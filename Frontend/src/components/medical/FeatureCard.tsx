@@ -1,17 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { LucideIcon, Sparkles } from "lucide-react";
+import { useTranslation } from "react-i18next"; 
 
 type FeatureCardProps = {
   icon: LucideIcon;
   title: string;
   description: string;
   index?: number;
-
-  // AI related
   isAI?: boolean;
-
-  // optional button
   actionLabel?: string;
   onAction?: () => void;
 };
@@ -25,6 +22,8 @@ export function FeatureCard({
   actionLabel,
   onAction,
 }: FeatureCardProps) {
+  const { t } = useTranslation(); 
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 25 }}
@@ -41,7 +40,7 @@ export function FeatureCard({
       {isAI && (
         <div className="flex items-center gap-1 text-xs text-teal-700 bg-teal-50 border border-teal-200 w-fit px-2 py-1 rounded mb-4">
           <Sparkles className="w-3 h-3" />
-          AI Powered
+          {t("features.aiPowered", "AI Powered")}
         </div>
       )}
 

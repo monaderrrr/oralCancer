@@ -8,6 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { useTranslation } from "react-i18next"; 
 
 export interface TrendData {
   date: string;
@@ -20,10 +21,12 @@ interface TrendChartProps {
 }
 
 export function TrendChart({ data = [] }: TrendChartProps) {
+  const { t } = useTranslation(); 
+
   if (!data.length) {
     return (
-      <div className="h-[300px] flex items-center justify-center text-slate-400">
-        No chart data available
+      <div className="h-[300px] flex items-center justify-center text-slate-400 text-sm">
+        {t("chart.noData", "No chart data available")}
       </div>
     );
   }
@@ -80,17 +83,19 @@ export function TrendChart({ data = [] }: TrendChartProps) {
                   ? "#f59e0b"
                   : "#10b981";
 
+              const safeLabel = d.riskLabel ? d.riskLabel.toLowerCase() : "low";
+
               return (
-                <div className="bg-white p-3 rounded-lg shadow-md border">
+                <div className="bg-white p-3 rounded-lg shadow-md border text-left">
                   <p className="text-xs text-slate-500 mb-1">
                     {formatDate(label)}
                   </p>
 
                   <p
-                    className="font-bold"
+                    className="font-bold text-sm"
                     style={{ color }}
                   >
-                    {d.riskLabel} ({d.riskScore}%)
+                    {t(`riskLevels.${safeLabel}`, d.riskLabel)} ({d.riskScore}%)
                   </p>
                 </div>
               );

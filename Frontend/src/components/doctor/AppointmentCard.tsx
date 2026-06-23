@@ -3,6 +3,8 @@ import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
 import { Clock, Calendar, CheckCircle, XCircle, Video, Users } from 'lucide-react';
+import { useTranslation } from "react-i18next"; 
+
 interface Appointment {
   id: string;
   patientName: string;
@@ -24,16 +26,18 @@ export function AppointmentCard({
   onReschedule,
   onCancel
 }: AppointmentCardProps) {
+  const { t } = useTranslation(); 
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'confirmed':
-        return <Badge variant="success">Confirmed</Badge>;
+        return <Badge variant="success">{t("appointment.status.confirmed", "Confirmed")}</Badge>;
       case 'pending':
-        return <Badge variant="warning">Pending</Badge>;
+        return <Badge variant="warning">{t("appointment.status.pending", "Pending")}</Badge>;
       case 'completed':
-        return <Badge variant="default">Completed</Badge>;
+        return <Badge variant="default">{t("appointment.status.completed", "Completed")}</Badge>;
       case 'cancelled':
-        return <Badge variant="danger">Cancelled</Badge>;
+        return <Badge variant="danger">{t("appointment.status.cancelled", "Cancelled")}</Badge>;
       default:
         return <Badge variant="default">{status}</Badge>;
     }
@@ -52,7 +56,7 @@ export function AppointmentCard({
               <div className="flex items-center gap-2 text-xs text-slate-500">
                 <span className="flex items-center gap-1">
                   {appointment.type === 'video' ? <Video className="w-3 h-3" /> : <Users className="w-3 h-3" />}
-                  {appointment.type === 'video' ? 'Video Consult' : 'In-Person'}
+                  {appointment.type === 'video' ? t("appointment.type.video", "Video Consult") : t("appointment.type.inPerson", "In-Person")}
                 </span>
               </div>
             </div>
@@ -73,7 +77,7 @@ export function AppointmentCard({
 
         <div className="bg-slate-50 p-3 rounded-lg mb-4">
           <p className="text-xs text-slate-500 uppercase font-semibold mb-1">
-            Reason for Visit
+            {t("appointment.reasonLabel", "Reason for Visit")}
           </p>
           <p className="text-sm text-slate-700">{appointment.reason}</p>
         </div>
@@ -81,20 +85,20 @@ export function AppointmentCard({
         <div className="flex gap-2">
           {appointment.status === 'pending' ? <>
               <Button size="sm" fullWidth onClick={() => onApprove?.(appointment.id)}>
-                Approve
+                {t("appointment.actions.approve", "Approve")}
               </Button>
               <Button size="sm" variant="outline" fullWidth onClick={() => onReschedule?.(appointment.id)}>
-                Reschedule
+                {t("appointment.actions.reschedule", "Reschedule")}
               </Button>
             </> : appointment.status === 'confirmed' ? <>
               <Button size="sm" fullWidth leftIcon={<Video className="w-4 h-4" />}>
-                Start Call
+                {t("appointment.actions.startCall", "Start Call")}
               </Button>
               <Button size="sm" variant="outline" fullWidth onClick={() => onCancel?.(appointment.id)}>
-                Cancel
+                {t("appointment.actions.cancel", "Cancel")}
               </Button>
             </> : <Button size="sm" variant="outline" fullWidth>
-              View Details
+              {t("appointment.actions.viewDetails", "View Details")}
             </Button>}
         </div>
       </div>

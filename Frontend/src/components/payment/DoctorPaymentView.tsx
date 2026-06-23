@@ -5,6 +5,8 @@ import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
 import { Input } from '../ui/Input';
+import { useTranslation } from "react-i18next"; 
+
 interface PaymentRecord {
   id: string;
   patientName: string;
@@ -13,6 +15,7 @@ interface PaymentRecord {
   status: 'completed' | 'pending' | 'refunded';
   method: string;
 }
+
 const mockPayments: PaymentRecord[] = [{
   id: 'TRX-8923',
   patientName: 'Sarah Johnson',
@@ -35,25 +38,29 @@ const mockPayments: PaymentRecord[] = [{
   status: 'refunded',
   method: 'Credit Card'
 }];
+
 export function DoctorPaymentView() {
+  const { t } = useTranslation(); 
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
+  
   const toggleHelp = (id: string) => {
     setActiveHelp(activeHelp === id ? null : id);
   };
+
   return <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">
-            Payments & Transactions
+            {t("payments.title", "Payments & Transactions")}
           </h2>
           <p className="text-gray-500">
-            Manage patient payments and view transaction history
+            {t("payments.subtitle", "Manage patient payments and view transaction history")}
           </p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm">
             <Download className="w-4 h-4 mr-2" />
-            Export Report
+            {t("payments.exportBtn", "Export Report")}
           </Button>
         </div>
       </div>
@@ -62,11 +69,11 @@ export function DoctorPaymentView() {
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input placeholder="Search by patient or transaction ID..." className="pl-10" />
+            <Input placeholder={t("payments.searchPlaceholder", "Search by patient or transaction ID...")} className="pl-10" />
           </div>
           <Button variant="outline" className="flex items-center gap-2">
             <Filter className="w-4 h-4" />
-            Filter
+            {t("payments.filterBtn", "Filter")}
           </Button>
         </div>
 
@@ -75,13 +82,13 @@ export function DoctorPaymentView() {
             <thead>
               <tr className="border-b border-gray-100 text-left">
                 <th className="pb-3 font-semibold text-gray-600 pl-4">
-                  Transaction ID
+                  {t("payments.table.txId", "Transaction ID")}
                 </th>
-                <th className="pb-3 font-semibold text-gray-600">Patient</th>
-                <th className="pb-3 font-semibold text-gray-600">Date</th>
-                <th className="pb-3 font-semibold text-gray-600">Amount</th>
-                <th className="pb-3 font-semibold text-gray-600">Status</th>
-                <th className="pb-3 font-semibold text-gray-600">Actions</th>
+                <th className="pb-3 font-semibold text-gray-600">{t("payments.table.patient", "Patient")}</th>
+                <th className="pb-3 font-semibold text-gray-600">{t("payments.table.date", "Date")}</th>
+                <th className="pb-3 font-semibold text-gray-600">{t("payments.table.amount", "Amount")}</th>
+                <th className="pb-3 font-semibold text-gray-600">{t("payments.table.status", "Status")}</th>
+                <th className="pb-3 font-semibold text-gray-600">{t("payments.table.actions", "Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -98,7 +105,7 @@ export function DoctorPaymentView() {
                   </td>
                   <td className="py-4">
                     <Badge variant={payment.status === 'completed' ? 'success' : payment.status === 'pending' ? 'warning' : 'destructive'}>
-                      {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
+                      {t(`payments.statusOptions.${payment.status}`, payment.status)}
                     </Badge>
                   </td>
                   <td className="py-4">
@@ -114,28 +121,25 @@ export function DoctorPaymentView() {
 
                         {activeHelp === payment.id && <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 z-20 p-3">
                             <h4 className="font-semibold text-sm text-gray-900 mb-2">
-                              Available Actions
+                              {t("payments.help.title", "Available Actions")}
                             </h4>
                             <div className="space-y-2">
-                              <div className="flex items-start gap-2 text-xs text-gray-600 p-2 hover:bg-gray-50 rounded">
-                                <CheckCircle className="w-4 h-4 text-green-500 mt-0.5" />
+                              <div className="flex items-start gap-2 text-xs text-gray-600 p-2 hover:bg-gray-50 rounded text-left">
+                                <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
                                 <div>
                                   <span className="font-medium text-gray-900">
-                                    Confirm Receipt
+                                    {t("payments.help.confirm.title", "Confirm Receipt")}
                                   </span>
-                                  <p>Mark manually if paid in cash/transfer.</p>
+                                  <p>{t("payments.help.confirm.desc", "Mark manually if paid in cash/transfer.")}</p>
                                 </div>
                               </div>
-                              <div className="flex items-start gap-2 text-xs text-gray-600 p-2 hover:bg-gray-50 rounded">
-                                <RefreshCw className="w-4 h-4 text-blue-500 mt-0.5" />
+                              <div className="flex items-start gap-2 text-xs text-gray-600 p-2 hover:bg-gray-50 rounded text-left">
+                                <RefreshCw className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
                                 <div>
                                   <span className="font-medium text-gray-900">
-                                    Issue Refund
+                                    {t("payments.help.refund.title", "Issue Refund")}
                                   </span>
-                                  <p>
-                                    Initiate refund process for this
-                                    transaction.
-                                  </p>
+                                  <p>{t("payments.help.refund.desc", "Initiate refund process for this transaction.")}</p>
                                 </div>
                               </div>
                             </div>

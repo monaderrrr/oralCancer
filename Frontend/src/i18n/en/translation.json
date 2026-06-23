@@ -1,0 +1,1622 @@
+{
+  "nav": {
+    "home": "Home",
+    "howItWorks": "How It Works",
+    "symptoms": "Symptoms",
+    "awareness": "Awareness",
+    "about": "About",
+    "dashboard": "Dashboard",
+    "newScan": "New Scan",
+    "history": "History",
+    "actions": "Actions",
+    "messages": "Messages",
+    "alerts": "Alerts",
+    "settings": "Settings",
+    "journeyTitle": "Health Journey"
+  },
+  "chat": {
+    "noConversations": "No conversations yet",
+    "typeMessage": "Type a message...",
+    "voiceCall": "Voice Call",
+    "videoCall": "Video Call",
+    "more": "More Options",
+    "attach": "Attach File",
+    "conversationClosed": "Conversation closed",
+    "defaultUser": "Chat"
+  },
+  "roles": {
+    "doctor": "Doctor",
+    "patient": "Patient"
+  },
+  "languageSwitcher": {
+    "ariaLabel": "Change language",
+    "switchTo": "Switch to"
+  },
+  "theme": {
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode",
+    "lightMode": "Light mode",
+    "darkMode": "Dark mode"
+  },
+  "activity": {
+    "message": "Message",
+    "scan": "Scan",
+    "alert": "Alert",
+    "symptom": "Symptom",
+    "justNow": "Just now",
+    "recent": "Recent",
+    "unknownPatient": "Unknown Patient",
+    "noDetails": "No activity details"
+  },
+  "appointment": {
+    "reasonLabel": "Reason for Visit",
+    "status": {
+      "confirmed": "Confirmed",
+      "pending": "Pending",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "type": {
+      "video": "Video Consult",
+      "inPerson": "In-Person"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reschedule": "Reschedule",
+      "startCall": "Start Call",
+      "cancel": "Cancel",
+      "viewDetails": "View Details"
+    }
+  },
+  "doctorCard": {
+    "unknown": "Unknown Doctor",
+    "specialist": "Medical Specialist",
+    "noLocation": "Location not available",
+    "prefix": "Dr.",
+    "newDoctor": "New Doctor",
+    "openMaps": "Open in Google Maps",
+    "viewProfile": "View Profile"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "messages": "Messages",
+    "patients": "Patients",
+    "community": "Community",
+    "scanReviews": "Scan Reviews",
+    "notifications": "Notifications",
+    "settings": "Settings",
+    "doctorPrefix": "Dr.",
+    "verified": "Verified",
+    "signOut": "Sign Out", 
+    "doctors": "All Doctors"
+  },
+  "onboarding": {
+    "errorContinue": "Could not continue",
+    "toastSuccess": "Clinic setup saved",
+    "toastFailed": "Failed to save setup",
+    "stripeError": "Failed to start Stripe Checkout",
+    "approved": "Approved",
+    "approvalTitle": "Your account has been approved successfully",
+    "approvalDesc": "Set up your clinic schedule, location, and subscription to activate patient bookings.",
+    "continue": "Continue",
+    "wizardSubtitle": "Doctor setup",
+    "wizardTitle": "Activate your booking profile",
+    "scheduleTitle": "Clinic Schedule",
+    "durationTitle": "Appointment duration",
+    "min": "min",
+    "next": "Next",
+    "clinicTitle": "Clinic Information",
+    "back": "Back",
+    "saveSetup": "Save setup",
+    "subTitle": "Subscribe to activate bookings",
+    "subDesc": "Stripe Checkout will securely activate your profile after payment. Patients will see your available slots only after the subscription is active.",
+    "openingStripe": "Opening Stripe...",
+    "goToStripe": "Continue to Stripe",
+    "tooltips": {
+      "t1": { "title": "Select Payment Method", "desc": "Choose your preferred way to pay. We recommend Credit Card for instant confirmation." },
+      "t2": { "title": "Review Summary", "desc": "Double check your appointment details, doctor, and total cost before proceeding." },
+      "t3": { "title": "Secure Checkout", "desc": "Click here to finalize your booking. Your payment is encrypted and secure." }
+    },
+    "steps": {
+      "schedule": "Schedule",
+      "clinic": "Clinic",
+      "subscription": "Subscription"
+    },
+    "inputs": {
+      "startTime": "Start time",
+      "endTime": "End time",
+      "clinicName": "Clinic name",
+      "clinicPhone": "Clinic phone",
+      "manualAddress": "Manual address",
+      "mapsUrl": "Google Maps URL",
+      "lat": "Latitude",
+      "lng": "Longitude",
+      "fee": "Visit fee (EGP)"
+    }
+  },
+  "days": {
+    "sun": "Sun",
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "sat": "Sat"
+  },
+  "riskLevels": {
+    "low": "Low Risk",
+    "medium": "Medium Risk",
+    "high": "High Risk",
+    "noData": "No Data"
+  },
+  "severityOptions": {
+    "low": "Low",
+    "mild": "Mild",
+    "moderate": "Moderate",
+    "high": "High"
+  },
+  "patientCard": {
+    "unknownPatient": "Unknown Patient",
+    "notSpecified": "Not Specified",
+    "noScans": "No scans yet",
+    "invalidDate": "Invalid date",
+    "notAvailable": "Not available",
+    "subtitle": "Oral Cancer Screening Patient",
+    "lesionTypeLabel": "Lesion Type",
+    "lastScanLabel": "Last Scan",
+    "diagnosisLabel": "Latest Diagnosis",
+    "statusUpdated": "Status updated from latest scan"
+  },
+  "scanReview": {
+    "confidence": "Confidence",
+    "aiAnalysis": "AI Analysis",
+    "noDiagnosis": "No diagnosis returned.",
+    "riskScore": "Risk Score",
+    "patientNotes": "Patient Notes",
+    "noPatientNotes": "No patient notes available.",
+    "patientAnswers": "Patient Answers",
+    "currentReview": "Current Doctor Review",
+    "reviewedAt": "Reviewed",
+    "labels": {
+      "severity": "Severity",
+      "notes": "Notes",
+      "recommendations": "Recommendations",
+      "severityLevel": "Severity Level",
+      "medicalNotes": "Medical Notes",
+      "recommendationsLabel": "Recommendations"
+    },
+    "placeholders": {
+      "medicalNotes": "Write medical notes for this scan...",
+      "recommendations": "Add recommendations, follow-up instructions, or referral guidance..."
+    },
+    "errors": {
+      "required": "Notes and recommendations are required before submitting the review.",
+      "severity": "Please select a severity level."
+    },
+    "buttons": {
+      "update": "Update Review",
+      "submit": "Submit Review"
+    }
+  },
+  "verifiedBadge": {
+    "title": "Verified Medical Professional",
+    "text": "Verified"
+  },
+  "resources": {
+    "by": "By",
+    "types": {
+      "video": "Video",
+      "article": "Article",
+      "infographic": "Infographic"
+    }
+  },
+  "layout": {
+    "scrollToTop": "Scroll to top"
+  },
+  "footer": {
+    "brandDesc": "AI-powered oral cancer screening for early detection. Fast, accurate, and private.",
+    "rights": "All rights reserved.",
+    "location": {
+      "academy": "MET Academy",
+      "city": "Mansoura, Egypt"
+    },
+    "headers": {
+      "product": "Product",
+      "resources": "Resources",
+      "legal": "Legal"
+    },
+    "productLinks": {
+      "howItWorks": "How It Works",
+      "startScan": "Start Scan",
+      "viewResults": "View Results"
+    },
+    "resourceLinks": {
+      "awareness": "Oral Cancer Awareness",
+      "about": "About Us",
+      "contact": "Contact"
+    },
+    "legalLinks": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookie": "Cookie Policy"
+    },
+    "compliance": {
+      "hipaa": "HIPAA Compliant",
+      "gdpr": "GDPR Compliant"
+    }
+  },
+  "summary": {
+    "title": "Questions Complete",
+    "description": "Review your answers and AI analysis before generating final results",
+    "aiAnalysis": "AI Scan Analysis",
+    "prediction": "Prediction",
+    "riskLevel": "Risk Level",
+    "confidence": "Confidence",
+    "responses": "Your Responses",
+    "questionIndex": "Question",
+    "noAnswer": "No answer",
+    "edit": "Edit",
+    "continueBtn": "View Final AI Diagnosis"
+  },
+  "camera": {
+    "alertNotWorking": "Camera not working",
+    "alertBlurry": "The image is not clear ❌ Try to steady your hand and take another picture",
+    "accessDenied": "Camera access denied",
+    "captureBtn": "Capture",
+    "closeBtn": "Close",
+    "processing": "Processing image..."
+  },
+  "booking": {
+    "loading": "Loading available doctors...",
+    "noDoctors": "No doctors available at this time.",
+    "header": "Available Doctors",
+    "specialistsFound": "Specialists Found",
+    "next": "Next",
+    "bookBtn": "Book Appointment"
+  },
+  "features": {
+    "aiPowered": "AI Powered"
+  },
+  "followUp": {
+    "title": "AI Follow-up Recommendation",
+    "recommendedIn": "Recommended follow-up scan in",
+    "days": "days",
+    "suggestedDate": "Suggested date:",
+    "setReminder": "Set Reminder",
+    "scheduleFollowUp": "Schedule Follow-up",
+    "messages": {
+      "high": "Your scan shows patterns that require urgent medical follow-up.",
+      "medium": "Some irregularities were detected. Monitoring your condition is recommended.",
+      "low": "No significant risk detected, but routine monitoring is still advised."
+    }
+  },
+  "hospitals": {
+    "loading": "Finding nearby hospitals...",
+    "title": "Nearby Hospitals & Clinics",
+    "noHospitals": "No hospitals found matching your criteria.",
+    "bookBtn": "View Details & Book",
+    "labels": { "type": "Hospital / Clinic", "info": "Hospital Information","distance": "Distance","nextSlot": "Next Slot" },
+    "viewHospitals": "View Hospitals",
+    "errors": { "notFound": "We could not find details for this hospital." },
+    "filters": {
+      "nearest": "Nearest",
+      "earliest": "Earliest Appointment",
+      "rated": "Highest Rated"
+    }
+  },
+  "disclaimer": {
+    "header": "Medical Disclaimer",
+    "compact": "AI screening results are for informational purposes only and should not replace professional medical advice.",
+    "banner": "AI analysis is not a medical diagnosis. Always consult a doctor.",
+    "fullText": "This AI-powered oral health screening tool provides automated analysis based on image recognition and machine learning. It is intended for informational purposes only and does not replace professional medical diagnosis, treatment, or advice. Always consult a qualified healthcare professional regarding any medical concerns."
+  },
+  "guidelines": {
+    "title": "Photo Guidelines",
+    "aiTip": "For best AI analysis results, follow these photo guidelines carefully.",
+    "items": {
+      "lighting": {
+        "title": "Good Lighting",
+        "desc": "Use natural light or bright artificial lighting",
+        "do": "Well-lit environment",
+        "dont": "Dark or shadowy areas"
+      },
+      "view": {
+        "title": "Clear View",
+        "desc": "Open mouth wide and keep the tongue down",
+        "do": "Full oral cavity visible",
+        "dont": "Partial or obstructed view"
+      },
+      "focus": {
+        "title": "Sharp Focus",
+        "desc": "Hold the camera steady and close enough",
+        "do": "Clear, focused image",
+        "dont": "Blurry or shaky photos"
+      },
+      "center": {
+        "title": "Center the Area",
+        "desc": "Place the suspicious area in the center of the photo",
+        "do": "Lesion centered in frame",
+        "dont": "Off-center or cropped image"
+      }
+    }
+  },
+  "postScan": {
+    "title": "Next Steps",
+    "scanAgain": "Scan Again",
+    "messages": {
+      "high": "Your scan suggests a high risk. Please consult a specialist as soon as possible.",
+      "medium": "Some irregularities were detected. A medical consultation is recommended.",
+      "low": "No major risks detected, but you may still consult a specialist if needed.",
+      "default": "Choose an option below to proceed with professional medical consultation."
+    },
+    "bookDoctor": {
+      "title": "Book a Doctor",
+      "desc": "Find a specialist near you"
+    },
+    "findHospital": {
+      "title": "Find a Hospital",
+      "desc": "Locate nearby clinics"
+    }
+  },
+  "questions": {
+    "step": "Step",
+    "of": "of",
+    "previous": "Previous",
+    "reviewSummary": "Review Summary",
+    "nextQuestion": "Next Question"
+  },
+  "results": {
+    "collapseAll": "Collapse All",
+    "expandAll": "Expand All",
+    "aiConfidence": "AI Confidence",
+    "loading": "Loading latest scan...",
+    "noResults": "No Results to Display",
+    "noResultsDesc": "We could not find any saved analysis data. Please try scanning again.",
+    "backToScan": "Return to Scan",
+    "back": "Back",
+    "reportDetails": "AI Report Details",
+    "diagnosis": "Main Diagnosis:",
+    "normal": "Normal",
+    "lesionType": "Lesion Type:",
+    "noLesion": "No lesions detected",
+    "statu": "Analysis Status:",
+    "recommendation": "Recommendation",
+    "defaultExplanation": "Our AI analysis is based on the provided image and medical history. Please consult a specialist to confirm these findings.",
+    "newScan": "New Scan",
+    "nearestDoctor": "Nearest Doctor",
+    "nearestHospital": "Nearest Hospital",
+    "detecting": "Detecting location...",
+    "viewDoctors": "Click to view doctors",
+    "viewHospitals": "Click to view hospitals",
+    "disclaimer": "This is not a medical diagnosis. Please consult a doctor.",
+    "notAvailable": "Content no longer available.",
+    "notFound": "Review not found.",
+    "errorLoad": "The requested review could not be loaded.",
+    "scanReport": "Scan Report",
+    "risk": "RISK",
+    "scanImage": "Scan Image",
+    "openFile": "Open scan file",
+    "noImage": "No scan image attached",
+    "aiPrediction": "AI Prediction",
+    "confidence": "Confidence:",
+    "riskLevel": "Risk Level:",
+    "riskScore": "Risk Score:",
+    "aiNotes": "AI Notes:",
+    "questionnaire": "Patient Questionnaire Answers",
+    "noAnswers": "No questionnaire answers were saved with this scan.",
+    "doctorReview": "Doctor Review",
+    "waiting": "Waiting for doctor review",
+    "doctor": "Doctor:",
+    "severity": "Severity Assessment:",
+    "notes": "Doctor Notes:",
+    "recs": "Recommendations:",
+    "reviewedAt": "Reviewed",
+    "findSpecialist": "Find a Specialist",
+    "viewAll": "View All Scans",
+    "status": {
+      "normal": "Normal",
+      "attention": "Needs Attention",
+      "concern": "Concern"
+    }
+  },
+  "riskCard": {
+    "scanDate": "Scan Date",
+    "confidenceScore": "AI Confidence Score",
+    "infoNotice": "This confidence score reflects the AI model's certainty based on image quality and detected patterns.",
+    "notFinal": "It is not a final medical diagnosis.",
+    "labels": {
+      "high": "High Risk Detected",
+      "medium": "Medium Risk Detected",
+      "low": "Low Risk Detected"
+    },
+    "descriptions": {
+      "high": "The AI detected patterns strongly associated with oral health concerns.",
+      "medium": "The AI found some irregularities that may require professional attention.",
+      "low": "No significant irregularities were detected by the AI."
+    }
+  },
+  "uploadZone": {
+    "dragging": "Drop your image here",
+    "uploading": "Uploading image...",
+    "analyzing": "AI analyzing image...",
+    "error": "Failed to analyze image. Please try again.",
+    "idle": {
+      "title": "Drag and drop your image here",
+      "subtitle": "or click to browse",
+      "selectBtn": "Select Image"
+    },
+    "complete": {
+      "success": "Analysis complete!",
+      "pattern": "Pattern Detected:",
+      "confidence": "AI Confidence:",
+      "noPattern": "No pattern detected."
+    }
+  },
+  "payments": {
+    "title": "Payments & Transactions",
+    "subtitle": "Manage patient payments and view transaction history",
+    "exportBtn": "Export Report",
+    "searchPlaceholder": "Search by patient or transaction ID...",
+    "filterBtn": "Filter",
+    "table": {
+      "txId": "Transaction ID",
+      "patient": "Patient",
+      "date": "Date",
+      "amount": "Amount",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "statusOptions": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "refunded": "Refunded"
+    },
+    "help": {
+      "title": "Available Actions",
+      "confirm": {
+        "title": "Confirm Receipt",
+        "desc": "Mark manually if paid in cash/transfer."
+      },
+      "refund": {
+        "title": "Issue Refund",
+        "desc": "Initiate refund process for this transaction."
+      }
+    }
+  },
+  "paymentModal": {
+    "successHeader": "Payment Successful!",
+    "confirmedTitle": "Booking Confirmed",
+    "confirmedSubtitle": "Your appointment is set",
+    "labels": {
+      "doctor": "Doctor",
+      "dateTime": "Date & Time",
+      "at": "at",
+      "amount": "Amount Paid",
+      "txId": "Transaction ID",
+      "invoiceTitle": "Official Invoice",
+      "patient": "Patient Details"
+    },
+    "buttons": {
+      "receipt": "View Receipt & Details",
+      "return": "Return to Dashboard",
+      "print": "Print Receipt"
+    }
+  },
+  "paymentError": {
+    "defaultTitle": "Payment Couldn't Be Processed",
+    "stepsHeader": "Try these steps:",
+    "processingBtn": "Processing...",
+    "retryBtn": "Try Again",
+    "supportNotice": "Need help? Contact support",
+    "callSupport": "Call Support",
+    "emailBtn": "Email Us",
+    "invoiceFailed": "Failed to load invoice details.",
+    "invoiceNotFound": "Invoice not found",
+    "steps": {
+      "card": "Check your card details and try again",
+      "funds": "Ensure you have sufficient funds",
+      "bank": "Contact your bank if the issue persists"
+    }
+  },
+  "chart": {
+    "noData": "No chart data available"
+  },
+  "quiz": {
+    "progress": "Progress",
+    "of": "of",
+    "questionStep": "Question",
+    "nextBtn": "Next Question",
+    "continueBtn": "Continue",
+    "title": "Oral Health Risk Assessment",
+    "description": "This quick assessment helps us estimate your oral health risk level.",
+    "startBtn": "Start Assessment",
+    "meta": "Takes about 2 minutes • Confidential",
+    "saving": "Saving your assessment..."
+  },
+  "priority": {
+    "high": "Urgent",
+    "medium": "Important",
+    "low": "Routine"
+  },
+  "recommendationTypes": {
+    "specialist": "Specialist Visit",
+    "scan": "Follow-up Scan",
+    "routine": "Routine Check"
+  },
+  "actions": {
+    "markComplete": "Mark Complete",
+    "completed": "Completed",
+    "viewDetails": "View Details"
+  },
+  "timeline": {
+    "doctorPrefix": "Dr.",
+    "risk": "Risk",
+    "time": {
+      "recent": "Recent",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "daysAgo": "days ago"
+    },
+    "status": {
+      "pending": "Pending",
+      "completed": "Completed"
+    },
+    "filters": {
+      "all": "All Events",
+      "scans": "Scans",
+      "symptoms": "Symptoms",
+      "actions": "Actions",
+      "messages": "Messages"
+    }
+  },
+  "todaysActions": {
+    "header": "Today's Actions",
+    "item": "item",
+    "items": "items",
+    "needAttention": "need your attention",
+    "empty": {
+      "title": "All Caught Up!",
+      "desc": "No pending actions for today. Great job staying on top of your health."
+    }
+  },
+  "preview": {
+    "defaultTitle": "Document Preview",
+    "loading": "Loading document...",
+    "unsupportedNotice": "Preview is available for JPG, JPEG, PNG, WebP, and PDF files.",
+    "types": {
+      "pdf": "PDF",
+      "image": "IMAGE",
+      "unsupported": "UNSUPPORTED"
+    },
+    "tooltips": {
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "download": "Download file",
+      "close": "Close preview"
+    },
+    "errors": {
+      "notFound": "Document not found or unavailable.",
+      "unavailable": "Document unavailable"
+    }
+  },
+  "auth": {
+    "alerts": {
+      "notVerified": "Email not verified. OTP sent again.",
+      "accountCreated": "Account created! Please verify your email.",
+      "emailSent": "Verification email sent!"
+    },
+    "placeholders": {
+      "searchDoctor": "Search by doctor name..."
+    }
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "subtitle": "Manage doctors and system administration",
+    "defaultTitle": "Document Preview",
+    "labels": {
+      "rejectionReason": "Rejection Reason"
+    },
+    "stats": {
+      "totalDoctors": "Total Doctors",
+      "pendingApproval": "Pending Approval",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "sections": {
+      "pendingApprovals": "Pending Doctor Approvals",
+      "noPending": "No pending doctors to review",
+      "noDoctors": "No doctors found"
+    },
+    "documents": {
+      "profileImage": "Profile Image",
+      "medicalProof": "Medical Proof"
+    },
+    "buttons": {
+      "viewProfileImage": "View Profile Image",
+      "viewMedicalProof": "View Medical Proof"
+    },
+    "prompts": {
+      "rejectReason": "Please provide a reason for rejection:"
+    },
+    "alerts": {
+      "fetchFailed": "Failed to fetch doctors",
+      "approveSuccess": "Doctor approved successfully",
+      "approveFailed": "Failed to approve doctor",
+      "rejectSuccess": "Doctor rejected successfully",
+      "rejectFailed": "Failed to reject doctor"
+    }
+  },
+  "authEmail": {
+    "backToLogin": "Back to Login",
+    "placeholders": {
+      "email": "Enter your email",
+      "fullName": "Enter your full name",
+      "phone": "Enter your phone number"
+    },
+    "inputs": {
+      "email": "Email address",
+      "password": "Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "fullName": "Full Name",
+      "phone": "Phone Number"
+    },
+    "buttons": {
+      "sendingOtp": "Sending OTP...",
+      "sendCode": "Send Verification Code",
+      "signingIn": "Signing in...",
+      "signIn": "Sign in",
+      "updating": "Updating...",
+      "resetBtn": "Reset Password",
+      "createBtn": "Create Account",
+      "verifyBtn": "Verify & Continue",
+      "sending": "Sending...",
+      "resendLink": "Resend code"
+    },
+    "errors": {
+      "otpFailed": "Failed to send OTP",
+      "missingFields": "Please enter email and password",
+      "invalidCredentials": "Invalid email or password",
+      "requiredFields": "All fields are required",
+      "passwordLength": "Password must be at least 8 characters long",
+      "passwordMismatch": "Passwords do not match",
+      "resetFailed": "Reset failed. Your OTP may have expired. Please request a new one.",
+      "fillAll": "Please fill in all fields",
+      "invalidPhone": "Please enter a valid phone number",
+      "doctorDetails": "Please fill in your professional details (Specialization, Hospital, and Address)",
+      "locationMissing": "Please add your clinic location from Google Maps or use current location.",
+      "weakPassword": "Password is too weak",
+      "signupFailed": "Failed to create account",
+      "emailMissing": "Email is missing. Go back and try again.",
+      "completeCode": "Please enter the complete 6-digit code",
+      "invalidOtp": "Invalid or expired OTP code.",
+      "resendFailed": "Failed to resend code.",
+      "invalidLink": "Invalid verification link",
+      "linkExpired": "Verification failed or link expired"
+    },
+    "forgot": {
+      "title": "Forgot Password?",
+      "subtitle": "Enter your email to receive a verification code."
+    },
+    "login": {
+      "title": "Sign in to your account",
+      "or": "Or",
+      "createAccountLink": "create a new account",
+      "doctorAccess": "Doctor access",
+      "patientAccess": "Patient access",
+      "secureNotice": "Secure sign in for your care workspace.",
+      "forgotLink": "Forgot password?"
+    },
+    "reset": {
+      "title": "Set a New Password",
+      "subtitle": "Resetting password for:",
+      "successTitle": "Password Reset Successful!",
+      "successDesc": "Your password has been reset successfully. You can now login using your new password.",
+      "goToLogin": "Go to Login"
+    },
+    "signup": {
+      "title": "Create your account",
+      "doctorSubtitle": "Doctor verification starts here",
+      "patientSubtitle": "Start your oral health journey",
+      "cleanNotice": "A clean profile helps the platform guide you better.",
+      "imPatient": "I'm a Patient",
+      "imDoctor": "I'm a Doctor",
+      "professionalHeader": "Professional Information",
+      "useCurrentLoc": "Use current location",
+      "strongPass": "Strong password",
+      "weakPassNotice": "Must be 8+ chars, 1 uppercase, 1 number",
+      "passMatch": "Passwords match",
+      "passMismatchNotice": "Passwords do not match",
+      "createBtn": "Create Account"
+    },
+    "location": {
+      "detected": "Location detected from Google Maps link.",
+      "savedLink": "Google Maps link saved. Use current location too if you want nearest-doctor sorting.",
+      "unsupported": "Your browser does not support location detection.",
+      "detecting": "Detecting your current location...",
+      "added": "Current location added.",
+      "failed": "Could not detect location. Paste a Google Maps link instead."
+    },
+    "verifyOtp": {
+      "title": "Verify Your Identity",
+      "subtitle": "We've sent a code to",
+      "noCode": "Didn't receive the code?",
+      "resendIn": "Resend in"
+    },
+    "verifyEmail": {
+      "loadingTitle": "Verifying your email...",
+      "loadingDesc": "Please wait while we activate your account.",
+      "successTitle": "Email verified successfully 🎉",
+      "successDesc": "Welcome back! Redirecting you to your dashboard...",
+      "failedTitle": "Verification Failed"
+    }
+  },
+  "appointments": {
+    "subtitle": "Manage your schedule and patient consultations",
+    "todaySchedule": "Today's Schedule",
+    "upcoming": "Upcoming",
+    "newBtn": "New Appointment",
+    "view": {
+      "list": "List View",
+      "calendar": "Calendar"
+    }
+  },
+  "bookings": {
+    "todayTitle": "Today's Appointments",
+    "confirmCancel": "Are you sure you want to cancel this appointment?",
+    "notePrefix": "Note",
+    "summary": {
+      "total": "Total Today",
+      "confirmed": "Confirmed",
+      "pending": "Pending"
+    }
+  },
+  "dashboard": {
+    "journeyTitle": "Your Health Journey",
+    "journeyDesc": "Track your progress and celebrate your milestones.",
+    "quickActions": { "myGoals": "Goals" },
+    "fromAnalytics": "from backend analytics",
+    "welcome": "Welcome",
+    "overview": "Clinic Overview Dashboard",
+    "refreshBtn": "Refresh",
+    "recentActivity": "Recent Activity",
+    "scans": { "startBtn": "Start New Scan" },
+    "stats": {
+      "todayScans": "Today's Scans",
+      "highRisk": "High Risk",
+      "scans": "Total Scans"
+    },
+    "charts": {
+      "weeklyTitle": "Weekly Scans",
+      "growthTitle": "Patient Growth",
+      "riskDistribution": "Risk Distribution"
+    }
+  },
+  "notifications": {
+    "allCaughtUp": "All caught up",
+    "unreadUpdates": "unread updates",
+    "markAllRead": "Mark all read",
+    "emptyDesc": "New messages and approval updates will appear here.",
+    "loading": "Loading notifications...",
+    "tabs": {
+      "all": "All",
+      "unread": "Unread"
+    },
+    "alerts": {
+      "noLink": "This notification is not linked to any content."
+    }
+  },
+  "patients": {
+    "sharedTitle": "Shared Patients",
+    "sharedDesc": "Patients who shared scans with you",
+    "empty": "No Patients Found"
+  },
+  "verification": {
+    "successTitle": "Documents Uploaded!",
+    "successDesc": "Your verification documents have been submitted successfully. Please wait for admin approval.",
+    "redirecting": "Redirecting to status page...",
+    "subtitle": "Please upload your verification documents to complete registration",
+    "submitBtn": "Submit Documents",
+    "placeholders": {
+      "profile": "Click to upload profile image",
+      "document": "Click to upload medical document"
+    },
+    "errors": {
+      "profileSize": "Profile image must be less than 5MB",
+      "invalidImage": "Please select a valid image file",
+      "documentSize": "Medical proof must be less than 10MB",
+      "invalidDoc": "Please select a PDF or image file",
+      "noDocs": "Please upload at least one document",
+      "maxFiles": "You can upload a maximum of 5 files."
+    },
+    "status": {
+      "rejectedTitle": "Verification Rejected",
+      "rejectedDesc": "Your credentials could not be verified. Please contact support.",
+      "pendingDesc": "Your account is pending admin approval. You will be able to log in after an administrator reviews and approves your account.",
+      "nextHeader": "What happens next?",
+      "step1": "We verify your medical credentials.",
+      "step2": "You will receive an email after review.",
+      "step3": "Typical review time: 2–3 business days."
+    },
+    "selectDefault": "Select",
+    "submittingBtn": "Submitting...",
+    "submitBtnMain": "Submit for Verification",
+    "toastSuccess": "Documents submitted successfully",
+    "uploadSuccessDesc": "Your proof documents have been uploaded successfully. You will be redirected shortly.",
+    "uploadProofHeader": "Upload Proof Documents",
+    "uploadProofDesc": "Please upload your medical license or other proof documents to verify your doctor credentials.",
+    "uploadLimitLabel": "Select Files (JPG, PNG, PDF - Max 5 files)",
+    "dragDropNotice": "Click to upload or drag and drop",
+    "selectedFilesLabel": "Selected files:",
+    "helpHeader": "What documents can I upload?",
+    "specialties": {
+      "dentist": "Dentist",
+      "oncologist": "Oncologist",
+      "surgeon": "Oral Surgeon"
+    },
+    "labels": {
+      "nationalId": "National ID",
+      "licenseFile": "License",
+      "idCardFile": "ID Card",
+      "cvFile": "CV (optional)"
+    },
+    "docsList": {
+      "1": "• Medical license or certification",
+      "2": "• University degree certificate",
+      "3": "• Professional registration documents",
+      "4": "• Any other relevant proof of medical qualification"
+    }
+  },
+  "scanReviewPage": {
+    "noShared": "No shared scan found for this patient.",
+    "subtitle": "Open a patient-submitted scan to review the AI result and add your response.",
+    "emptyTitle": "No scans waiting for review",
+    "emptyDesc": "Patient-shared scans will appear here.",
+    "deniedTitle": "Access Denied",
+    "deniedNotice": "The patient may not have shared their scan with you yet. Please ask the patient to share their scan from their dashboard.",
+    "pdfAttached": "Scan file attached",
+    "openFile": "Open file",
+    "noAttachedImg": "No scan image attached",
+    "submitSuccessTitle": "Review submitted successfully.",
+    "submitSuccessDesc": "Your feedback has been saved and the patient was notified.",
+    "tooltips": {
+      "heatmap": "Toggle heatmap"
+    },
+    "buttons": {
+      "notifications": "View Notifications",
+      "stay": "Stay on page",
+      "returnReviews": "Return to Scan Reviews"
+    },
+    "errors": {
+      "noLongerAvailable": "Content no longer available.",
+      "loadError": "Error loading scan",
+      "unableToLoad": "Unable to load scans",
+      "unableToOpen": "Unable to open scan",
+      "noScan": "No scan available"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "tabs": {
+      "account": "Account",
+      "notifications": "Notifications",
+      "profile": "Profile Settings",
+      "privacy": "Privacy & Security"
+    },
+    "labels": {
+      "fullAddress": "Full Clinic Address",
+      "workingHours": "Working Hours / Days",
+      "experience": "Years of Experience",
+      "licenseReadOnly": "Medical License (Read Only)",
+      "bio": "Bio",
+      "security": "Security"
+    },
+    "placeholders": {
+      "bio": "Tell patients about your expertise...",
+      "oldPass": "Current password",
+      "newPass": "New password",
+      "confirmNewPass": "Confirm new password"
+    },
+    "buttons": {
+      "saveAll": "Save Everything"
+    },
+    "comingSoon": {
+      "title": "Coming Soon",
+      "desc": "These settings will be available in the next update."
+    },
+    "errors": {
+      "nameRequired": "Full name is required",
+      "emailRequired": "Email is required",
+      "phoneRequired": "Phone number is required",
+      "oldPassRequired": "Current password is required",
+      "newPassRequired": "New password is required"
+    },
+    "alerts": {
+      "passwordSuccess": "Settings & Password updated! Please login again.",
+      "profileSuccess": "Profile updated successfully ✅"
+    }
+  },
+  "paymentOptions": {
+    "available": "Available",
+    "encryptedNotice": "Payments are processed securely with 256-bit encryption",
+    "tooltipDesc": "Choose how you would like to pay. We support all major cards and insurance providers.",
+    "walletInstructions": "Enter the Vodafone Cash wallet number that will authorize this payment.",
+    "instapayInstructions": "A secure payment request will be sent to your InstaPay application.",
+    "recommended": "Recommended",
+    "labels": {
+      "card": "Credit Card",
+      "wallet": "Vodafone Cash",
+      "instapay": "InstaPay",
+      "holder": "Cardholder Name",
+      "number": "Card Number",
+      "expiry": "Expiry Date",
+      "cvvCode": "CVV",
+      "instapayId": "InstaPay Address",
+      "pros": "Pros",
+      "cons": "Cons",
+      "time": "Time",
+      "secure": "Secure Access"
+    },
+    "descs": {
+      "card": "Pay securely with Visa, Mastercard, or Amex",
+      "insurance": "Direct billing to your insurance provider",
+      "cash": "Pay when you arrive for your appointment"
+    },
+    "pros": {
+      "card": { "1": "Instant confirmation", "2": "Secure encryption" },
+      "ins": { "1": "No upfront cost", "2": "Direct claim processing" },
+      "cash": { "1": "No online transaction" }
+    },
+    "cons": {
+      "card": { "1": "Requires card details" },
+      "ins": { "1": "Verification takes 24-48h" },
+      "cash": { "1": "Wait time at desk" }
+    },
+    "time": {
+      "instant": "Instant",
+      "days": "1-2 Days",
+      "arrival": "On Arrival"
+    }
+  },
+  "bookingFlow": {
+    "systemLabel": "Consultation System",
+    "mainTitle": "Book Premium Consultation",
+    "step1Header": "Select Date",
+    "step1Desc": "Choose a date for your digital or in-clinic consultation.",
+    "step2Header": "Attach Recent Scan (Optional)",
+    "step2Desc": "Linking a scan allows the doctor to review your AI analysis and lesion image prior to the session.",
+    "summaryHeader": "Consultation Summary",
+    "scheduledTime": "Scheduled Time",
+    "sessionType": "Session Type",
+    "premiumConsult": "Premium Consultation",
+    "sessionFee": "Session Fee",
+    "paidOnce": "Paid Once",
+    "searchDocsTitle": "Doctors Near You",
+    "searchDocsDesc": "Search doctors by city, view details, or send a message",
+    "searchDocsPlaceholder": "Search city (e.g. Mansoura)",
+    "allCities": "All Cities",
+    "confirmationHeader": "Complete Your Booking",
+    "confirmationDesc": "Review details and select a payment method to confirm your appointment.",
+    "bookingFee": "Booking Fee",
+    "totalPrice": "Total",
+    "locationTooltip": "The physical address of the clinic where your appointment will take place.",
+     "nearbyCareHeader": "Recommended Nearby Care",
+    "nearbyCareDesc": "Showing all available doctors and hospitals, with the nearest options highlighted.",
+    "nearestDocLabel": "Nearest Doctor",
+    "nearestHospLabel": "Nearest Hospital",
+    "mapUserPopup": "You are here",
+    "alerts": {
+      "selectSlot": "Please select a time slot to continue."
+    },
+    "errors": {
+      "missingParams": "Missing booking parameters.",
+      "payFailed": "Booking or Payment processing failed. Please check inputs."
+    },
+    "buttons": {
+      "returnList": "Return to Doctor List",
+      "seeMoreDocs": "See More Doctors ↓",
+      "seeMoreHospitals": "See More",
+      "viewLoc": "View Location"
+    }
+  },
+  "community": {
+    "newPostBtn": "New Post",
+    "noLikes": "No likes yet",
+    "likedBy": "Liked by",
+    "and": "and",
+    "more": "more",
+    "doctorSubtitle": "Join patients in conversation, reactions, and comments",
+    "patientSubtitle": "Share experiences and learn from others",
+    "newPost": "New Post",
+    "create": {
+      "title": "Create a new post",
+      "desc": "Add a title, choose a category, and share your story.",
+      "imageLabel": "Image (optional)",
+      "noComments": "No comments yet. Be the first to reply."
+    },
+    "categories": {
+      "successstories": "Success Stories",
+      "discussion": "Discussion",
+      "qa": "Q&A",
+      "support": "Support"
+    },
+    "labels": {
+      "comments": "Comments",
+      "total": "total",
+      "writeComment": "Write a comment"
+    },
+    "buttons": {
+      "posting": "Posting...",
+      "create": "Create Post",
+      "postComment": "Post Comment"
+    },
+    "errors": {
+      "fillAllPost": "Please fill in title, body, and category.",
+      "writeComment": "Please write a comment first.",
+      "loginComment": "Please log in to add a comment."
+    }
+  },
+  "dashboardPatient": {
+    "welcome": "Welcome back",
+    "subtitleDesc": "Your latest scan, care actions, and nearby care options.",
+    "quickActionsHeader": "Quick Actions",
+    "recentActivity": "Recent Activity",
+    "recentActivityDesc": "Your latest saved health events",
+    "quickActions": {
+      "education": "Education",
+      "riskQuiz": "Risk Quiz",
+      "myGoals": "My Goals",
+      "family": "Family Hub",
+      "billing": "Billing & Invoices"
+    },
+    "scans": {
+      "noSaved": "No saved scans yet",
+      "lastScan": "Last scan",
+      "score": "score",
+      "noSavedDesc": "No scan has been saved for this account yet",
+      "startFirst": "Start your first oral scan",
+      "pendingRecs": "recommendation(s) pending",
+      "reviewGuidance": "Review your doctor follow-up guidance",
+      "startNotice": "Run a scan to start tracking your oral health history.",
+      "emptyActivity": "No recent activity yet",
+      "emptyActivityDesc": "Your scans and care updates will appear here.",
+      "startBtn": "Start New Scan"
+    },
+    "places": {
+      "availableCount": "available across all locations"
+    }
+  },
+  "doctorDetails": {
+    "verifiedLabel": "Verified Specialist",
+    "newDoctorTag": "New Doctor",
+    "noBio": "No biography details provided.",
+    "reviewNotice": "Reviews are shared with other patients after submission.",
+    "verifiedPatientLabel": "Verified patient",
+    "contactHeader": "Contact Information",
+    "phoneCallOption": "Phone Call",
+    "noScansNotice": "* No scans available to share.",
+    "labels": {
+      "yourReview": "Your review"
+    },
+    "buttons": {
+      "chat": "Chat with Doctor",
+      "shareScan": "Share Latest Scan"
+    },
+    "errors": {
+      "chooseRating": "Please choose a rating.",
+      "reviewFailed": "Failed to submit review.",
+      "shareFailed": "Failed to share scan"
+    },
+    "alerts": {
+      "noScan": "No recent scan found to share.",
+      "shareSuccess": "Scan shared successfully with Dr."
+    }
+  },
+  "education": {
+    "libraryTitle": "Health Education Library",
+    "libraryDesc": "Empower yourself with knowledge. Explore our curated collection of articles, videos, and guides about oral health.",
+    "searchPlaceholder": "Search for topics, symptoms, or treatments...",
+    "noResources": "No resources found matching your criteria."
+  },
+  "family": {
+    "subtitle": "Manage health profiles for your loved ones.",
+    "addMemberBtn": "Add Family Member",
+    "confirmAddBtn": "Confirm Add",
+    "privacyNotice": "Adult members (18+) must accept an invitation to join your family hub.",
+    "privacyLink": "Learn more about family privacy",
+    "yearsOld": "years old",
+    "status": {
+      "healthy": "Healthy",
+      "dueScan": "Due for scan"
+    },
+    "relations": {
+      "spouse": "Spouse",
+      "son": "Son",
+      "daughter": "Daughter",
+      "parent": "Parent",
+      "brother": "Brother",
+      "sister": "Sister"
+    }
+  },
+  "goals": {
+    "headerDesc": "AI-powered goals derived from your scan history",
+    "activeHeader": "Your Active Goals",
+    "noGoals": "No goals available",
+    "streakCount": "scan streak",
+    "stableBadge": "Stable",
+    "high": {
+      "title": "Urgent medical follow-up required",
+      "desc": "High risk detected in multiple scans. Please consult a specialist immediately."
+    },
+    "medium": {
+      "title": "Monitor your oral health closely",
+      "desc": "Regular scans are recommended to track changes in your condition."
+    },
+    "low": {
+      "title": "Healthy status maintained",
+      "desc": "Your condition is stable. Keep maintaining your routine."
+    }
+  },
+  "recommendations": {
+    "title": "Health Insights",
+    "subtitle": "Personalized findings from your latest scans",
+    "activeTasks": "Active Tasks",
+    "detectedSigns": "Detected Signs",
+    "criticalAlerts": "Critical Alerts",
+    "syncing": "Syncing with AI records...",
+    "allClear": "All clear here!",
+    "noItemsFound": "No items found in your history.",
+    "viewAll": "View All History",
+    "tabs": { "all": "All", "active": "Active", "symptom": "Symptom" }
+  },
+  "reports": {
+    "back": "Back to Reports",
+    "scanReport": "Scan Report",
+    "findings": "Detailed Findings",
+    "recommendations": "Recommendations",
+    "doctorNotes": "Doctor's Notes",
+    "findSpecialist": "Find a Specialist",
+    "viewAllScans": "View All Scans",
+    "title": "Medical Reports",
+    "subtitle": "View your scan history and results",
+    "noReports": "No reports found",
+    "startScan": "Start your first scan to generate reports",
+    "stats": { "total": "Total Scans", "latest": "Latest Risk", "lastScan": "From last scan", "avgRisk": "Avg. Risk Score","lowRisk": "Low Risk Scans","confidence": "Avg Confidence" },
+    "risk": { "low": "Low Risk", "medium": "Medium Risk", "high": "High Risk", "unknown": "Unknown" },
+    "riskScore": "Risk Score",
+    "byDr": "by DR.",
+    "confidence": "Confidence",
+    "scanImage": "Scan Image",
+    "openFile": "Open scan file",
+    "noImage": "No scan image attached",
+    "aiPrediction": "AI Prediction",
+    "result": "Result:",
+    "noDiagnosis": "No diagnosis returned",
+    "riskLevel": "Risk Level:",
+    "lesion": "Lesion Type:",
+    "aiNotes": "AI Notes:",
+    "questionnaire": "Patient Questionnaire Answers",
+    "noAnswers": "No questionnaire answers were saved with this scan.",
+    "doctorReview": "Doctor Review",
+    "waiting": "Waiting for doctor review",
+    "doctor": "Doctor:",
+    "severity": "Severity Assessment:",
+    "notes": "Doctor Notes:",
+    "reviewed": "Reviewed"
+  },
+  "common": {
+    "download": "Download",
+    "share": "Share",
+    "back": "Back",
+    "backToDashboard": "Back to Dashboard"
+  },
+  "riskReport": {
+    "title": "Your Risk Report",
+    "score": "Score",
+    "lowLevel": "Low Risk Level",
+    "maintained": "Maintained",
+    "desc": "Great job! Your lifestyle choices and health history indicate a low risk for oral health issues. Keep up your current habits.",
+    "lifestyle": "Lifestyle: Good",
+    "history": "History: Clear",
+    "nextScreening": "Next Screening",
+    "nextScreeningDesc": "Based on your risk profile, we recommend your next screening in:",
+    "months": "Months",
+    "findSpecialist": "Find a Specialist",
+    "recommendations": "Personalized Recommendations",
+    "hygieneTitle": "Maintain Oral Hygiene",
+    "hygieneDesc": "Continue brushing twice daily and flossing. Consider adding an antiseptic mouthwash.",
+    "alcoholTitle": "Monitor Alcohol Intake",
+    "alcoholDesc": "Try to limit alcohol consumption to moderate levels to keep your risk low."
+  },
+  "scanHistory": {
+    "title": "Scan History & Trends",
+    "subtitle": "Track your oral health over time",
+    "latest": "Latest Scan",
+    "viewLatest": "View Latest Result",
+    "chart": { 
+      "title": "Risk Score Trend", 
+      "desc": "Your saved risk scores over time" 
+    },
+    "noScans": "No scans yet",
+    "noScansDesc": "Your saved scan history will appear here.",
+    "scan": "Scan",
+    "viewDetails": "View Details",
+    "insights": "Health Insights",
+    "recommendation": "Recommendation"
+  },
+  "fields": {
+      "fullName": "Full Name",
+      "email": "Email",
+      "phone": "Phone",
+      "bio": "Bio",
+      "changePass": "Change Password"
+    },
+    "placeholders": {
+      "currentPass": "Current password",
+      "newPass": "New password",
+      "confirmPass": "Confirm password"
+    },
+    "save": "Save Changes",
+    "success": "Settings updated successfully ✅",
+    "updateFailed": "Update failed",
+    "uiOnly": "This section is UI only",
+    "errors": {
+    "deleted": "Content no longer available.",
+    "notFound": "Review not found.",
+    "default": "The requested review could not be loaded.",  
+      "nameRequired": "Full name is required",
+      "emailRequired": "Email is required",
+      "phoneRequired": "Phone is required",
+      "oldPassRequired": "Current password is required",
+      "newPassRequired": "New password is required",
+      "passFormat": "Password must be 8+ chars, 1 uppercase, 1 number",
+      "passMatch": "Passwords do not match"
+    },
+    "symptomChecker": {
+    "title": "Symptom Checker",
+    "subtitle": "This tool can help you understand your symptoms, but it does not replace a professional medical diagnosis.",
+    "warning": "If you are experiencing severe pain, heavy bleeding, or difficulty breathing, please seek immediate medical attention.",
+    "startCheck": "Start Check",
+    "question": "What are you experiencing?",
+    "analyze": "Analyze Symptoms",
+    "resultTitle": "Analysis Result",
+    "basedOn": "Based on your symptoms:",
+    "recommendation": "These symptoms may indicate early signs of oral health issues. We recommend scheduling a consultation with a specialist for a thorough examination.",
+    "checkAgain": "Check Again",
+    "findDoctor": "Find a Doctor"
+  },
+  "symptoms": {
+    "Mouth sores": "Mouth sores",
+    "Red patches": "Red patches",
+    "White patches": "White patches",
+    "Bleeding": "Bleeding",
+    "Loose teeth": "Loose teeth",
+    "Pain when swallowing": "Pain when swallowing",
+    "Lump in neck": "Lump in neck",
+    "Ear pain": "Ear pain"
+  },
+  "stripe": {
+    "checking": "Confirming payment",
+    "checkingText": "This usually takes a moment.",
+    "doctorSuccess": "Subscription active",
+    "bookingSuccess": "Booking confirmed",
+    "doctorSuccessText": "Your doctor profile is now active and patients can book your available slots.",
+    "bookingSuccessText": "Your appointment is confirmed. The selected slot has been removed from live availability.",
+    "openDashboard": "Open Dashboard",
+    "findDoctors": "Find Doctors",
+    "canceled": "Payment canceled",
+    "failed": "Payment not completed",
+    "retry": "No changes were made. You can safely try again.",
+    "goBack": "Go back"
+  },
+  "about": {
+    "mission": "Our Mission",
+    "heroTitle": "Saving Lives Through Early Detection",
+    "heroDescription": "We're on a mission to make oral cancer screening accessible to everyone. By combining cutting-edge AI with medical expertise, we're empowering people to take control of their health.",
+    "whyTitle": "Why We Built This",
+    "whyText1": "Oral cancer affects over 50,000 people in the Egypt alone each year. When detected early, the survival rate exceeds 80%. Yet many cases go undiagnosed until advanced stages due to limited access to regular screenings.",
+    "whyText2": "We believe that everyone deserves access to early detection tools, regardless of their location, income, or access to healthcare. Our AI-powered screening platform bridges this gap, providing instant, accurate risk assessments from the comfort of your home.",
+    "whyText3": "Our technology doesn't replace professional medical care—it complements it by helping identify potential concerns early, when treatment is most effective.",
+    "values": [
+      {"title": "Patient-First Approach", "description": "Every decision we make prioritizes the health and well-being of our users."},
+      {"title": "Clinical Accuracy", "description": "Our AI is rigorously validated against expert diagnoses to ensure reliability."},
+      {"title": "Privacy & Security", "description": "Your health data is protected with enterprise-grade security and encryption."},
+      {"title": "Accessibility", "description": "Making early detection available to everyone, regardless of location or resources."}
+    ],
+    "privacyFirst": "Privacy First",
+    "dataProtected": "Your Data, Protected",
+    "privacyDesc": "We take your privacy seriously. Here's how we protect your information.",
+    "privacyFeatures": [
+      {"title": "No Data Storage", "description": "Images are processed in real-time and immediately deleted. We never store your photos."},
+      {"title": "End-to-End Encryption", "description": "All data transmission is encrypted using industry-standard TLS 1.3 protocols."},
+      {"title": "Anonymous Processing", "description": "No personal identifiers are attached to your scans. Complete anonymity guaranteed."},
+      {"title": "Right to Delete", "description": "Request deletion of any data at any time. Full compliance with GDPR and CCPA."}
+    ],
+    "ourTeam": "Our Team",
+    "ledByExperts": "Led by Experts",
+    "teamDesc": "Our team combines decades of experience in medicine, AI research, and healthcare technology.",
+    "team": [
+      {"role": "Chief Medical Officer", "specialty": "Oral Oncology"},
+      {"role": "Head of AI Research", "specialty": "Machine Learning"},
+      {"role": "Clinical Director", "specialty": "Pathology"},
+      {"role": "Chief Technology Officer", "specialty": "Healthcare Tech"}
+    ],
+    "partners": "Trusted Partners",
+    "partnersDesc": "Collaborating with leading medical institutions worldwide",
+    "ctaTitle": "Join Us in the Fight Against Oral Cancer",
+    "ctaSubtitle": "Take the first step towards better oral health. Get your free screening today.",
+    "ctaButton": "Start Your Free Scan"
+  },
+   "awareness": {
+    "healthEdu": "Health Education",
+    "heroTitle": "Understanding Oral Cancer",
+    "heroSubtitle": "Knowledge is your first line of defense. Learn about the signs, risk factors, and prevention strategies for oral cancer.",
+
+    "symptomsTitle": "Symptoms to Watch For",
+    "symptomsDesc": "Early detection significantly improves treatment outcomes. Be aware of these common symptoms.",
+
+    "symptomsList": [
+      {
+        "title": "Persistent Sores",
+        "description": "Mouth sores that do not heal within 2-3 weeks"
+      },
+      {
+        "title": "White or Red Patches",
+        "description": "Unusual white (leukoplakia) or red (erythroplakia) patches on gums, tongue, or mouth lining"
+      },
+      {
+        "title": "Lumps or Thickening",
+        "description": "Unexplained lumps, bumps, or thickening of tissue in the mouth or neck"
+      },
+      {
+        "title": "Difficulty Swallowing",
+        "description": "Persistent difficulty or pain when swallowing, chewing, or moving the jaw"
+      },
+      {
+        "title": "Numbness",
+        "description": "Numbness or loss of feeling in the mouth, lips, or face"
+      },
+      {
+        "title": "Voice Changes",
+        "description": "Persistent hoarseness or changes in voice quality"
+      }
+    ],
+
+    "riskFactors": "Risk Factors",
+    "riskList": [
+      {
+        "title": "Tobacco Use",
+        "description": "Smoking and smokeless tobacco significantly increase risk"
+      },
+      {
+        "title": "Alcohol Consumption",
+        "description": "Heavy alcohol use, especially combined with tobacco"
+      },
+      {
+        "title": "HPV Infection",
+        "description": "Human papillomavirus (HPV) linked to oropharyngeal cancers"
+      },
+      {
+        "title": "Sun Exposure",
+        "description": "Excessive sun exposure increases lip cancer risk"
+      }
+    ],
+
+    "preventionTips": "Prevention Tips",
+    "preventionList": [
+      {
+        "title": "Quit Tobacco",
+        "description": "Stop smoking and avoid all tobacco products"
+      },
+      {
+        "title": "Limit Alcohol",
+        "description": "Reduce alcohol consumption or avoid entirely"
+      },
+      {
+        "title": "Healthy Diet",
+        "description": "Eat plenty of fruits and vegetables rich in antioxidants"
+      },
+      {
+        "title": "Sun Protection",
+        "description": "Use lip balm with SPF and limit sun exposure"
+      },
+      {
+        "title": "Oral Hygiene",
+        "description": "Maintain good oral hygiene and dental care"
+      },
+      {
+        "title": "Regular Screenings",
+        "description": "Get regular dental check-ups and oral cancer screenings"
+      }
+    ],
+
+    "whenToSeeDoctor": "When to See a Doctor",
+    "doctorDesc": "Don't wait if you notice any concerning symptoms. Early consultation can make a significant difference.",
+
+    "doctorPoints": [
+      "Symptoms lasting more than 2–3 weeks",
+      "Persistent mouth pain or sores",
+      "Difficulty swallowing or chewing",
+      "Unexplained lumps in mouth or neck",
+      "Bleeding without cause",
+      "Changes in voice or speech"
+    ],
+
+    "getScreened": "Get Screened Now",
+    "findSpecialist": "Find a Specialist"
+  },
+  "contact": {
+    "heroTitle": "Get in Touch",
+    "heroSubtitle": "Have questions about our AI screening technology or need to connect with a healthcare professional? We're here to help.",
+    "submitted": { "title": "Message Sent!", "subtitle": "Thank you for reaching out. We'll get back to you within 24-48 hours.", "sendAgain": "Send Another Message" },
+    "formTitle": "Send Us a Message",
+    "fields": { "name": "Full Name *", "email": "Email Address *", "phone": "Phone Number", "subject": "Subject", "message": "Message *" },
+    "sending": "Sending...",
+    "sendBtn": "Send Message",
+    "info": { "title": "Contact Information", "email": "Email", "phone": "Phone", "address": "Address", "hours": "Hours", "hoursVal": "Mon-Fri: 8am-6pm PST" },
+    "support": { "title": "Need Care Guidance?", "desc": "Need to speak with a healthcare professional? Send us a message and we will help you find the right specialist." },
+    "emergency": { "title": "Medical Emergency?", "desc": "If you're experiencing a medical emergency, please call emergency services immediately.", "call": "Call 911" },
+    "errors": { "nameRequired": "Name is required", "emailRequired": "Email is required", "emailValid": "Please enter a valid email", "messageRequired": "Message is required" }
+  },
+  "demo": {
+    "title": "File Preview Modal Demo",
+    "testTitle": "Test File Previews",
+    "description": "Click the buttons below to test different file types in the preview modal. The modal supports images (JPG, PNG), PDFs, and shows appropriate messages for unsupported files.",
+    "btnPreview": "Preview File",
+    "features": {
+      "title": "Features:",
+      "overlay": "Modal overlay with dark background",
+      "close": "Close button and ESC key support",
+      "zoom": "Image zoom controls (zoom in/out)",
+      "download": "Download button for all files",
+      "loading": "Loading states and error handling",
+      "responsive": "Responsive design",
+      "detection": "File type detection and appropriate viewers"
+    },
+    "files": {
+      "jpg": "Sample Image (JPG)",
+      "pdf": "Sample PDF Document",
+      "txt": "Sample Text File (Unsupported)"
+    }
+  },
+  "howItWorks": {
+    "heroBadge": "AI-Powered Technology",
+    "heroTitle": "How Our AI Detection Works",
+    "heroDesc": "Our advanced screening process combines cutting-edge artificial intelligence with medical expertise to provide you with accurate, fast, and private oral cancer risk assessment.",
+    "stepsTitle": "Simple 4-Step Process",
+    "stepsSubtitle": "From image capture to results in under a minute",
+    "steps": {
+      "1": { "title": "Capture Your Image", "desc": "Take a clear photo of your oral cavity or upload an existing image. Our guidelines help you capture the best possible image for accurate analysis." },
+      "2": { "title": "Secure Upload", "desc": "Your image is securely uploaded using end-to-end encryption. We never store your personal data, and images are processed in real-time then immediately deleted." },
+      "3": { "title": "AI Analysis", "desc": "Our advanced machine learning model, trained on thousands of clinical images, analyzes your photo for potential indicators of oral cancer." },
+      "4": { "title": "Receive Results", "desc": "Get your comprehensive risk assessment with clear explanations, personalized recommendations, and guidance on next steps." }
+    },
+    "tryNow": "Try It Now",
+    "techTitle": "The Technology Behind It",
+    "techSubtitle": "Built on years of research and validated through rigorous clinical testing",
+    "tech": {
+      "1": { "title": "Deep Learning Model", "desc": "Convolutional neural network trained on 100,000+ annotated clinical images" },
+      "2": { "title": "95% Accuracy", "desc": "Validated against expert pathologist diagnoses in clinical trials" },
+      "3": { "title": "Real-time Processing", "desc": "Edge computing for instant analysis without cloud storage" },
+      "4": { "title": "Privacy First", "desc": "HIPAA compliant with zero data retention policy" }
+    },
+    "resultsTitle": "What You’ll Receive After Analysis",
+    "resultsSubtitle": "Clear, actionable insights designed to help you take the right next step.",
+    "results": {
+      "1": { "title": "Detailed Risk Report", "desc": "Easy-to-understand explanation of your screening result." },
+      "2": { "title": "Personalized Recommendations", "desc": "Guidance on whether to monitor or consult a specialist." },
+      "3": { "title": "Confidence Score", "desc": "AI confidence level to help interpret the assessment." }
+    },
+    "ctaTitle": "Ready to Get Started?",
+    "ctaSubtitle": "Experience the power of AI-driven oral cancer screening. Fast, accurate, and completely private.",
+    "ctaButton": "Start Your Free Scan"
+  },
+  "landing": {
+    "heroBadge": "AI-Powered Early Detection",
+    "heroTitle1": "Early Detection",
+    "heroTitle2": "Saves Lives",
+    "heroDesc": "Screen for oral cancer risk in seconds using our advanced AI technology. Fast, private, and designed to help you take control of your health.",
+    "startScan": "Start Free Scan",
+    "howItWorks": "Learn How It Works",
+
+    "aiScreening": "AI Screening",
+    "aiPowered": "Powered by advanced machine learning",
+
+    "featuresTitle": "Why Choose Our Platform",
+    "featuresDesc": "Combining cutting-edge AI technology with medical expertise to provide reliable early detection screening.",
+
+    "features": {
+      "1": {
+        "title": "AI-Powered Analysis",
+        "desc": "Advanced machine learning algorithms trained on thousands of clinical images for accurate early detection."
+      },
+      "2": {
+        "title": "Results in Seconds",
+        "desc": "Get your risk assessment within moments. No waiting, no appointments needed for initial screening."
+      },
+      "3": {
+        "title": "Expert Guidance",
+        "desc": "Receive personalized recommendations and connect with healthcare professionals when needed."
+      }
+    },
+
+    "steps": {
+      "1": {
+        "title": "Take a Photo",
+        "desc": "Capture a clear image of your oral cavity"
+      },
+      "2": {
+        "title": "AI Analysis",
+        "desc": "Our AI examines the image for indicators"
+      },
+      "3": {
+        "title": "Get Results",
+        "desc": "Receive your risk assessment and guidance"
+      }
+    },
+
+    "trust": {
+      "1": "HIPAA Compliant",
+      "2": "Data Encrypted",
+      "3": "Clinically Validated"
+    },
+
+    "faqTitle": "Frequently Asked Questions",
+    "faq": {
+      "1": {
+        "q": "Is this a medical diagnosis?",
+        "a": "No. This tool provides a risk assessment only and should not replace professional medical advice."
+      },
+      "2": {
+        "q": "How accurate is the AI analysis?",
+        "a": "Our AI is trained on thousands of clinical images and provides high accuracy for early screening."
+      }
+    }
+  },
+  "symptom": {
+    "heroTitle": "Understanding Oral Cancer",
+    "heroSubtitle": "Early detection saves lives. Knowing the signs and symptoms is the first step towards prevention and timely treatment.",
+    "commonTitle": "Common Symptoms",
+    "list": {
+      "1": { "title": "Persistent Mouth Ulcers", "desc": "Ulcers that do not heal within 2-3 weeks are the most common early sign." },
+      "2": { "title": "White or Red Patches", "desc": "Velvety white (leukoplakia) or red (erythroplakia) patches inside the mouth." },
+      "3": { "title": "Unexplained Lumps", "desc": "Thickening, lumps, or rough spots on the lips, gums, or inside the mouth." },
+      "4": { "title": "Difficulty Swallowing", "desc": "Feeling like something is caught in your throat or pain when swallowing." },
+      "5": { "title": "Persistent Sore Throat", "desc": "A chronic sore throat or hoarseness that doesn't go away." },
+      "6": { "title": "Numbness or Pain", "desc": "Unexplained numbness, loss of feeling, or pain in any area of the face/mouth." },
+      "7": { "title": "Loose Teeth", "desc": "Teeth becoming loose for no apparent reason or dentures not fitting." },
+      "8": { "title": "Ear Pain", "desc": "Pain in the ear without any loss of hearing." }
+    },
+    "riskTitle": "Key Risk Factors",
+    "riskSubtitle": "While anyone can develop oral cancer, certain behaviors and factors can significantly increase your risk.",
+    "risk": {
+      "1": { "title": "Tobacco Use", "desc": "Smoking or chewing tobacco is the #1 risk factor." },
+      "2": { "title": "Alcohol", "desc": "Heavy alcohol consumption increases risk significantly." },
+      "3": { "title": "HPV Infection", "desc": "Human Papillomavirus is a growing cause of oral cancers." },
+      "4": { "title": "Sun Exposure", "desc": "Excessive sun exposure is a major risk for lip cancer." }
+    },
+    "adviceTitle": "When should you see a doctor?",
+    "adviceSubtitle": "If you notice any of these symptoms lasting more than",
+    "adviceTime": "2 weeks",
+    "adviceUrgent": "Don't wait. Early stage oral cancer is highly treatable.",
+    "advicePoint1": "Persistent pain or discomfort",
+    "advicePoint2": "Difficulty moving jaw or tongue",
+    "advicePoint3": "Changes in voice",
+    "startScan": "Start AI Scan",
+    "chatDoctor": "Chat with Doctor",
+    "checkupsTitle": "Regular Check-ups",
+    "checkupsDesc": "Regular dental visits are your best defense. Dentists are trained to spot early signs of oral cancer during routine exams."
+  },
+  "upload": {
+    "back": "Back",
+    "title": "AI Oral Analysis",
+    "subtitle": "Upload or capture an image for clinical screening",
+    "processing": "Processing with AI...",
+    "openCamera": "Open Camera",
+    "reset": "Reset",
+    "errorAnalysis": "Error analyzing image.",
+    "errorLogin": "Please login first to analyze images.",
+    "errorInvalid": "This image is not valid for oral analysis.",
+    "errorValidation": "Error validating image."
+  }
+}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Download, Loader2, X, ZoomIn, ZoomOut } from 'lucide-react';
+import { useTranslation } from 'react-i18next'; 
 
 interface FilePreviewModalProps {
   isOpen: boolean;
@@ -9,6 +10,7 @@ interface FilePreviewModalProps {
 }
 
 export function FilePreviewModal({ isOpen, onClose, filePath, fileName }: FilePreviewModalProps) {
+  const { t } = useTranslation(); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [zoom, setZoom] = useState(1);
@@ -59,12 +61,12 @@ export function FilePreviewModal({ isOpen, onClose, filePath, fileName }: FilePr
 
         if (!response.ok) {
           setLoading(false);
-          setError('Document not found or unavailable.');
+          setError(t('preview.errors.notFound', 'Document not found or unavailable.'));
         }
       } catch {
         if (!isActive) return;
         setLoading(false);
-        setError('Document not found or unavailable.');
+        setError(t('preview.errors.notFound', 'Document not found or unavailable.'));
       }
     };
 
@@ -73,7 +75,7 @@ export function FilePreviewModal({ isOpen, onClose, filePath, fileName }: FilePr
     return () => {
       isActive = false;
     };
-  }, [isOpen, isPdf, isImage, fileUrl]);
+  }, [isOpen, isPdf, isImage, fileUrl, t]);
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -101,7 +103,7 @@ export function FilePreviewModal({ isOpen, onClose, filePath, fileName }: FilePr
     }
 
     setLoading(false);
-    setError('Document not found or unavailable.');
+    setError(t('preview.errors.notFound', 'Document not found or unavailable.'));
   };
 
   const handleDownload = () => {
@@ -142,9 +144,11 @@ export function FilePreviewModal({ isOpen, onClose, filePath, fileName }: FilePr
         <div className="flex items-center justify-between p-4 border-b">
           <div className="flex items-center gap-2">
             <h3 className="text-lg font-semibold text-gray-900">
-              {fileName || filePath.split('/').pop() || 'Document Preview'}
+              {fileName || filePath.split('/').pop() || t('preview.defaultTitle', 'Document Preview')}
             </h3>
-            <span className="text-sm text-gray-500">({fileType})</span>
+            <span className="text-sm text-gray-500">
+              ({isPdf ? t('preview.types.pdf', 'PDF') : isImage ? t('preview.types.image', 'IMAGE') : t('preview.types.unsupported', 'UNSUPPORTED')})
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -153,7 +157,7 @@ export function FilePreviewModal({ isOpen, onClose, filePath, fileName }: FilePr
                 <button
                   onClick={handleZoomOut}
                   className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded"
-                  title="Zoom out"
+                  title={t('preview.tooltips.zoomOut', 'Zoom out')}
                 >
                   <ZoomOut className="w-4 h-4" />
                 </button>
@@ -163,7 +167,7 @@ export function FilePreviewModal({ isOpen, onClose, filePath, fileName }: FilePr
                 <button
                   onClick={handleZoomIn}
                   className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded"
-                  title="Zoom in"
+                  title={t('preview.tooltips.zoomIn', 'Zoom in')}
                 >
                   <ZoomIn className="w-4 h-4" />
                 </button>
@@ -174,7 +178,7 @@ export function FilePreviewModal({ isOpen, onClose, filePath, fileName }: FilePr
               <button
                 onClick={handleDownload}
                 className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded"
-                title="Download file"
+                title={t('preview.tooltips.download', 'Download file')}
               >
                 <Download className="w-4 h-4" />
               </button>
@@ -183,7 +187,7 @@ export function FilePreviewModal({ isOpen, onClose, filePath, fileName }: FilePr
             <button
               onClick={onClose}
               className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded"
-              title="Close preview"
+              title={t('preview.tooltips.close', 'Close preview')}
             >
               <X className="w-5 h-5" />
             </button>
@@ -194,13 +198,13 @@ export function FilePreviewModal({ isOpen, onClose, filePath, fileName }: FilePr
           {loading && (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="w-8 h-8 animate-spin text-gray-600" />
-              <span className="ml-2 text-gray-600">Loading document...</span>
+              <span className="ml-2 text-gray-600">{t('preview.loading', 'Loading document...')}</span>
             </div>
           )}
 
           {error && (
             <div className="flex flex-col items-center justify-center py-12 text-center">
-              <div className="text-red-500 mb-2">Document unavailable</div>
+              <div className="text-red-500 mb-2">{t('preview.errors.unavailable', 'Document unavailable')}</div>
               <p className="text-red-600">{error}</p>
             </div>
           )}
@@ -247,7 +251,7 @@ export function FilePreviewModal({ isOpen, onClose, filePath, fileName }: FilePr
 
           {!error && !isImage && !isPdf && (
             <div className="flex flex-col items-center justify-center py-12 text-center">
-              <p className="text-gray-600">Preview is available for JPG, JPEG, PNG, WebP, and PDF files.</p>
+              <p className="text-gray-600">{t('preview.unsupportedNotice', 'Preview is available for JPG, JPEG, PNG, WebP, and PDF files.')}</p>
             </div>
           )}
         </div>

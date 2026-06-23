@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { ArrowUp } from "lucide-react";
+import { useTranslation } from "react-i18next"; 
 
 export function ScrollToTopButton() {
   const [visible, setVisible] = useState(false);
+  const { t } = useTranslation(); 
 
   const handleScroll = useCallback(() => {
     const scrolled = window.scrollY > 400;
@@ -24,7 +26,7 @@ export function ScrollToTopButton() {
   return (
     <button
       onClick={scrollToTop}
-      aria-label="Scroll to top"
+      aria-label={t('layout.scrollToTop', 'Scroll to top')} 
       className={`
         fixed 
         bottom-20 

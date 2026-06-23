@@ -9,6 +9,7 @@ import {
   AlertOctagon,
   Save,
 } from "lucide-react";
+import { useTranslation } from "react-i18next"; 
 
 interface ScanData {
   id: string;
@@ -43,6 +44,7 @@ interface Props {
 }
 
 export function ScanReviewPanel({ scan, onSubmit, submitting = false }: Props) {
+  const { t } = useTranslation(); 
   const [notes, setNotes] = useState(scan.doctorReview?.notes || "");
   const [recommendations, setRecommendations] = useState(scan.doctorReview?.recommendations || "");
   const [severity, setSeverity] = useState<"Low" | "Mild" | "Moderate" | "High">(
@@ -58,9 +60,9 @@ export function ScanReviewPanel({ scan, onSubmit, submitting = false }: Props) {
   }, [scan]);
 
   const config = {
-    low: { color: "text-green-600", bg: "bg-green-50", icon: CheckCircle, label: "Low Risk" },
-    medium: { color: "text-amber-600", bg: "bg-amber-50", icon: AlertTriangle, label: "Medium Risk" },
-    high: { color: "text-red-600", bg: "bg-red-50", icon: AlertOctagon, label: "High Risk" },
+    low: { color: "text-green-600", bg: "bg-green-50", icon: CheckCircle, label: t("riskLevels.low", "Low Risk") },
+    medium: { color: "text-amber-600", bg: "bg-amber-50", icon: AlertTriangle, label: t("riskLevels.medium", "Medium Risk") },
+    high: { color: "text-red-600", bg: "bg-red-50", icon: AlertOctagon, label: t("riskLevels.high", "High Risk") },
   }[scan.riskLevel];
 
   const Icon = config.icon;
@@ -90,7 +92,7 @@ export function ScanReviewPanel({ scan, onSubmit, submitting = false }: Props) {
               {config.label}
             </div>
             <div className="text-sm">
-              Confidence: {scan.confidence}%
+              {t("scanReview.confidence", "Confidence")}: {scan.confidence}%
             </div>
           </div>
         </div>
@@ -104,15 +106,15 @@ export function ScanReviewPanel({ scan, onSubmit, submitting = false }: Props) {
 
       <Card className="p-4 space-y-3">
         <div>
-          <h3 className="font-semibold text-slate-900">AI Analysis</h3>
+          <h3 className="font-semibold text-slate-900">{t("scanReview.aiAnalysis", "AI Analysis")}</h3>
           <p className="mt-1 text-sm text-slate-600">
-            {scan.diagnosis || scan.findings?.[0] || "No diagnosis returned."}
+            {scan.diagnosis || scan.findings?.[0] || t("scanReview.noDiagnosis", "No diagnosis returned.")}
           </p>
         </div>
 
         {typeof scan.riskScore === "number" && (
           <div>
-            <h3 className="font-semibold text-slate-900">Risk Score</h3>
+            <h3 className="font-semibold text-slate-900">{t("scanReview.riskScore", "Risk Score")}</h3>
             <p className="mt-1 text-sm text-slate-600">
               {scan.riskScore}%
             </p>
@@ -120,15 +122,15 @@ export function ScanReviewPanel({ scan, onSubmit, submitting = false }: Props) {
         )}
 
         <div>
-          <h3 className="font-semibold text-slate-900">Patient Notes</h3>
+          <h3 className="font-semibold text-slate-900">{t("scanReview.patientNotes", "Patient Notes")}</h3>
           <p className="mt-1 whitespace-pre-wrap text-sm text-slate-600">
-            {scan.patientNotes || scan.notes || "No patient notes available."}
+            {scan.patientNotes || scan.notes || t("scanReview.noPatientNotes", "No patient notes available.")}
           </p>
         </div>
 
         {scan.userAnswers && Object.keys(scan.userAnswers).length > 0 && (
           <div>
-            <h3 className="font-semibold text-slate-900">Patient Answers</h3>
+            <h3 className="font-semibold text-slate-900">{t("scanReview.patientAnswers", "Patient Answers")}</h3>
             <div className="mt-2 space-y-2">
               {Object.entries(scan.userAnswers).map(([key, value]) => (
                 <div key={key} className="rounded-lg bg-slate-50 px-3 py-2 text-sm">
@@ -144,14 +146,14 @@ export function ScanReviewPanel({ scan, onSubmit, submitting = false }: Props) {
       {/* REVIEW */}
       {scan.doctorReview?.reviewedAt && (
         <Card className="p-4 bg-emerald-50 border-emerald-200">
-          <h3 className="font-semibold text-slate-900">Current Doctor Review</h3>
+          <h3 className="font-semibold text-slate-900">{t("scanReview.currentReview", "Current Doctor Review")}</h3>
           <p className="mt-1 text-xs text-slate-500">
-            Reviewed {new Date(scan.doctorReview.reviewedAt).toLocaleString()}
+            {t("scanReview.reviewedAt", "Reviewed")} {new Date(scan.doctorReview.reviewedAt).toLocaleString()}
           </p>
           <div className="mt-3 space-y-2 text-sm text-slate-700">
-            <p><span className="font-semibold">Severity:</span> {scan.doctorReview.severity || "N/A"}</p>
-            <p className="whitespace-pre-wrap"><span className="font-semibold">Notes:</span> {scan.doctorReview.notes || "N/A"}</p>
-            <p className="whitespace-pre-wrap"><span className="font-semibold">Recommendations:</span> {scan.doctorReview.recommendations || "N/A"}</p>
+            <p><span className="font-semibold">{t("scanReview.labels.severity", "Severity")}:</span> {scan.doctorReview.severity || "N/A"}</p>
+            <p className="whitespace-pre-wrap"><span className="font-semibold">{t("scanReview.labels.notes", "Notes")}:</span> {scan.doctorReview.notes || "N/A"}</p>
+            <p className="whitespace-pre-wrap"><span className="font-semibold">{t("scanReview.labels.recommendations", "Recommendations")}:</span> {scan.doctorReview.recommendations || "N/A"}</p>
           </div>
         </Card>
       )}
@@ -159,73 +161,73 @@ export function ScanReviewPanel({ scan, onSubmit, submitting = false }: Props) {
       <Card className="p-4 space-y-4">
         <div>
           <label htmlFor="severity-select" className="block text-sm font-semibold text-slate-900 mb-2">
-            Severity Level
+            {t("scanReview.labels.severityLevel", "Severity Level")}
           </label>
           <select
             id="severity-select"
-            className="w-full border border-slate-300 p-2 rounded"
+            className="w-full border border-slate-300 p-2 rounded bg-white text-sm"
             value={severity}
             onChange={(e: ChangeEvent<HTMLSelectElement>) =>
               setSeverity(e.target.value as "Low" | "Mild" | "Moderate" | "High")
             }
           >
-            <option value="Low">Low</option>
-            <option value="Mild">Mild</option>
-            <option value="Moderate">Moderate</option>
-            <option value="High">High</option>
+            <option value="Low">{t("severityOptions.low", "Low")}</option>
+            <option value="Mild">{t("severityOptions.mild", "Mild")}</option>
+            <option value="Moderate">{t("severityOptions.moderate", "Moderate")}</option>
+            <option value="High">{t("severityOptions.high", "High")}</option>
           </select>
         </div>
 
         <div>
           <label className="block text-sm font-semibold text-slate-900 mb-2">
-            Medical Notes
+            {t("scanReview.labels.medicalNotes", "Medical Notes")}
           </label>
           <Textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            placeholder="Write medical notes for this scan..."
-            className="min-h-20"
+            placeholder={t("scanReview.placeholders.medicalNotes", "Write medical notes for this scan...")}
+            className="min-h-20 text-sm"
           />
         </div>
 
         <div>
           <label className="block text-sm font-semibold text-slate-900 mb-2">
-            Recommendations
+            {t("scanReview.labels.recommendationsLabel", "Recommendations")}
           </label>
           <Textarea
             value={recommendations}
             onChange={(e) => setRecommendations(e.target.value)}
-            placeholder="Add recommendations, follow-up instructions, or referral guidance..."
-            className="min-h-20"
+            placeholder={t("scanReview.placeholders.recommendations", "Add recommendations, follow-up instructions, or referral guidance...")}
+            className="min-h-20 text-sm"
           />
         </div>
 
         {formError && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-          {formError}
-        </div>
-      )}
+          <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+            {formError}
+          </div>
+        )}
 
-      <Button
-        fullWidth
-        leftIcon={<Save />}
-        onClick={() => {
-          if (!notes.trim() || !recommendations.trim()) {
-            setFormError("Notes and recommendations are required before submitting the review.");
-            return;
-          }
-          if (!severity) {
-            setFormError("Please select a severity level.");
-            return;
-          }
-          setFormError("");
-          onSubmit(notes, recommendations, severity);
-        }}
-        isLoading={submitting}
-        disabled={submitting}
-      >
-        {scan.doctorReview?.reviewedAt ? "Update Review" : "Submit Review"}
-      </Button>
+        <Button
+          fullWidth
+          leftIcon={<Save />}
+          onClick={() => {
+            if (!notes.trim() || !recommendations.trim()) {
+              setFormError(t("scanReview.errors.required", "Notes and recommendations are required before submitting the review."));
+              return;
+            }
+            if (!severity) {
+              setFormError(t("scanReview.errors.severity", "Please select a severity level."));
+              return;
+            }
+            setFormError("");
+            onSubmit(notes, recommendations, severity);
+          }}
+          isLoading={submitting}
+          disabled={submitting}
+        >
+          {scan.doctorReview?.reviewedAt ? t("scanReview.buttons.update", "Update Review") : t("scanReview.buttons.submit", "Submit Review")}
+        </Button>
 
       </Card>
     </div>

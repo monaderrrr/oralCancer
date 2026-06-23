@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next'; 
 
 interface ProgressIndicatorProps {
   currentStep: number;
@@ -10,6 +11,7 @@ export function ProgressIndicator({
   currentStep = 0,
   totalSteps = 1
 }: ProgressIndicatorProps) {
+  const { t } = useTranslation(); 
 
   const safeTotal = totalSteps > 0 ? totalSteps : 1;
   const safeCurrent = Math.min(Math.max(currentStep, 0), safeTotal - 1);
@@ -20,7 +22,7 @@ export function ProgressIndicator({
     <div className="w-full mb-8">
 
       <div className="flex justify-between text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
-        <span>Progress</span>
+        <span>{t("quiz.progress", "Progress")}</span>
         <span>{Math.round(progress)}%</span>
       </div>
 
@@ -34,7 +36,7 @@ export function ProgressIndicator({
       </div>
 
       <div className="mt-2 text-center text-sm text-slate-400">
-        Question {safeCurrent + 1} of {safeTotal}
+        {t("quiz.questionStep", "Question")} {safeCurrent + 1} {t("quiz.of", "of")} {safeTotal}
       </div>
 
     </div>

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Clock, Bookmark, PlayCircle, FileText, Image as ImageIcon } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
+import { useTranslation } from "react-i18next";
 
 /**
  * Backend-mapped Resource interface
@@ -31,7 +32,7 @@ interface ResourceCardProps {
  * No booking / appointment logic included
  */
 export function ResourceCard({ resource, onClick }: ResourceCardProps) {
-
+  const { t } = useTranslation();
   const getIcon = () => {
     switch (resource.type) {
       case 'video':
@@ -40,6 +41,16 @@ export function ResourceCard({ resource, onClick }: ResourceCardProps) {
         return <ImageIcon className="w-5 h-5" />;
       default:
         return <FileText className="w-5 h-5" />;
+    }
+  };
+  const getResourceLabel = (type: string) => {
+    switch (type) {
+      case 'video':
+        return t('resources.types.video', 'Video');
+      case 'infographic':
+        return t('resources.types.infographic', 'Infographic');
+      default:
+        return t('resources.types.article', 'Article');
     }
   };
 
@@ -83,7 +94,7 @@ export function ResourceCard({ resource, onClick }: ResourceCardProps) {
           <div className="flex items-center gap-2 text-xs text-slate-500 mb-3 uppercase tracking-wider font-medium">
             <span className="flex items-center gap-1 text-teal-600">
               {getIcon()}
-              {resource.type}
+              {getResourceLabel(resource.type)}
             </span>
 
             <span>•</span>
@@ -104,7 +115,7 @@ export function ResourceCard({ resource, onClick }: ResourceCardProps) {
 
           <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
             <span className="text-xs text-slate-500">
-              By {resource.author}
+              {t('resources.by', 'By')} {resource.author}
             </span>
             <span className="text-xs text-slate-400">
               {new Date(resource.createdAt).toLocaleDateString()}
