@@ -1,34 +1,35 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Upload, FileText, CheckCircle, AlertCircle } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import API from '../../Api';
+import { useTranslation } from 'react-i18next'; 
 
 export function UploadProofPage() {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email || localStorage.getItem("signupEmail") || "";
 
   const [files, setFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const selectedFiles = Array.from(e.target.files);
-      // Validate file types
       const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
       const invalidFiles = selectedFiles.filter(file => !validTypes.includes(file.type));
       
       if (invalidFiles.length > 0) {
-        setError("Please upload only JPG, PNG, or PDF files.");
+        setError(t("verification.errors.invalidDoc", "Please upload only JPG, PNG, or PDF files."));
         return;
       }
       
       if (selectedFiles.length > 5) {
-        setError("You can upload a maximum of 5 files.");
+        setError(t("verification.errors.maxFiles", "You can upload a maximum of 5 files."));
         return;
       }
       
@@ -40,7 +41,7 @@ export function UploadProofPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (files.length === 0) {
-      setError("Please select at least one file to upload.");
+      setError(t("verification.errors.noDocs", "Please select at least one file to upload."));
       return;
     }
 
@@ -65,7 +66,7 @@ export function UploadProofPage() {
 
     } catch (err: any) {
       console.error("Upload error:", err);
-      setError(err.response?.data?.message || "Failed to upload files. Please try again.");
+      setError(err.response?.data?.message || t("auth.errors.resendFailed", "Failed to upload files. Please try again."));
     } finally {
       setIsLoading(false);
     }
@@ -74,19 +75,16 @@ export function UploadProofPage() {
   if (success) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12">
-        <Card className="p-8 md:p-12 text-center max-w-md">
+        <Card className="p-8 md:p-12 text-center max-w-md rounded-2xl shadow-xl">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="h-10 w-10 text-green-600" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Upload Successful!
+            {t("verification.successTitle", "Upload Successful!")}
           </h1>
-          <p className="text-gray-600 mb-6">
-            Your proof documents have been uploaded successfully. You will be redirected shortly.
+          <p className="text-gray-600 mb-6 text-sm">
+            {t("verification.uploadSuccessDesc", "Your proof documents have been uploaded successfully. You will be redirected shortly.")}
           </p>
-          <div className="text-2xl font-bold text-teal-600">
-            دي بقا
-          </div>
         </Card>
       </div>
     );
@@ -95,16 +93,16 @@ export function UploadProofPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12">
       <div className="max-w-2xl w-full px-4">
-        <Card className="p-8 md:p-12">
+        <Card className="p-8 md:p-12 text-left shadow-xl border border-slate-100 rounded-3xl">
           <div className="text-center mb-8">
             <div className="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Upload className="h-10 w-10 text-teal-600" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Upload Proof Documents
+              {t("verification.uploadProofHeader", "Upload Proof Documents")}
             </h1>
-            <p className="text-gray-600">
-              Please upload your medical license or other proof documents to verify your doctor credentials.
+            <p className="text-gray-600 text-sm leading-relaxed">
+              {t("verification.uploadProofDesc", "Please upload your medical license or other proof documents to verify your doctor credentials.")}
             </p>
           </div>
 
@@ -118,7 +116,7 @@ export function UploadProofPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-4">
               <label className="block text-sm font-medium text-gray-700">
-                Select Files (JPG, PNG, PDF - Max 5 files)
+                {t("verification.uploadLimitLabel", "Select Files (JPG, PNG, PDF - Max 5 files)")}
               </label>
               
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-teal-400 transition-colors">
@@ -133,7 +131,7 @@ export function UploadProofPage() {
                 <label htmlFor="file-upload" className="cursor-pointer">
                   <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                   <p className="text-sm text-gray-600 mb-2">
-                    Click to upload or drag and drop
+                    {t("verification.dragDropNotice", "Click to upload or drag and drop")}
                   </p>
                   <p className="text-xs text-gray-500">
                     JPG, PNG, PDF up to 10MB each
@@ -143,7 +141,7 @@ export function UploadProofPage() {
 
               {files.length > 0 && (
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-700">Selected files:</p>
+                  <p className="text-sm font-medium text-gray-700">{t("verification.selectedFilesLabel", "Selected files:")}</p>
                   <ul className="space-y-1">
                     {files.map((file, index) => (
                       <li key={index} className="flex items-center gap-2 text-sm text-gray-600">
@@ -163,7 +161,7 @@ export function UploadProofPage() {
                 isLoading={isLoading}
                 className="flex-1"
               >
-                {isLoading ? "Uploading..." : "Upload Documents"}
+                {isLoading ? t("paymentError.processingBtn", "Uploading...") : t("verification.submitBtn", "Upload Documents")}
               </Button>
               
               <Button
@@ -172,20 +170,20 @@ export function UploadProofPage() {
                 onClick={() => navigate('/doctor/dashboard')}
                 className="flex-1"
               >
-                Skip for Now
+                {t("verification.skipBtn", "Skip for Now")}
               </Button>
             </div>
           </form>
 
           <div className="mt-8 bg-blue-50 rounded-xl p-6 text-left border border-blue-100">
             <h3 className="font-semibold text-blue-900 mb-4">
-              What documents can I upload?
+              {t("verification.helpHeader", "What documents can I upload?")}
             </h3>
             <ul className="space-y-2 text-sm text-blue-800">
-              <li>• Medical license or certification</li>
-              <li>• University degree certificate</li>
-              <li>• Professional registration documents</li>
-              <li>• Any other relevant proof of medical qualification</li>
+              <li>{t("verification.docsList.1", "• Medical license or certification")}</li>
+              <li>{t("verification.docsList.2", "• University degree certificate")}</li>
+              <li>{t("verification.docsList.3", "• Professional registration documents")}</li>
+              <li>{t("verification.docsList.4", "• Any other relevant proof of medical qualification")}</li>
             </ul>
           </div>
         </Card>

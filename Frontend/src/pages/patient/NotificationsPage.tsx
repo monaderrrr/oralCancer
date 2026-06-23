@@ -6,6 +6,7 @@ import { Card } from "../../components/ui/Card";
 import { Button } from "../../components/ui/Button";
 import API from "../../Api";
 import socket from "../../socket/Socket";
+import { useTranslation } from "react-i18next"; 
 
 interface Notification {
   _id: string;
@@ -25,6 +26,7 @@ interface Notification {
 }
 
 export function NotificationsPage() {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
   const [filter, setFilter] = useState<"all" | "unread">("all");
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -165,9 +167,9 @@ export function NotificationsPage() {
               <Bell className="w-6 h-6 text-teal-700" />
             </motion.div>
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">Notifications</h1>
+              <h1 className="text-3xl font-bold text-slate-900">{t("sidebar.notifications", "Notifications")}</h1>
               <p className="text-sm text-slate-600 mt-1">
-                {unreadCount > 0 ? `${unreadCount} unread` : "All caught up"}
+                {unreadCount > 0 ? `${unreadCount} ${t("notifications.unread", "unread")}` : t("notifications.allCaughtUp", "All caught up")}
               </p>
             </div>
           </div>
@@ -183,7 +185,7 @@ export function NotificationsPage() {
                 onClick={markAllAsRead}
                 leftIcon={<CheckCheck className="w-4 h-4" />}
               >
-                Mark all read
+                {t("notifications.markAllRead", "Mark all read")}
               </Button>
             </motion.div>
           )}
@@ -196,8 +198,8 @@ export function NotificationsPage() {
           transition={{ delay: 0.1 }}
           className="flex gap-2 mb-6"
         >
-          <Tab active={filter === "all"} onClick={() => setFilter("all")} label="All" />
-          <Tab active={filter === "unread"} onClick={() => setFilter("unread")} label="Unread" />
+          <Tab active={filter === "all"} onClick={() => setFilter("all")} label={t("notifications.tabs.all", "All")} />
+          <Tab active={filter === "unread"} onClick={() => setFilter("unread")} label={t("notifications.tabs.unread", "Unread")} />
         </motion.div>
 
         {/* Notifications List */}
@@ -212,7 +214,7 @@ export function NotificationsPage() {
                 >
                   <Bell className="w-6 h-6 text-teal-600" />
                 </motion.div>
-                <p className="text-slate-500 mt-3">Loading notifications...</p>
+                <p className="text-slate-500 mt-3">{t("notifications.loading", "Loading notifications...")}</p>
               </Card>
             ) : filtered.length === 0 ? (
               <motion.div
@@ -226,8 +228,8 @@ export function NotificationsPage() {
                   >
                     <Bell className="w-10 h-10 text-slate-300 mx-auto mb-3" />
                   </motion.div>
-                  <h3 className="font-semibold text-slate-900">No notifications</h3>
-                  <p className="text-sm text-slate-500 mt-1">You're all caught up! New messages will appear here.</p>
+                  <h3 className="font-semibold text-slate-900">{t("notifications.none", "No notifications")}</h3>
+                  <p className="text-sm text-slate-500 mt-1">{t("notifications.caughtUp", "You're all caught up! New messages will appear here.")}</p>
                 </Card>
               </motion.div>
             ) : (
@@ -281,7 +283,7 @@ export function NotificationsPage() {
                             }}
                             className="text-xs font-semibold px-3 py-1.5 border-teal-200 text-teal-700 hover:bg-teal-50 hover:border-teal-300 rounded-lg transition-all"
                           >
-                            View Details
+                            {t("actions.viewDetails", "View Details")}
                           </Button>
                         </div>
                       </div>

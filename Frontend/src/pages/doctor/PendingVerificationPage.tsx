@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Clock, CheckCircle, RefreshCw, AlertCircle } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Badge } from '../../components/ui/Badge';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next'; 
 
 type VerificationStatus = 'pending' | 'approved' | 'verified' | 'rejected' | string;
 
 export function PendingVerificationPage() {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -17,6 +19,7 @@ export function PendingVerificationPage() {
   useEffect(() => {
     const checkStatus = async () => {
       try {
+        loadingControllerState = true;
         setLoading(true);
 
         const response = await axios.get('/api/v1/doctor/dashboard');
@@ -57,7 +60,7 @@ export function PendingVerificationPage() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12">
       <div className="max-w-2xl w-full px-4">
 
-        <Card className="p-8 md:p-12 text-center">
+        <Card className="p-8 md:p-12 text-center shadow-lg border border-slate-100 rounded-2xl">
 
           {isRejected ? (
             <>
@@ -66,17 +69,17 @@ export function PendingVerificationPage() {
               </div>
 
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                Verification Rejected
+                {t("verification.status.rejectedTitle", "Verification Rejected")}
               </h1>
 
               <div className="flex justify-center mb-6">
                 <Badge variant="danger">
-                  Rejected
+                  {t("appointment.status.cancelled", "Rejected")}
                 </Badge>
               </div>
 
-              <p className="text-gray-600 mb-8">
-                Your credentials could not be verified. Please contact support.
+              <p className="text-gray-600 mb-8 text-sm">
+                {t("verification.status.rejectedDesc", "Your credentials could not be verified. Please contact support.")}
               </p>
             </>
           ) : (
@@ -86,17 +89,17 @@ export function PendingVerificationPage() {
               </div>
 
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                Registration completed successfully.
+                {t("onboarding.approvalTitle", "Registration completed successfully.")}
               </h1>
 
               <div className="flex justify-center mb-6">
                 <Badge variant="warning">
-                  Pending Approval
+                  {t("appointment.status.pending", "Pending Approval")}
                 </Badge>
               </div>
 
-              <p className="text-gray-600 mb-8">
-                Your account is pending admin approval. You will be able to log in after an administrator reviews and approves your account.
+              <p className="text-gray-600 mb-8 text-sm leading-relaxed">
+                {t("verification.status.pendingDesc", "Your account is pending admin approval. You will be able to log in after an administrator reviews and approves your account.")}
               </p>
             </>
           )}
@@ -104,28 +107,28 @@ export function PendingVerificationPage() {
           {/* Info Section (no booking-related content) */}
           <div className="bg-gray-50 rounded-xl p-6 text-left mb-8 max-w-lg mx-auto border border-gray-100">
             <h3 className="font-semibold text-gray-900 mb-4">
-              What happens next?
+              {t("verification.status.nextHeader", "What happens next?")}
             </h3>
 
-            <ul className="space-y-4">
+            <ul className="space-y-4 text-sm">
               <li className="flex items-start gap-3">
-                <CheckCircle className="h-5 w-5 text-teal-500 mt-0.5" />
+                <CheckCircle className="h-5 w-5 text-teal-500 mt-0.5 shrink-0" />
                 <span className="text-gray-600">
-                  We verify your medical credentials.
+                  {t("verification.status.step1", "We verify your medical credentials.")}
                 </span>
               </li>
 
               <li className="flex items-start gap-3">
-                <CheckCircle className="h-5 w-5 text-teal-500 mt-0.5" />
+                <CheckCircle className="h-5 w-5 text-teal-500 mt-0.5 shrink-0" />
                 <span className="text-gray-600">
-                  You will receive an email after review.
+                  {t("verification.status.step2", "You will receive an email after review.")}
                 </span>
               </li>
 
               <li className="flex items-start gap-3">
-                <CheckCircle className="h-5 w-5 text-teal-500 mt-0.5" />
+                <CheckCircle className="h-5 w-5 text-teal-500 mt-0.5 shrink-0" />
                 <span className="text-gray-600">
-                  Typical review time: 2–3 business days.
+                  {t("verification.status.step3", "Typical review time: 2–3 business days.")}
                 </span>
               </li>
             </ul>
@@ -138,14 +141,14 @@ export function PendingVerificationPage() {
               variant="secondary"
               leftIcon={<RefreshCw className="w-4 h-4" />}
             >
-              Check Status
+              {t("dashboard.refreshBtn", "Check Status")}
             </Button>
 
             <Button
               onClick={() => navigate('/contact')}
               variant="outline"
             >
-              Contact Support
+              {t("auth.paymentError.callBtn", "Contact Support")}
             </Button>
           </div>
 

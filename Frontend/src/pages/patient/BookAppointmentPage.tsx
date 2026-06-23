@@ -23,6 +23,7 @@ import { Card } from "../../components/ui/Card";
 import { Textarea } from "../../components/ui/Textarea";
 import { Badge } from "../../components/ui/Badge";
 import API, { IMAGE_BASE_URL } from "../../Api";
+import { useTranslation } from "react-i18next"; 
 
 interface Slot {
   startTime: string;
@@ -56,6 +57,7 @@ interface Scan {
 }
 
 export function BookAppointmentPage() {
+  const { t } = useTranslation(); 
   const { doctorId } = useParams();
   const navigate = useNavigate();
 
@@ -174,7 +176,7 @@ export function BookAppointmentPage() {
 
   const handleNextStep = () => {
     if (step === 1 && !selectedSlot) {
-      alert("Please select a time slot to continue.");
+      alert(t("bookingFlow.alerts.selectSlot", "Please select a time slot to continue."));
       return;
     }
     setErrorMsg("");
@@ -188,7 +190,7 @@ export function BookAppointmentPage() {
 
   const handleSubmitBooking = async () => {
     if (!doctorId || !selectedDate || !selectedSlot) {
-      setErrorMsg("Missing booking parameters.");
+      setErrorMsg(t("bookingFlow.errors.missingParams", "Missing booking parameters."));
       return;
     }
 
@@ -232,7 +234,7 @@ export function BookAppointmentPage() {
       setStep(4);
     } catch (err: any) {
       console.error("Booking failed:", err);
-      setErrorMsg(err.response?.data?.message || "Booking or Payment processing failed. Please check inputs.");
+      setErrorMsg(err.response?.data?.message || t("bookingFlow.errors.payFailed", "Booking or Payment processing failed. Please check inputs."));
     } finally {
       setSubmittingBooking(false);
     }
@@ -250,9 +252,9 @@ export function BookAppointmentPage() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
         <BadgeAlert className="w-16 h-16 text-red-500 mb-4" />
-        <h2 className="text-xl font-bold text-slate-800">Doctor not found</h2>
+        <h2 className="text-xl font-bold text-slate-800">{t("doctorCard.unknown", "Doctor not found")}</h2>
         <Button className="mt-4" onClick={() => navigate("/patient/doctors")}>
-          Return to Doctor List
+          {t("bookingFlow.buttons.returnList", "Return to Doctor List")}
         </Button>
       </div>
     );
@@ -261,7 +263,7 @@ export function BookAppointmentPage() {
   const doctorPhoto = doctor.profileImage ? `${IMAGE_BASE_URL}${doctor.profileImage}` : null;
 
   return (
-    <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8 text-left">
       <div className="max-w-5xl mx-auto">
         {/* Back and Title */}
         <div className="flex items-center justify-between mb-8">
@@ -270,11 +272,11 @@ export function BookAppointmentPage() {
             className="flex items-center gap-2 text-slate-600 hover:text-teal-600 transition"
           >
             <ArrowLeft className="w-5 h-5" />
-            Back
+            {t("onboarding.back", "Back")}
           </button>
           <div className="text-right">
-            <span className="text-xs text-slate-500 uppercase tracking-widest font-semibold">Consultation System</span>
-            <h1 className="text-2xl font-bold text-slate-900">Book Premium Consultation</h1>
+            <span className="text-xs text-slate-500 uppercase tracking-widest font-semibold">{t("bookingFlow.systemLabel", "Consultation System")}</span>
+            <h1 className="text-2xl font-bold text-slate-900">{t("bookingFlow.mainTitle", "Book Premium Consultation")}</h1>
           </div>
         </div>
 
@@ -288,10 +290,10 @@ export function BookAppointmentPage() {
             />
 
             {[
-              { label: "Date & Time", stepNum: 1 },
-              { label: "Scan & Notes", stepNum: 2 },
-              { label: "Secure Payment", stepNum: 3 },
-              { label: "Receipt", stepNum: 4 },
+              { label: t("bookingFlow.steps.dateTime", "Date & Time"), stepNum: 1 },
+              { label: t("bookingFlow.steps.scanNotes", "Scan & Notes"), stepNum: 2 },
+              { label: t("bookingFlow.steps.securePayment", "Secure Payment"), stepNum: 3 },
+              { label: t("paymentModal.labels.amount", "Receipt"), stepNum: 4 },
             ].map((item) => (
               <div key={item.stepNum} className="flex flex-col items-center relative z-10">
                 <div
@@ -332,10 +334,10 @@ export function BookAppointmentPage() {
                     <div>
                       <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                         <CalendarIcon className="w-5 h-5 text-teal-600" />
-                        Select Date
+                        {t("bookingFlow.step1Header", "Select Date")}
                       </h2>
                       <p className="text-sm text-slate-500 mt-1">
-                        Choose a date for your digital or in-clinic consultation.
+                        {t("bookingFlow.step1Desc", "Choose a date for your digital or in-clinic consultation.")}
                       </p>
                     </div>
 
@@ -343,6 +345,7 @@ export function BookAppointmentPage() {
                       {dateOptions.map((opt) => (
                         <button
                           key={opt.dateStr}
+                          type="button"
                           onClick={() => setSelectedDate(opt.dateStr)}
                           className={`flex-shrink-0 flex flex-col items-center justify-center p-3 rounded-2xl border-2 w-24 transition duration-200 ${
                             selectedDate === opt.dateStr
@@ -351,7 +354,7 @@ export function BookAppointmentPage() {
                           }`}
                         >
                           <span className="text-xs uppercase tracking-wider text-slate-400 font-bold">
-                            {opt.dayName.slice(0, 3)}
+                            {t(`days.${opt.dayName.toLowerCase()}`, opt.dayName).slice(0, 3)}
                           </span>
                           <span className="text-lg font-extrabold mt-1">{opt.label.split(" ")[1]}</span>
                           <span className="text-xs font-semibold text-slate-500 mt-0.5">
@@ -366,9 +369,9 @@ export function BookAppointmentPage() {
                     <div>
                       <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                         <Clock className="w-5 h-5 text-teal-600" />
-                        Available Slots
+                        {t("booking.header", "Available Slots")}
                       </h2>
-                      <p className="text-sm text-slate-500 mt-1">Select one of the doctor's available slots.</p>
+                      <p className="text-sm text-slate-500 mt-1">{t("onboarding.approvalDesc", "Select one of the doctor's available slots.")}</p>
                     </div>
 
                     {loadingSlots ? (
@@ -378,14 +381,15 @@ export function BookAppointmentPage() {
                     ) : availableSlots.length === 0 ? (
                       <div className="text-center py-10 text-slate-400 bg-slate-50 rounded-2xl border border-dashed">
                         <Clock className="w-10 h-10 mx-auto mb-2 text-slate-300" />
-                        <p className="font-semibold text-sm">No available slots for this date.</p>
-                        <p className="text-xs mt-1">Please select another date above.</p>
+                        <p className="font-semibold text-sm">{t("booking.noDoctors", "No available slots for this date.")}</p>
+                        <p className="text-xs mt-1">{t("scanReviewPage.errors.unableToOpen", "Please select another date above.")}</p>
                       </div>
                     ) : (
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         {availableSlots.map((slot) => (
                           <button
                             key={slot.timeSlot}
+                            type="button"
                             disabled={!slot.isAvailable}
                             onClick={() => setSelectedSlot(slot.timeSlot)}
                             className={`p-3.5 rounded-2xl border-2 text-center transition font-semibold text-sm ${
@@ -405,7 +409,7 @@ export function BookAppointmentPage() {
 
                   <div className="flex justify-end">
                     <Button size="lg" className="rounded-2xl px-8" onClick={handleNextStep}>
-                      Continue <ChevronRight className="w-5 h-5 ml-1" />
+                      {t("onboarding.next", "Continue")} <ChevronRight className="w-5 h-5 ml-1" />
                     </Button>
                   </div>
                 </motion.div>
@@ -424,10 +428,10 @@ export function BookAppointmentPage() {
                     <div>
                       <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                         <FileText className="w-5 h-5 text-teal-600" />
-                        Attach Recent Scan (Optional)
+                        {t("bookingFlow.step2Header", "Attach Recent Scan (Optional)")}
                       </h2>
                       <p className="text-sm text-slate-500 mt-1">
-                        Linking a scan allows the doctor to review your AI analysis and lesion image prior to the session.
+                        {t("bookingFlow.step2Desc", "Linking a scan allows the doctor to review your AI analysis and lesion image prior to the session.")}
                       </p>
                     </div>
 
@@ -437,8 +441,8 @@ export function BookAppointmentPage() {
                       </div>
                     ) : scans.length === 0 ? (
                       <div className="text-center py-6 text-slate-400 bg-slate-50 rounded-2xl border border-dashed">
-                        <p className="text-sm">No recent scans found.</p>
-                        <p className="text-xs mt-1">You can skip scan attachment and upload one later.</p>
+                        <p className="font-semibold text-sm">{t("scanReviewPage.emptyTitle", "No recent scans found.")}</p>
+                        <p className="text-xs mt-1">{t("scanReviewPage.emptyDesc", "You can skip scan attachment and upload one later.")}</p>
                       </div>
                     ) : (
                       <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
@@ -464,16 +468,16 @@ export function BookAppointmentPage() {
                               />
                               <div>
                                 <p className="font-semibold text-sm">
-                                  {scan.diagnosis || `${scan.riskLevel.toUpperCase()} Risk Assessment`}
+                                  {scan.diagnosis || `${t(`riskLevels.${scan.riskLevel}`, scan.riskLevel).toUpperCase()} ${t("scanReview.riskScore", "Risk Assessment")}`}
                                 </p>
                                 <p className="text-xs text-slate-500">
-                                  {new Date(scan.createdAt).toLocaleDateString()} at{" "}
+                                  {new Date(scan.createdAt).toLocaleDateString()} {t("paymentModal.labels.at", "at")}{" "}
                                   {new Date(scan.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                                 </p>
                               </div>
                             </div>
                             <Badge className="capitalize">
-                              {scan.riskLevel}
+                              {t(`riskLevels.${scan.riskLevel}`, scan.riskLevel)}
                             </Badge>
                           </div>
                         ))}
@@ -485,27 +489,27 @@ export function BookAppointmentPage() {
                     <div>
                       <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                         <Sparkles className="w-5 h-5 text-teal-600" />
-                        Symptoms & Notes
+                        {t("scanReview.labels.medicalNotes", "Symptoms & Notes")}
                       </h2>
                       <p className="text-sm text-slate-500 mt-1">
-                        Describe any symptoms you've experienced (ulcers, swelling, patches) to help the specialist.
+                        {t("scanReview.placeholders.recommendations", "Describe any symptoms you've experienced (ulcers, swelling, patches) to help the specialist.")}
                       </p>
                     </div>
 
                     <Textarea
-                      placeholder="Explain your symptoms or medical concern here..."
+                      placeholder={t("scanReview.placeholders.medicalNotes", "Explain your symptoms or medical concern here...")}
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
-                      className="min-h-[140px] rounded-2xl border-slate-200 focus:border-teal-500"
+                      className="min-h-[140px] rounded-2xl border-slate-200 focus:border-teal-500 text-sm"
                     />
                   </Card>
 
                   <div className="flex justify-between">
                     <Button variant="ghost" size="lg" className="rounded-2xl" onClick={handlePrevStep}>
-                      Back
+                      {t("onboarding.back", "Back")}
                     </Button>
                     <Button size="lg" className="rounded-2xl px-8" onClick={handleNextStep}>
-                      Continue <ChevronRight className="w-5 h-5 ml-1" />
+                      {t("onboarding.next", "Continue")} <ChevronRight className="w-5 h-5 ml-1" />
                     </Button>
                   </div>
                 </motion.div>
@@ -522,21 +526,22 @@ export function BookAppointmentPage() {
                 >
                   <Card className="p-6 rounded-3xl border-none shadow-sm space-y-6">
                     <div>
-                      <h2 className="text-xl font-bold text-slate-900">Secure Checkout</h2>
-                      <p className="text-sm text-slate-500 mt-1">Select a secure payment gateway below.</p>
+                      <h2 className="text-xl font-bold text-slate-900">{t("onboarding.steps.subscription", "Secure Checkout")}</h2>
+                      <p className="text-sm text-slate-500 mt-1">{t("onboarding.subDesc", "Select a secure payment gateway below.")}</p>
                     </div>
 
                     {/* Method Tabs */}
                     <div className="grid grid-cols-3 gap-3 border-b border-slate-100 pb-4">
                       {[
-                        { id: "credit_card", label: "Credit Card", icon: CreditCard },
-                        { id: "vodafone_cash", label: "Vodafone Cash", icon: Phone },
-                        { id: "instapay", label: "InstaPay", icon: Smartphone },
+                        { id: "credit_card", label: t("paymentOptions.labels.card", "Credit Card"), icon: CreditCard },
+                        { id: "vodafone_cash", label: t("paymentOptions.labels.wallet", "Vodafone Cash"), icon: Phone },
+                        { id: "instapay", label: t("paymentOptions.labels.instapay", "InstaPay"), icon: Smartphone },
                       ].map((m) => {
                         const Icon = m.icon;
                         return (
                           <button
                             key={m.id}
+                            type="button"
                             onClick={() => setPaymentMethod(m.id as any)}
                             className={`flex flex-col items-center justify-center p-3 rounded-2xl border-2 transition duration-200 ${
                               paymentMethod === m.id
@@ -559,7 +564,7 @@ export function BookAppointmentPage() {
                         className="space-y-4"
                       >
                         <div>
-                          <label className="text-xs font-bold text-slate-700 uppercase">Cardholder Name</label>
+                          <label className="text-xs font-bold text-slate-700 uppercase">{t("paymentOptions.labels.holder", "Cardholder Name")}</label>
                           <input
                             type="text"
                             placeholder="John Doe"
@@ -569,7 +574,7 @@ export function BookAppointmentPage() {
                           />
                         </div>
                         <div>
-                          <label className="text-xs font-bold text-slate-700 uppercase">Card Number</label>
+                          <label className="text-xs font-bold text-slate-700 uppercase">{t("paymentOptions.labels.number", "Card Number")}</label>
                           <input
                             type="text"
                             placeholder="1234 5678 1234 5678"
@@ -580,7 +585,7 @@ export function BookAppointmentPage() {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <label className="text-xs font-bold text-slate-700 uppercase">Expiry Date</label>
+                            <label className="text-xs font-bold text-slate-700 uppercase">{t("paymentOptions.labels.expiry", "Expiry Date")}</label>
                             <input
                               type="text"
                               placeholder="MM/YY"
@@ -590,7 +595,7 @@ export function BookAppointmentPage() {
                             />
                           </div>
                           <div>
-                            <label className="text-xs font-bold text-slate-700 uppercase">CVV</label>
+                            <label className="text-xs font-bold text-slate-700 uppercase">{t("paymentOptions.labels.cvvCode", "CVV")}</label>
                             <input
                               type="password"
                               placeholder="123"
@@ -611,7 +616,7 @@ export function BookAppointmentPage() {
                         className="space-y-4"
                       >
                         <div>
-                          <label className="text-xs font-bold text-slate-700 uppercase">Mobile Wallet Number</label>
+                          <label className="text-xs font-bold text-slate-700 uppercase">{t("auth.inputs.phone", "Mobile Wallet Number")}</label>
                           <input
                             type="text"
                             placeholder="01012345678"
@@ -620,7 +625,7 @@ export function BookAppointmentPage() {
                             className="mt-1 block w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-teal-500 focus:outline-none"
                           />
                           <p className="text-[11px] text-slate-400 mt-1">
-                            Enter the Vodafone Cash wallet number that will authorize this payment.
+                            {t("paymentOptions.walletInstructions", "Enter the Vodafone Cash wallet number that will authorize this payment.")}
                           </p>
                         </div>
                       </motion.div>
@@ -634,7 +639,7 @@ export function BookAppointmentPage() {
                         className="space-y-4"
                       >
                         <div>
-                          <label className="text-xs font-bold text-slate-700 uppercase">InstaPay Address</label>
+                          <label className="text-xs font-bold text-slate-700 uppercase">{t("paymentOptions.labels.instapayId", "InstaPay Address")}</label>
                           <input
                             type="text"
                             placeholder="username@instapay"
@@ -643,7 +648,7 @@ export function BookAppointmentPage() {
                             className="mt-1 block w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-teal-500 focus:outline-none"
                           />
                           <p className="text-[11px] text-slate-400 mt-1">
-                            A secure payment request will be sent to your InstaPay application.
+                            {t("paymentOptions.instapayInstructions", "A secure payment request will be sent to your InstaPay application.")}
                           </p>
                         </div>
                       </motion.div>
@@ -658,7 +663,7 @@ export function BookAppointmentPage() {
 
                   <div className="flex justify-between">
                     <Button variant="ghost" size="lg" className="rounded-2xl" onClick={handlePrevStep}>
-                      Back
+                      {t("onboarding.back", "Back")}
                     </Button>
                     <Button
                       size="lg"
@@ -666,7 +671,7 @@ export function BookAppointmentPage() {
                       onClick={handleSubmitBooking}
                       disabled={submittingBooking}
                     >
-                      {submittingBooking ? "Authorizing..." : `Pay $${doctor.consultationFee ?? 0} & Confirm`}
+                      {submittingBooking ? t("paymentError.processingBtn", "Authorizing...") : `${t("paymentError.retryBtn", "Pay")} $${doctor.consultationFee ?? 0} & ${t("appointment.status.confirmed", "Confirm")}`}
                     </Button>
                   </div>
                 </motion.div>
@@ -686,31 +691,31 @@ export function BookAppointmentPage() {
                     </div>
 
                     <div>
-                      <h2 className="text-2xl font-bold text-slate-900">Appointment Confirmed!</h2>
+                      <h2 className="text-2xl font-bold text-slate-900">{t("paymentModal.confirmedTitle", "Appointment Confirmed!")}</h2>
                       <p className="text-sm text-slate-500 mt-1">
-                        Your consultation payment has been successfully authorized and recorded.
+                        {t("paymentModal.confirmedSubtitle", "Your consultation payment has been successfully authorized and recorded.")}
                       </p>
                     </div>
 
                     <div className="w-full bg-slate-50 rounded-2xl p-5 text-left border border-slate-100 space-y-3">
                       <div className="flex justify-between text-sm">
-                        <span className="text-slate-500">Booking Reference:</span>
+                        <span className="text-slate-500">{t("paymentModal.labels.txId", "Booking Reference:")}</span>
                         <span className="font-semibold text-slate-800">{createdBookingId}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-slate-500">Date:</span>
+                        <span className="text-slate-500">{t("payments.table.date", "Date:")}</span>
                         <span className="font-semibold text-slate-800">{selectedDate}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-slate-500">Time slot:</span>
+                        <span className="text-slate-500">{t("hospitals.labels.nextSlot", "Time slot:")}</span>
                         <span className="font-semibold text-slate-800">{selectedSlot}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-slate-500">Consultant:</span>
-                        <span className="font-semibold text-teal-700">Dr. {doctor.fullName}</span>
+                        <span className="text-slate-500">{t("paymentModal.labels.doctor", "Consultant:")}</span>
+                        <span className="font-semibold text-teal-700">{t("sidebar.doctorPrefix", "Dr.")} {doctor.fullName}</span>
                       </div>
                       <div className="flex justify-between text-sm border-t border-slate-200 pt-3 font-bold text-slate-800">
-                        <span>Total Paid:</span>
+                        <span>{t("paymentModal.labels.amount", "Total Paid:")}</span>
                         <span>${doctor.consultationFee ?? 0}</span>
                       </div>
                     </div>
@@ -720,14 +725,14 @@ export function BookAppointmentPage() {
                         className="flex-1 rounded-2xl py-3.5"
                         onClick={() => navigate(`/patient/invoice/${createdInvoiceId}`)}
                       >
-                        View Official Invoice
+                        {t("paymentModal.buttons.receipt", "View Official Invoice")}
                       </Button>
                       <Button
                         variant="secondary"
                         className="flex-1 rounded-2xl py-3.5 border-slate-200 text-slate-700"
                         onClick={() => navigate("/patient/dashboard")}
                       >
-                        Go to Dashboard
+                        {t("paymentModal.buttons.return", "Go to Dashboard")}
                       </Button>
                     </div>
                   </Card>
@@ -739,7 +744,7 @@ export function BookAppointmentPage() {
           {/* Sidebar Doctor Summary */}
           <div className="lg:col-span-1">
             <Card className="p-6 rounded-3xl border-none shadow-sm space-y-6 sticky top-10">
-              <h3 className="font-bold text-slate-900 border-b border-slate-100 pb-3">Consultation Summary</h3>
+              <h3 className="font-bold text-slate-900 border-b border-slate-100 pb-3">{t("bookingFlow.summaryHeader", "Consultation Summary")}</h3>
 
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-2xl overflow-hidden bg-teal-50 flex items-center justify-center flex-shrink-0 shadow-inner">
@@ -750,8 +755,8 @@ export function BookAppointmentPage() {
                   )}
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-800 text-sm">Dr. {doctor.fullName}</h4>
-                  <p className="text-xs text-slate-500 mt-0.5">{doctor.specialization || "Specialist"}</p>
+                  <h4 className="font-bold text-slate-800 text-sm">{t("sidebar.doctorPrefix", "Dr.")} {doctor.fullName}</h4>
+                  <p className="text-xs text-slate-500 mt-0.5">{doctor.specialization || t("doctorCard.specialist", "Specialist")}</p>
                   <p className="text-[10px] text-slate-400 mt-1 flex items-center gap-1">
                     <Building className="w-3 h-3 text-slate-300" /> {doctor.hospital || "Oral Clinic"}
                   </p>
@@ -761,24 +766,24 @@ export function BookAppointmentPage() {
               <div className="space-y-3 pt-3 border-t border-slate-100 text-xs">
                 {selectedDate && (
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Date</span>
+                    <span className="text-slate-500">{t("payments.table.date", "Date")}</span>
                     <span className="font-semibold text-slate-800">{selectedDate}</span>
                   </div>
                 )}
                 {selectedSlot && (
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Scheduled Time</span>
+                    <span className="text-slate-500">{t("bookingFlow.scheduledTime", "Scheduled Time")}</span>
                     <span className="font-semibold text-slate-800">{selectedSlot}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Session Type</span>
-                  <span className="font-semibold text-slate-800">Premium Consultation</span>
+                  <span className="text-slate-500">{t("bookingFlow.sessionType", "Session Type")}</span>
+                  <span className="font-semibold text-slate-800">{t("bookingFlow.premiumConsult", "Premium Consultation")}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Secure Access</span>
+                  <span className="text-slate-500">{t("paymentOptions.labels.secure", "Secure Access")}</span>
                   <span className="font-semibold text-teal-600 flex items-center gap-0.5">
-                    <ShieldCheck className="w-3.5 h-3.5" /> Encrypted
+                    <ShieldCheck className="w-3.5 h-3.5" /> {t("paymentOptions.labels.secure", "Encrypted")}
                   </span>
                 </div>
               </div>
@@ -786,11 +791,11 @@ export function BookAppointmentPage() {
               <div className="pt-3 border-t border-slate-100 flex justify-between items-center">
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold block">
-                    Session Fee
+                    {t("bookingFlow.sessionFee", "Session Fee")}
                   </span>
                   <span className="text-2xl font-extrabold text-teal-600">${doctor.consultationFee ?? 0}</span>
                 </div>
-                <Badge variant="info">Paid Once</Badge>
+                <Badge variant="info">{t("bookingFlow.paidOnce", "Paid Once")}</Badge>
               </div>
             </Card>
           </div>

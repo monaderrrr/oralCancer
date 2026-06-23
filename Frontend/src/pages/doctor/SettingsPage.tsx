@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { User, Bell, Shield, Save, MapPin, Clock, DollarSign } from "lucide-react"; // أضفنا أيقونات جديدة
+import React, { useState, useEffect } from "react";
+import { User, Bell, Shield, Save, MapPin, Clock, DollarSign } from "lucide-react"; 
 import { Card } from "../../components/ui/Card";
 import { Input } from "../../components/ui/Input";
 import { Button } from "../../components/ui/Button";
 import { PasswordInput } from "../../components/ui/PasswordInput";
 import API from "../../Api";
+import { useTranslation } from "react-i18next"; 
 
 export function SettingsPage() {
+  const { t } = useTranslation(); 
   const [activeTab, setActiveTab] = useState<'account' | 'notifications' | 'privacy'>('account');
   const [isSaving, setIsSaving] = useState(false);
 
-  // ================= DATA =================
   const [accountData, setAccountData] = useState({
     fullName: "",
     email: "",
@@ -34,12 +35,18 @@ export function SettingsPage() {
   const [errors, setErrors] = useState<any>({});
   const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-  // ================= LOAD PROFILE =================
+  const tabs = [
+    { id: "account", label: t("settings.tabs.profile", "Profile Settings"), icon: User },
+    { id: "notifications", label: t("sidebar.notifications", "Notifications"), icon: Bell },
+    { id: "privacy", label: t("settings.tabs.privacy", "Privacy & Security"), icon: Shield }
+  ];
+
+  // LOAD PROFILE
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await API.get("/user/profile"); // تأكدي إن الراوت ده بيرجع الحقول الجديدة
-        if (res.data?.user) { // الباك أند عندك بيرجع الـ object باسم user
+        const res = await API.get("/user/profile"); 
+        if (res.data?.user) { 
           const data = res.data.user;
           setAccountData({
             fullName: data.fullName || "",
@@ -62,23 +69,23 @@ export function SettingsPage() {
     fetchProfile();
   }, []);
 
-  // ================= VALIDATE FUNCTION =================
+  // VALIDATE FUNCTION
   const validate = () => {
     const newErrors: any = {};
-    if (!accountData.fullName.trim()) newErrors.fullName = "Full name is required";
-    if (!accountData.email.trim()) newErrors.email = "Email is required";
-    if (!accountData.phone.trim()) newErrors.phone = "Phone is required";
+    if (!accountData.fullName.trim()) newErrors.fullName = t("settings.errors.nameRequired", "Full name is required");
+    if (!accountData.email.trim()) newErrors.email = t("settings.errors.emailRequired", "Email is required");
+    if (!accountData.phone.trim()) newErrors.phone = t("settings.errors.phoneRequired", "Phone is required");
 
     const hasPasswordInput = passwordData.oldPassword || passwordData.newPassword || passwordData.confirmNewPassword;
     if (hasPasswordInput) {
-      if (!passwordData.oldPassword) newErrors.oldPassword = "Current password is required";
+      if (!passwordData.oldPassword) newErrors.oldPassword = t("settings.errors.oldPassRequired", "Current password is required");
       if (!passwordData.newPassword) {
-        newErrors.newPassword = "New password is required";
+        newErrors.newPassword = t("settings.errors.newPassRequired", "New password is required");
       } else if (!passwordRegex.test(passwordData.newPassword)) {
-        newErrors.newPassword = "Password must be 8+ chars, 1 uppercase, 1 number";
+        newErrors.newPassword = t("auth.signup.weakPassNotice", "Password must be 8+ chars, 1 uppercase, 1 number");
       }
       if (passwordData.newPassword !== passwordData.confirmNewPassword) {
-        newErrors.confirmNewPassword = "Passwords do not match";
+        newErrors.confirmNewPassword = t("auth.errors.passwordMismatch", "Passwords do not match");
       }
     }
 
@@ -86,23 +93,23 @@ export function SettingsPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // ================= SAVE FUNCTION =================
+  // SAVE FUNCTION
   const handleSave = async () => {
-  if (!validate()) return;
-  setIsSaving(true);
-  try {
-    const payload = {
-      fullName: accountData.fullName.trim(),
-      email: accountData.email.trim(),
-      phone: accountData.phone.trim(),
-      bio: accountData.bio,
-      specialization: accountData.specialization,
-      hospital: accountData.hospital,
-      address: accountData.address,
-      workingDays: accountData.workingDays,
-      yearsOfExperience: accountData.yearsOfExperience ? Number(accountData.yearsOfExperience) : 0,
-      consultationFee: accountData.consultationFee ? Number(accountData.consultationFee) : 0,
-    };
+    if (!validate()) return;
+    setIsSaving(true);
+    try {
+      const payload = {
+        fullName: accountData.fullName.trim(),
+        email: accountData.email.trim(),
+        phone: accountData.phone.trim(),
+        bio: accountData.bio,
+        specialization: accountData.specialization,
+        hospital: accountData.hospital,
+        address: accountData.address,
+        workingDays: accountData.workingDays,
+        yearsOfExperience: accountData.yearsOfExperience ? Number(accountData.yearsOfExperience) : 0,
+        consultationFee: accountData.consultationFee ? Number(accountData.consultationFee) : 0,
+      };
       await API.put("/user/updateProfile", payload);
 
       if (passwordData.oldPassword && passwordData.newPassword) {
@@ -111,25 +118,25 @@ export function SettingsPage() {
           newPassword: passwordData.newPassword,
           confirmNewPassword: passwordData.confirmNewPassword
         });
-        alert("Settings & Password updated! Please login again.");
+        alert(t("settings.alerts.passwordSuccess", "Settings & Password updated! Please login again."));
         localStorage.clear();
         window.location.href = "/login";
         return;
       }
 
-      alert("Profile updated successfully ✅");
+      alert(t("settings.alerts.profileSuccess", "Profile updated successfully ✅"));
       setErrors({});
     } catch (err: any) {
-      alert(err?.response?.data?.message || "Update failed");
+      alert(err?.response?.data?.message || t("auth.errors.resendFailed", "Update failed"));
     } finally {
       setIsSaving(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8">
+    <div className="min-h-screen bg-slate-50 py-8 text-left">
       <div className="max-w-5xl mx-auto px-4">
-        <h1 className="text-2xl font-bold mb-6 text-slate-800">Settings</h1>
+        <h1 className="text-2xl font-bold mb-6 text-slate-800">{t("sidebar.settings", "Settings")}</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <Card className="p-2 h-fit bg-white border-none shadow-sm">
@@ -138,6 +145,7 @@ export function SettingsPage() {
               return (
                 <button
                   key={tab.id}
+                  type="button"
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                     activeTab === tab.id ? "bg-teal-600 text-white shadow-md font-medium" : "text-slate-600 hover:bg-slate-50"
@@ -156,25 +164,25 @@ export function SettingsPage() {
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Input
-                      label="Full Name"
+                      label={t("auth.inputs.fullName", "Full Name")}
                       value={accountData.fullName}
                       onChange={(e) => setAccountData({ ...accountData, fullName: e.target.value })}
                       error={errors.fullName}
                     />
                     <Input
-                      label="Email"
+                      label={t("auth.inputs.email", "Email")}
                       value={accountData.email}
                       onChange={(e) => setAccountData({ ...accountData, email: e.target.value })}
                       error={errors.email}
                     />
                     <Input
-                      label="Phone"
+                      label={t("auth.inputs.phone", "Phone")}
                       value={accountData.phone}
                       onChange={(e) => setAccountData({ ...accountData, phone: e.target.value })}
                       error={errors.phone}
                     />
                     <Input
-                      label="Consultation Fee ($)"
+                      label={t("onboarding.inputs.fee", "Consultation Fee ($)")}
                       type="number"
                       value={accountData.consultationFee}
                       onChange={(e) => setAccountData({ ...accountData, consultationFee: e.target.value })}
@@ -184,25 +192,24 @@ export function SettingsPage() {
 
                   <div className="pt-4 border-t space-y-4">
                     <h3 className="font-bold text-slate-800 flex items-center gap-2">
-                       Professional Details
+                       {t("auth.signup.professionalHeader", "Professional Details")}
                     </h3>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <Input
-                        label="Specialization"
+                        label={t("doctorCard.specialist", "Specialization")}
                         value={accountData.specialization}
                         onChange={(e) => setAccountData({ ...accountData, specialization: e.target.value })}
                       />
                       <Input
-                        label="Hospital / Clinic Name"
+                        label={t("onboarding.inputs.clinicName", "Hospital / Clinic Name")}
                         value={accountData.hospital}
                         onChange={(e) => setAccountData({ ...accountData, hospital: e.target.value })}
                       />
                     </div>
 
-                    {/* --- الحقول الجديدة في الـ UI --- */}
                     <Input
-                      label="Full Clinic Address"
+                      label={t("settings.labels.fullAddress", "Full Clinic Address")}
                       placeholder="e.g. 123 Street, Mansoura, Egypt"
                       value={accountData.address}
                       onChange={(e) => setAccountData({ ...accountData, address: e.target.value })}
@@ -210,7 +217,7 @@ export function SettingsPage() {
                     />
 
                     <Input
-                      label="Working Hours / Days"
+                      label={t("settings.labels.workingHours", "Working Hours / Days")}
                       placeholder="e.g. Sat-Wed (10 AM - 6 PM)"
                       value={accountData.workingDays}
                       onChange={(e) => setAccountData({ ...accountData, workingDays: e.target.value })}
@@ -219,48 +226,48 @@ export function SettingsPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <Input
-                          label="Years of Experience"
+                          label={t("settings.labels.experience", "Years of Experience")}
                           type="number"
                           value={accountData.yearsOfExperience}
                           onChange={(e) => setAccountData({ ...accountData, yearsOfExperience: e.target.value })}
                         />
                         <Input
-                          label="Medical License (Read Only)"
+                          label={t("settings.labels.licenseReadOnly", "Medical License (Read Only)")}
                           value={accountData.medicalLicenseNumber}
                           disabled
                           className="bg-slate-50 opacity-70"
                         />
                     </div>
 
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-slate-700">Bio</label>
+                    <div className="flex flex-col gap-1 text-left">
+                        <label className="text-sm font-medium text-slate-700">{t("settings.labels.bio", "Bio")}</label>
                         <textarea 
-                            className="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-teal-500 focus:outline-none min-h-[100px]"
+                            className="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-teal-500 focus:outline-none min-h-[100px] text-sm bg-white"
                             value={accountData.bio}
                             onChange={(e) => setAccountData({ ...accountData, bio: e.target.value })}
-                            placeholder="Tell patients about your expertise..."
+                            placeholder={t("settings.placeholders.bio", "Tell patients about your expertise...")}
                         />
                     </div>
                   </div>
 
                   <div className="pt-6 border-t">
-                    <h3 className="font-bold text-slate-800 mb-4">Security</h3>
+                    <h3 className="font-bold text-slate-800 mb-4">{t("settings.labels.security", "Security")}</h3>
                     <div className="space-y-4">
                       <PasswordInput
-                        placeholder="Current password"
+                        placeholder={t("settings.placeholders.oldPass", "Current password")}
                         value={passwordData.oldPassword}
                         onChange={(e) => setPasswordData({ ...passwordData, oldPassword: e.target.value })}
                         error={errors.oldPassword}
                       />
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <PasswordInput
-                          placeholder="New password"
+                          placeholder={t("settings.placeholders.newPass", "New password")}
                           value={passwordData.newPassword}
                           onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
                           error={errors.newPassword}
                         />
                         <PasswordInput
-                          placeholder="Confirm new password"
+                          placeholder={t("settings.placeholders.confirmNewPass", "Confirm new password")}
                           value={passwordData.confirmNewPassword}
                           onChange={(e) => setPasswordData({ ...passwordData, confirmNewPassword: e.target.value })}
                           error={errors.confirmNewPassword}
@@ -275,7 +282,7 @@ export function SettingsPage() {
                       isLoading={isSaving} 
                       className="bg-teal-600 hover:bg-teal-700 px-8 py-6 rounded-2xl text-lg font-bold shadow-lg shadow-teal-100"
                     >
-                      <Save className="w-5 h-5 mr-2" /> Save Everything
+                      <Save className="w-5 h-5 mr-2" /> {t("settings.buttons.saveAll", "Save Everything")}
                     </Button>
                   </div>
                 </div>
@@ -286,8 +293,8 @@ export function SettingsPage() {
                    <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                       <Shield className="w-8 h-8 text-slate-300" />
                    </div>
-                   <p className="font-medium text-lg">Coming Soon</p>
-                   <p className="text-sm">These settings will be available in the next update.</p>
+                   <p className="font-medium text-lg">{t("settings.comingSoon.title", "Coming Soon")}</p>
+                   <p className="text-sm">{t("settings.comingSoon.desc", "These settings will be available in the next update.")}</p>
                 </div>
               )}
             </Card>
@@ -297,9 +304,3 @@ export function SettingsPage() {
     </div>
   );
 }
-
-const tabs = [
-  { id: "account", label: "Profile Settings", icon: User },
-  { id: "notifications", label: "Notifications", icon: Bell },
-  { id: "privacy", label: "Privacy & Security", icon: Shield }
-];

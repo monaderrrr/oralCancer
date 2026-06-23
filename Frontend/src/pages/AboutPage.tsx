@@ -3,7 +3,11 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { HeartIcon, ShieldCheckIcon, BrainIcon, LockIcon, UsersIcon, AwardIcon, GlobeIcon, ArrowRightIcon, CheckCircleIcon, ServerIcon, EyeOffIcon, TrashIcon } from 'lucide-react';
 import { Button } from '../components/ui/Button';
+import { useTranslation } from 'react-i18next'; 
+
 export function AboutPage() {
+  const { t } = useTranslation(); 
+
   const values = [{
     icon: HeartIcon,
     title: 'Patient-First Approach',
@@ -56,6 +60,7 @@ export function AboutPage() {
     title: 'Right to Delete',
     description: 'Request deletion of any data at any time. Full compliance with GDPR and CCPA.'
   }];
+
   return <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
     {/* Hero */}
     <section className="relative overflow-hidden py-20 lg:py-28">
@@ -70,15 +75,13 @@ export function AboutPage() {
         }} className="text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-100 rounded-full text-teal-700 text-sm font-medium mb-6">
             <HeartIcon className="w-4 h-4" />
-            Our Mission
+            {t('about.mission', 'Our Mission')}
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">
-            Saving Lives Through Early Detection
+            {t('about.heroTitle', 'Saving Lives Through Early Detection')}
           </h1>
           <p className="text-xl text-slate-600 leading-relaxed">
-            We're on a mission to make oral cancer screening accessible to
-            everyone. By combining cutting-edge AI with medical expertise,
-            we're empowering people to take control of their health.
+            {t('about.heroDescription', "We're on a mission to make oral cancer screening accessible to everyone. By combining cutting-edge AI with medical expertise, we're empowering people to take control of their health.")}
           </p>
         </motion.div>
       </div>
@@ -98,26 +101,17 @@ export function AboutPage() {
             once: true
           }}>
             <h2 className="text-3xl font-bold text-slate-900 mb-6">
-              Why We Built This
+              {t('about.whyTitle', 'Why We Built This')}
             </h2>
             <div className="space-y-4 text-lg text-slate-600 leading-relaxed">
               <p>
-                Oral cancer affects over 50,000 people in the Egypt
-                alone each year. When detected early, the survival rate
-                exceeds 80%. Yet many cases go undiagnosed until advanced
-                stages due to limited access to regular screenings.
+                {t('about.whyText1', 'Oral cancer affects over 50,000 people in the Egypt alone each year. When detected early, the survival rate exceeds 80%. Yet many cases go undiagnosed until advanced stages due to limited access to regular screenings.')}
               </p>
               <p>
-                We believe that everyone deserves access to early detection
-                tools, regardless of their location, income, or access to
-                healthcare. Our AI-powered screening platform bridges this
-                gap, providing instant, accurate risk assessments from the
-                comfort of your home.
+                {t('about.whyText2', 'We believe that everyone deserves access to early detection tools, regardless of their location, income, or access to healthcare. Our AI-powered screening platform bridges this gap, providing instant, accurate risk assessments from the comfort of your home.')}
               </p>
               <p>
-                Our technology doesn't replace professional medical care—it
-                complements it by helping identify potential concerns early,
-                when treatment is most effective.
+                {t('about.whyText3', "Our technology doesn't replace professional medical care—it complements it by helping identify potential concerns early, when treatment is most effective.")}
               </p>
             </div>
           </motion.div>
@@ -146,15 +140,14 @@ export function AboutPage() {
                 <value.icon className="w-6 h-6 text-teal-600" />
               </div>
               <h3 className="font-semibold text-slate-900 mb-2">
-                {value.title}
+                {t(`about.values.${index}.title`, value.title)}
               </h3>
-              <p className="text-sm text-slate-600">{value.description}</p>
+              <p className="text-sm text-slate-600">{t(`about.values.${index}.description`, value.description)}</p>
             </motion.div>)}
           </motion.div>
         </div>
       </div>
     </section>
-
 
     {/* Privacy & Security */}
     <section className="py-20 bg-white">
@@ -170,14 +163,13 @@ export function AboutPage() {
         }} className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 rounded-full text-emerald-700 text-sm font-medium mb-4">
             <LockIcon className="w-4 h-4" />
-            Privacy First
+            {t('about.privacyFirst', 'Privacy First')}
           </div>
           <h2 className="text-3xl font-bold text-slate-900 mb-4">
-            Your Data, Protected
+            {t('about.dataProtected', 'Your Data, Protected')}
           </h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            We take your privacy seriously. Here's how we protect your
-            information.
+            {t('about.privacyDesc', "We take your privacy seriously. Here's how we protect your information.")}
           </p>
         </motion.div>
 
@@ -197,9 +189,9 @@ export function AboutPage() {
               <feature.icon className="w-6 h-6 text-emerald-600" />
             </div>
             <h3 className="font-semibold text-slate-900 mb-2">
-              {feature.title}
+              {t(`about.privacyFeatures.${index}.title`, feature.title)}
             </h3>
-            <p className="text-sm text-slate-600">{feature.description}</p>
+            <p className="text-sm text-slate-600">{t(`about.privacyFeatures.${index}.description`, feature.description)}</p>
           </motion.div>)}
         </div>
 
@@ -234,14 +226,13 @@ export function AboutPage() {
         }} className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-200 rounded-full text-slate-700 text-sm font-medium mb-4">
             <UsersIcon className="w-4 h-4" />
-            Our Team
+            {t('about.ourTeam', 'Our Team')}
           </div>
           <h2 className="text-3xl font-bold text-slate-900 mb-4">
-            Led by Experts
+            {t('about.ledByExperts', 'Led by Experts')}
           </h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Our team combines decades of experience in medicine, AI research,
-            and healthcare technology.
+            {t('about.teamDesc', 'Our team combines decades of experience in medicine, AI research, and healthcare technology.')}
           </p>
         </motion.div>
 
@@ -261,8 +252,8 @@ export function AboutPage() {
               <UsersIcon className="w-8 h-8 text-teal-600" />
             </div>
             <h3 className="font-semibold text-slate-900">{member.name}</h3>
-            <p className="text-teal-600 text-sm mb-1">{member.role}</p>
-            <p className="text-slate-500 text-xs">{member.specialty}</p>
+            <p className="text-teal-600 text-sm mb-1">{t(`about.team.${index}.role`, member.role)}</p>
+            <p className="text-slate-500 text-xs">{t(`about.team.${index}.specialty`, member.specialty)}</p>
           </motion.div>)}
         </div>
       </div>
@@ -281,10 +272,10 @@ export function AboutPage() {
           once: true
         }} className="text-center mb-12">
           <h2 className="text-3xl font-bold text-slate-900 mb-4">
-            Trusted Partners
+            {t('about.partners', 'Trusted Partners')}
           </h2>
           <p className="text-lg text-slate-600">
-            Collaborating with leading medical institutions worldwide
+            {t('about.partnersDesc', 'Collaborating with leading medical institutions worldwide')}
           </p>
         </motion.div>
 
@@ -317,15 +308,14 @@ export function AboutPage() {
           once: true
         }}>
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Join Us in the Fight Against Oral Cancer
+            {t('about.ctaTitle', 'Join Us in the Fight Against Oral Cancer')}
           </h2>
           <p className="text-xl text-teal-100 mb-8 max-w-2xl mx-auto">
-            Take the first step towards better oral health. Get your free
-            screening today.
+            {t('about.ctaSubtitle', 'Take the first step towards better oral health. Get your free screening today.')}
           </p>
           <Link to="/upload">
             <Button className="group px-10 py-4 text-lg bg-white !text-teal-700 hover:bg-teal-300 hover:!text-white rounded-xl shadow-lg">
-              Start Your Free Scan
+              {t('about.ctaButton', 'Start Your Free Scan')}
               <ArrowRightIcon className="w-5 h-5 ml-2 group-text-teal-700" />
             </Button>
           </Link>

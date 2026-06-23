@@ -55,24 +55,32 @@ export function ChatPage() {
   }, [conversationId]);
 
   // ================= RECEIVE (LIKE DOCTOR) =================
-  useEffect(() => {
-    const handler = (msg: any) => {
-      if (msg.conversationId !== conversationId) return;
+useEffect(() => {
+  const handler = (msg: any) => {
+    if (msg.conversationId !== conversationId) return;
 
-      setMessages((prev) => {
-        const exists = prev.some((m) => m._id === msg._id);
-        if (exists) return prev;
+    const senderId =
+      typeof msg.senderId === "object"
+        ? msg.senderId?._id
+        : msg.senderId;
 
-        return [...prev, msg];
-      });
-    };
+    if (senderId === userId) return;
 
-    socket.on("receiveMessage", handler);
+    setMessages((prev) => {
+      const exists = prev.some((m) => m._id === msg._id);
 
-    return () => {
-      socket.off("receiveMessage", handler);
-    };
-  }, [conversationId]);
+      if (exists) return prev;
+
+      return [...prev, msg];
+    });
+  };
+
+  socket.on("receiveMessage", handler);
+
+  return () => {
+    socket.off("receiveMessage", handler);
+  };
+}, [conversationId, userId]);
 
   // ================= SEND (FIXED: NO DUPLICATION) =================
   const handleSend = async (text: string, file?: File) => {

@@ -16,6 +16,7 @@ import {
   Filler,
 } from "chart.js";
 import API from "../../Api";
+import { useTranslation } from "react-i18next";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Filler);
 
@@ -43,6 +44,7 @@ interface HistoryResponse {
 }
 
 export function ScanHistoryPage() {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
   const [history, setHistory] = useState<HistoryResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -79,7 +81,7 @@ export function ScanHistoryPage() {
       ),
       datasets: [
         {
-          label: "Risk Score",
+          label: t("scanHistory.riskScore", "Risk Score"),
           data: (history?.riskTrend || []).map((s) => s.riskScore),
           borderColor: "rgb(20, 184, 166)",
           backgroundColor: "rgba(20, 184, 166, 0.1)",
@@ -88,7 +90,7 @@ export function ScanHistoryPage() {
         },
       ],
     }),
-    [history]
+    [history, t]
   );
 
   const chartOptions = {
@@ -118,11 +120,11 @@ export function ScanHistoryPage() {
   const getRiskBadge = (status: Scan["riskLevel"]) => {
     switch (status) {
       case "low":
-        return <Badge variant="success">Low Risk</Badge>;
+        return <Badge variant="success">{t("reports.risk.low", "Low Risk")}</Badge>;
       case "medium":
-        return <Badge variant="warning">Medium Risk</Badge>;
+        return <Badge variant="warning">{t("reports.risk.medium", "Medium Risk")}</Badge>;
       case "high":
-        return <Badge variant="danger">High Risk</Badge>;
+        return <Badge variant="danger">{t("reports.risk.high", "High Risk")}</Badge>;
     }
   };
 
@@ -139,11 +141,11 @@ export function ScanHistoryPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 py-8">
+      <div className="min-h-screen bg-slate-50 py-8 text-left">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="p-12 text-center">
             <RefreshCw className="w-10 h-10 text-teal-600 mx-auto mb-4 animate-spin" />
-            <p className="text-slate-600">Loading scan history...</p>
+            <p className="text-slate-600">{t("scanHistory.loading", "Loading scan history...")}</p>
           </Card>
         </div>
       </div>
@@ -152,7 +154,7 @@ export function ScanHistoryPage() {
 
   if (error || scans.length === 0) {
     return (
-      <div className="min-h-screen bg-slate-50 py-8">
+      <div className="min-h-screen bg-slate-50 py-8 text-left">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <Button
             variant="ghost"
@@ -161,13 +163,13 @@ export function ScanHistoryPage() {
             onClick={() => navigate("/patient/reports")}
             className="mb-4"
           >
-            Back to Reports
+            {t("reports.back", "Back to Reports")}
           </Button>
           <Card className="p-12 text-center">
             <Image className="w-14 h-14 text-slate-400 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-slate-900 mb-2">No scans yet</h1>
-            <p className="text-slate-600 mb-6">{error || "Your saved scan history will appear here."}</p>
-            <Button onClick={() => navigate("/patient/upload")}>Start New Scan</Button>
+            <h1 className="text-2xl font-bold text-slate-900 mb-2">{t("scanHistory.noScans", "No scans yet")}</h1>
+            <p className="text-slate-600 mb-6">{error || t("scanHistory.noScansDesc", "Your saved scan history will appear here.")}</p>
+            <Button onClick={() => navigate("/patient/upload")}>{t("dashboard.scans.startBtn", "Start New Scan")}</Button>
           </Card>
         </div>
       </div>
@@ -175,7 +177,7 @@ export function ScanHistoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8">
+    <div className="min-h-screen bg-slate-50 py-8 text-left">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <Button
@@ -185,15 +187,15 @@ export function ScanHistoryPage() {
             onClick={() => navigate("/patient/reports")}
             className="mb-4"
           >
-            Back to Reports
+            {t("reports.back", "Back to Reports")}
           </Button>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center">
               <TrendingUp className="w-6 h-6 text-teal-600" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-slate-900">Scan History & Trends</h1>
-              <p className="text-slate-600">Track your oral health over time</p>
+              <h1 className="text-2xl font-bold text-slate-900">{t("scanHistory.title", "Scan History & Trends")}</h1>
+              <p className="text-slate-600">{t("scanHistory.subtitle", "Track your oral health over time")}</p>
             </div>
           </div>
         </div>
@@ -206,26 +208,26 @@ export function ScanHistoryPage() {
                   {getRiskIcon(latestScan.riskLevel)}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-teal-700 mb-1">Latest Scan</p>
+                  <p className="text-sm font-semibold text-teal-700 mb-1">{t("scanHistory.latest", "Latest Scan")}</p>
                   <h2 className="text-xl font-bold text-slate-900">
                     {new Date(latestScan.createdAt).toLocaleString()}
                   </h2>
                   <div className="flex items-center gap-3 mt-2 text-sm text-slate-700">
                     {getRiskBadge(latestScan.riskLevel)}
-                    <span>Risk: {latestScan.riskScore}%</span>
-                    <span>Confidence: {latestScan.confidence}%</span>
+                    <span>{t("reports.riskScore", "Risk")}: {latestScan.riskScore}%</span>
+                    <span>{t("reports.confidence", "Confidence")}: {latestScan.confidence}%</span>
                   </div>
                 </div>
               </div>
-              <Button onClick={() => navigate(`/patient/reports/${latestScan.scanId}`)}>View Latest Result</Button>
+              <Button onClick={() => navigate(`/patient/reports/${latestScan.scanId}`)}>{t("scanHistory.viewLatest", "View Latest Result")}</Button>
             </div>
           </Card>
         )}
 
         <Card className="p-6 mb-8">
           <div className="mb-6">
-            <h2 className="text-lg font-semibold text-slate-900 mb-2">Risk Score Trend</h2>
-            <p className="text-sm text-slate-600">Your saved risk scores over time</p>
+            <h2 className="text-lg font-semibold text-slate-900 mb-2">{t("scanHistory.chart.title", "Risk Score Trend")}</h2>
+            <p className="text-sm text-slate-600">{t("scanHistory.chart.desc", "Your saved risk scores over time")}</p>
           </div>
           <div className="h-64">
             <Line data={chartData} options={chartOptions} />
@@ -233,90 +235,37 @@ export function ScanHistoryPage() {
         </Card>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-slate-600">Total Scans</span>
-              <Image className="w-5 h-5 text-slate-400" />
-            </div>
-            <p className="text-3xl font-bold text-slate-900">{history?.summary.totalScans || 0}</p>
-          </Card>
-
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-slate-600">Avg. Risk Score</span>
-              <TrendingUp className="w-5 h-5 text-teal-500" />
-            </div>
-            <p className="text-3xl font-bold text-slate-900">{history?.summary.avgRiskScore || 0}%</p>
-          </Card>
-
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-slate-600">Low Risk Scans</span>
-              <CheckCircle className="w-5 h-5 text-green-500" />
-            </div>
-            <p className="text-3xl font-bold text-green-600">{history?.summary.lowRiskScans || 0}</p>
-          </Card>
-
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-slate-600">Avg. Confidence</span>
-              <AlertCircle className="w-5 h-5 text-blue-500" />
-            </div>
-            <p className="text-3xl font-bold text-slate-900">{history?.summary.avgConfidence || 0}%</p>
-          </Card>
+          <SummaryCard label={t("reports.stats.total", "Total Scans")} value={history?.summary.totalScans || 0} icon={Image} />
+          <SummaryCard label={t("reports.stats.avgRisk", "Avg. Risk Score")} value={`${history?.summary.avgRiskScore || 0}%`} icon={TrendingUp} />
+          <SummaryCard label={t("reports.stats.lowRisk", "Low Risk Scans")} value={history?.summary.lowRiskScans || 0} icon={CheckCircle} />
+          <SummaryCard label={t("reports.stats.confidence", "Avg. Confidence")} value={`${history?.summary.avgConfidence || 0}%`} icon={AlertCircle} />
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold text-slate-900 mb-4">Scan Timeline</h2>
+          <h2 className="text-lg font-semibold text-slate-900 mb-4">{t("scanHistory.timeline", "Scan Timeline")}</h2>
           <div className="space-y-4">
             {scans.map((scan, index) => (
               <Card key={scan.scanId} className="p-6 hover:shadow-md transition-shadow cursor-pointer">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
-                    <div
-                      className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                        scan.riskLevel === "low"
-                          ? "bg-green-100"
-                          : scan.riskLevel === "medium"
-                          ? "bg-amber-100"
-                          : "bg-red-100"
-                      }`}
-                    >
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${scan.riskLevel === "low" ? "bg-green-100" : scan.riskLevel === "medium" ? "bg-amber-100" : "bg-red-100"}`}>
                       {getRiskIcon(scan.riskLevel)}
                     </div>
                     <div>
                       <div className="flex flex-wrap items-center gap-2 mb-1">
                         <h3 className="font-semibold text-slate-900">
-                          {index === 0 ? "Latest Scan" : `Scan #${scans.length - index}`}
+                          {index === 0 ? t("scanHistory.latest", "Latest Scan") : `${t("scanHistory.scan", "Scan")} #${scans.length - index}`}
                         </h3>
                         {getRiskBadge(scan.riskLevel)}
-                        {scan.reviewStatus && (
-                          <span className={`rounded-full px-2 py-1 text-[11px] font-semibold ${
-                            scan.reviewStatus === "Reviewed"
-                              ? "bg-emerald-100 text-emerald-700"
-                              : "bg-amber-100 text-amber-700"
-                          }`}>
-                            {scan.reviewStatus}
-                          </span>
-                        )}
                       </div>
                       <div className="flex items-center gap-4 text-sm text-slate-500 flex-wrap">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
-                          {new Date(scan.createdAt).toLocaleDateString("en-US", {
-                            month: "long",
-                            day: "numeric",
-                            year: "numeric",
-                          })}
-                        </span>
-                        <span>Risk: {scan.riskScore}%</span>
-                        <span>Confidence: {scan.confidence}%</span>
+                        <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {new Date(scan.createdAt).toLocaleDateString()}</span>
+                        <span>{t("reports.riskScore", "Risk")}: {scan.riskScore}%</span>
+                        <span>{t("reports.confidence", "Confidence")}: {scan.confidence}%</span>
                       </div>
                     </div>
                   </div>
-                  <Button size="sm" variant="outline" onClick={() => navigate(`/patient/reports/${scan.scanId}`)}>
-                    View Details
-                  </Button>
+                  <Button size="sm" variant="outline" onClick={() => navigate(`/patient/reports/${scan.scanId}`)}>{t("scanHistory.viewDetails", "View Details")}</Button>
                 </div>
               </Card>
             ))}
@@ -330,16 +279,27 @@ export function ScanHistoryPage() {
                 <TrendingUp className="w-6 h-6 text-teal-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-slate-900 mb-2">Health Insights</h3>
+                <h3 className="font-semibold text-slate-900 mb-2">{t("scanHistory.insights", "Health Insights")}</h3>
                 <p className="text-sm text-slate-700 mb-3">{history.healthInsights.message}</p>
-                <p className="text-sm text-slate-700">
-                  <strong>Recommendation:</strong> {history.healthInsights.recommendation}
-                </p>
+                <p className="text-sm text-slate-700"><strong>{t("scanHistory.recommendation", "Recommendation")}:</strong> {history.healthInsights.recommendation}</p>
               </div>
             </div>
           </Card>
         )}
       </div>
     </div>
+  );
+}
+
+function SummaryCard({ label, value, icon: Icon, subtext }: any) {
+  return (
+    <Card className="p-6">
+      <div className="flex justify-between mb-2">
+        <span className="text-sm text-slate-600">{label}</span>
+        <Icon className="w-5 h-5 text-slate-400" />
+      </div>
+      <p className="text-2xl font-bold">{value}</p>
+      {subtext && <p className="text-xs text-slate-500 mt-1">{subtext}</p>}
+    </Card>
   );
 }

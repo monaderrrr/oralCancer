@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Bell, CheckCheck, FileText, MessageCircle, ShieldCheck, Sparkles } from "lucide-react";
 import { Card } from "../../components/ui/Card";
@@ -6,6 +6,7 @@ import { Button } from "../../components/ui/Button";
 import API from "../../Api";
 import socket from "../../socket/Socket";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next"; 
 
 interface Notification {
   _id: string;
@@ -25,6 +26,7 @@ interface Notification {
 }
 
 export function NotificationsPage() {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
   const [filter, setFilter] = useState<"all" | "unread">("all");
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -103,7 +105,7 @@ export function NotificationsPage() {
     console.log("Resolved URL:", finalUrl);
 
     if (!finalUrl) {
-      alert("This notification is not linked to any content.");
+      alert(t("notifications.alerts.noLink", "This notification is not linked to any content."));
       return;
     }
 
@@ -121,7 +123,7 @@ export function NotificationsPage() {
     filter === "unread" ? notifications.filter((item) => !item.isRead) : notifications;
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8">
+    <div className="min-h-screen bg-slate-50 py-8 text-left">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: -12 }}
@@ -133,16 +135,16 @@ export function NotificationsPage() {
               <Bell className="w-6 h-6 text-teal-700" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-slate-900">Notifications</h1>
+              <h1 className="text-2xl font-bold text-slate-900">{t("sidebar.notifications", "Notifications")}</h1>
               <p className="text-sm text-slate-600">
-                {unreadCount ? `${unreadCount} unread updates` : "All caught up"}
+                {unreadCount ? `${unreadCount} ${t("notifications.unreadUpdates", "unread updates")}` : t("todaysActions.empty.title", "All caught up")}
               </p>
             </div>
           </div>
 
           {unreadCount > 0 && (
             <Button variant="ghost" size="sm" onClick={markAllAsRead} leftIcon={<CheckCheck className="w-4 h-4" />}>
-              Mark all read
+              {t("notifications.markAllRead", "Mark all read")}
             </Button>
           )}
         </motion.div>
@@ -156,19 +158,19 @@ export function NotificationsPage() {
                 filter === tab ? "bg-teal-600 text-white shadow-sm" : "bg-white text-slate-600 hover:bg-slate-100"
               }`}
             >
-              {tab === "all" ? "All" : "Unread"}
+              {tab === "all" ? t("notifications.tabs.all", "All") : t("notifications.tabs.unread", "Unread")}
             </button>
           ))}
         </div>
 
         <div className="space-y-3">
           {loading ? (
-            <Card className="p-10 text-center text-slate-500">Loading notifications...</Card>
+            <Card className="p-10 text-center text-slate-500">{t("notifications.loading", "Loading notifications...")}</Card>
           ) : filtered.length === 0 ? (
             <Card className="p-12 text-center">
               <Bell className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-              <h3 className="font-semibold text-slate-900">No notifications</h3>
-              <p className="text-sm text-slate-500 mt-1">New messages and approval updates will appear here.</p>
+              <h3 className="font-semibold text-slate-900">{t("admin.sections.noPending", "No notifications")}</h3>
+              <p className="text-sm text-slate-500 mt-1">{t("notifications.emptyDesc", "New messages and approval updates will appear here.")}</p>
             </Card>
           ) : (
             filtered.map((notification, index) => (
@@ -205,7 +207,7 @@ export function NotificationsPage() {
                           }}
                           className="text-xs font-semibold px-3 py-1.5 border-teal-200 text-teal-700 hover:bg-teal-50 hover:border-teal-300 rounded-lg transition-all"
                         >
-                          View Details
+                          {t("actions.viewDetails", "View Details")}
                         </Button>
                       </div>
                     </div>

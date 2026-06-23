@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { AlertCircle, ArrowLeft, Calendar, CheckCircle, FileImage, RefreshCw, UserCheck } from "lucide-react";
+import { AlertCircle, ArrowLeft, Calendar, CheckCircle, FileImage, RefreshCw, UserCheck, Info } from "lucide-react";
 import { Card } from "../../components/ui/Card";
 import { Button } from "../../components/ui/Button";
 import { Badge } from "../../components/ui/Badge";
 import { RiskScoreCard } from "../../components/medical/RiskScoreCard";
 import API, { IMAGE_BASE_URL } from "../../Api";
+import { useTranslation } from "react-i18next"; // إضافة الترجمة
 
 interface ScanDetail {
   scanId: string;
@@ -18,6 +19,7 @@ interface ScanDetail {
   userAnswers?: Record<string, string>;
   notes?: string | null;
   createdAt: string;
+  reviewStatus?: string;
   doctorReview?: {
     doctorName?: string | null;
     notes?: string;
@@ -28,6 +30,7 @@ interface ScanDetail {
 }
 
 export function ScanReportDetailPage() {
+  const { t } = useTranslation(); // تفعيل الترجمة
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -89,11 +92,11 @@ export function ScanReportDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 py-8">
+      <div className="min-h-screen bg-slate-50 py-8" dir="rtl">
         <div className="mx-auto max-w-4xl px-4">
           <Card className="p-12 text-center">
             <RefreshCw className="mx-auto mb-4 h-10 w-10 animate-spin text-teal-600" />
-            <p className="text-slate-600">Loading scan report...</p>
+            <p className="text-slate-600">{t("results.loading", "Loading scan report...")}</p>
           </Card>
         </div>
       </div>
@@ -103,18 +106,18 @@ export function ScanReportDetailPage() {
   if (error || !scan) {
     const isDeleted = error === "Content no longer available.";
     return (
-      <div className="min-h-screen bg-slate-50 py-8">
+      <div className="min-h-screen bg-slate-50 py-8" dir="rtl">
         <div className="mx-auto max-w-4xl px-4">
-          <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="h-4 w-4" />} onClick={() => navigate("/patient/reports")} className="mb-4">
-            Back to Reports
+          <Button variant="ghost" size="sm" onClick={() => navigate("/patient/reports")} className="mb-4">
+            <ArrowLeft className="h-4 w-4 ml-2" /> {t("results.back", "Back")}
           </Button>
           <Card className="p-12 text-center">
             <AlertCircle className="mx-auto mb-4 h-12 w-12 text-red-500" />
             <h1 className="text-xl font-bold text-slate-900">
-              {isDeleted ? "Content no longer available." : "Review not found."}
+              {isDeleted ? t("results.notAvailable", "Content no longer available.") : t("results.notFound", "Review not found.")}
             </h1>
             {!isDeleted && (
-              <p className="mt-2 text-slate-600">{error || "The requested review could not be loaded."}</p>
+              <p className="mt-2 text-slate-600">{error || t("results.errorLoad", "The requested review could not be loaded.")}</p>
             )}
           </Card>
         </div>
@@ -126,16 +129,16 @@ export function ScanReportDetailPage() {
   const reviewed = Boolean(scan.doctorReview?.reviewedAt);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-8">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-8 text-right" dir="rtl">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="h-4 w-4" />} onClick={() => navigate("/patient/reports")} className="mb-4">
-            Back to Reports
+          <Button variant="ghost" size="sm" onClick={() => navigate("/patient/reports")} className="mb-4">
+            <ArrowLeft className="h-4 w-4 ml-2" /> {t("results.back", "Back")}
           </Button>
 
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">Scan Report</h1>
+              <h1 className="text-3xl font-bold text-slate-900">{t("results.scanReport", "Scan Report")}</h1>
               <div className="mt-2 flex flex-wrap items-center gap-2 text-slate-600">
                 <span className="inline-flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
@@ -152,7 +155,7 @@ export function ScanReportDetailPage() {
                 )}
               </div>
             </div>
-            <Badge riskLevel={scan.riskLevel}>{scan.riskLevel.toUpperCase()} RISK</Badge>
+            <Badge riskLevel={scan.riskLevel}>{scan.riskLevel.toUpperCase()} {t("results.risk", "RISK")}</Badge>
           </div>
         </div>
 
@@ -162,11 +165,11 @@ export function ScanReportDetailPage() {
 
         <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <Card className="p-6">
-            <h2 className="mb-4 text-xl font-bold text-slate-900">Scan Image</h2>
+            <h2 className="mb-4 text-xl font-bold text-slate-900">{t("results.scanImage", "Scan Image")}</h2>
             {image ? (
               image.toLowerCase().includes(".pdf") ? (
                 <a href={image} target="_blank" rel="noopener noreferrer" className="inline-flex rounded-lg bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700">
-                  Open scan file
+                  {t("results.openFile", "Open scan file")}
                 </a>
               ) : (
                 <img src={image} alt="Submitted oral scan" className="max-h-80 w-full rounded-lg bg-slate-100 object-contain" />
@@ -174,28 +177,28 @@ export function ScanReportDetailPage() {
             ) : (
               <div className="rounded-lg border border-dashed border-slate-300 p-8 text-center text-slate-500">
                 <FileImage className="mx-auto mb-2 h-10 w-10" />
-                No scan image attached
+                {t("results.noImage", "No scan image attached")}
               </div>
             )}
           </Card>
 
           <Card className="p-6">
-            <h2 className="mb-4 text-xl font-bold text-slate-900">AI Prediction</h2>
+            <h2 className="mb-4 text-xl font-bold text-slate-900">{t("results.aiPrediction", "AI Prediction")}</h2>
             <div className="space-y-3 text-sm text-slate-700">
-              <p><span className="font-semibold">Result:</span> {scan.diagnosis || "No diagnosis returned"}</p>
-              <p><span className="font-semibold">Confidence:</span> {scan.confidence || 0}%</p>
-              <p><span className="font-semibold">Risk Level:</span> {scan.riskLevel}</p>
-              <p><span className="font-semibold">Risk Score:</span> {scan.riskScore ?? 0}%</p>
-              {scan.lesionType && <p><span className="font-semibold">Lesion Type:</span> {scan.lesionType}</p>}
-              {scan.notes && <p className="whitespace-pre-wrap"><span className="font-semibold">AI Notes:</span> {scan.notes}</p>}
+              <p><span className="font-semibold">{t("results.diagnosis", "Result:")}</span> {scan.diagnosis || t("results.normal", "Normal")}</p>
+              <p><span className="font-semibold">{t("results.confidence", "Confidence:")}</span> {scan.confidence || 0}%</p>
+              <p><span className="font-semibold">{t("results.riskLevel", "Risk Level:")}</span> {scan.riskLevel}</p>
+              <p><span className="font-semibold">{t("results.riskScore", "Risk Score:")}</span> {scan.riskScore ?? 0}%</p>
+              {scan.lesionType && <p><span className="font-semibold">{t("results.lesionType", "Lesion Type:")}</span> {scan.lesionType}</p>}
+              {scan.notes && <p className="whitespace-pre-wrap"><span className="font-semibold">{t("results.aiNotes", "AI Notes:")}</span> {scan.notes}</p>}
             </div>
           </Card>
         </div>
 
         <Card className="mb-8 p-6">
-          <h2 className="mb-4 text-xl font-bold text-slate-900">Patient Questionnaire Answers</h2>
+          <h2 className="mb-4 text-xl font-bold text-slate-900">{t("results.questionnaire", "Patient Questionnaire Answers")}</h2>
           {Object.keys(answers).length === 0 ? (
-            <p className="text-sm text-slate-500">No questionnaire answers were saved with this scan.</p>
+            <p className="text-sm text-slate-500">{t("results.noAnswers", "No questionnaire answers were saved with this scan.")}</p>
           ) : (
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {Object.entries(answers).map(([key, value]) => (
@@ -215,16 +218,16 @@ export function ScanReportDetailPage() {
                 {reviewed ? <UserCheck className="h-6 w-6" /> : <AlertCircle className="h-6 w-6" />}
               </div>
               <div className="flex-1">
-                <h2 className="text-xl font-bold text-slate-900">Doctor Review</h2>
+                <h2 className="text-xl font-bold text-slate-900">{t("results.doctorReview", "Doctor Review")}</h2>
                 {!reviewed ? (
-                  <p className="mt-2 text-sm font-semibold text-amber-800">Waiting for doctor review</p>
+                  <p className="mt-2 text-sm font-semibold text-amber-800">{t("results.waiting", "Waiting for doctor review")}</p>
                 ) : (
                   <div className="mt-4 space-y-3 text-sm text-slate-700">
-                    <p><span className="font-semibold">Doctor:</span> {scan.doctorReview?.doctorName || "Doctor"}</p>
-                    <p><span className="font-semibold">Severity Assessment:</span> {scan.doctorReview?.severity || "N/A"}</p>
-                    <p className="whitespace-pre-wrap"><span className="font-semibold">Doctor Notes:</span> {scan.doctorReview?.notes || "N/A"}</p>
-                    <p className="whitespace-pre-wrap"><span className="font-semibold">Recommendations:</span> {scan.doctorReview?.recommendations || "N/A"}</p>
-                    <p className="text-xs text-slate-500">Reviewed {new Date(scan.doctorReview!.reviewedAt!).toLocaleString()}</p>
+                    <p><span className="font-semibold">{t("results.doctor", "Doctor:")}</span> {scan.doctorReview?.doctorName || "Doctor"}</p>
+                    <p><span className="font-semibold">{t("results.severity", "Severity Assessment:")}</span> {scan.doctorReview?.severity || "N/A"}</p>
+                    <p className="whitespace-pre-wrap"><span className="font-semibold">{t("results.notes", "Doctor Notes:")}</span> {scan.doctorReview?.notes || "N/A"}</p>
+                    <p className="whitespace-pre-wrap"><span className="font-semibold">{t("results.recs", "Recommendations:")}</span> {scan.doctorReview?.recommendations || "N/A"}</p>
+                    <p className="text-xs text-slate-500">{t("results.reviewedAt", "Reviewed")} {new Date(scan.doctorReview!.reviewedAt!).toLocaleString()}</p>
                   </div>
                 )}
               </div>
@@ -233,12 +236,16 @@ export function ScanReportDetailPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Button variant="outline" leftIcon={<AlertCircle className="h-4 w-4" />} onClick={() => navigate("/patient/doctors")}>
-            Find a Specialist
+          <Button variant="outline" onClick={() => navigate("/patient/doctors")}>
+            <AlertCircle className="h-4 w-4 ml-2" /> {t("results.findSpecialist", "Find a Specialist")}
           </Button>
-          <Button variant="outline" leftIcon={<CheckCircle className="h-4 w-4" />} onClick={() => navigate("/patient/scan-history")}>
-            View All Scans
+          <Button variant="outline" onClick={() => navigate("/patient/scan-history")}>
+            <CheckCircle className="h-4 w-4 ml-2" /> {t("results.viewAll", "View All Scans")}
           </Button>
+        </div>
+
+        <div className="p-4 bg-amber-50 border rounded mt-4">
+          <p className="text-xs text-amber-800">{t("results.disclaimer", "This is not a medical diagnosis. Please consult a doctor.")}</p>
         </div>
       </div>
     </div>

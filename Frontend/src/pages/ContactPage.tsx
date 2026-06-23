@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -14,6 +15,8 @@ import {
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { Textarea } from "../components/ui/Textarea";
+import { useTranslation } from "react-i18next"; 
+
 type FormData = {
   name: string;
   email: string;
@@ -22,7 +25,9 @@ type FormData = {
   message: string;
 };
 type FormErrors = Partial<Record<keyof FormData, string>>;
+
 export function ContactPage() {
+  const { t } = useTranslation(); 
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -33,22 +38,24 @@ export function ContactPage() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
     if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
+      newErrors.name = t("contact.errors.nameRequired", "Name is required");
     }
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = t("contact.errors.emailRequired", "Email is required");
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email";
+      newErrors.email = t("contact.errors.emailValid", "Please enter a valid email");
     }
     if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
+      newErrors.message = t("contact.errors.messageRequired", "Message is required");
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -58,6 +65,7 @@ export function ContactPage() {
     setIsSubmitting(false);
     setIsSubmitted(true);
   };
+
   const handleChange =
     (field: keyof FormData) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -72,32 +80,34 @@ export function ContactPage() {
         }));
       }
     };
+
   const contactInfo = [
     {
       icon: MailIcon,
-      label: "Email",
+      label: t("contact.labels.email", "Email"),
       value: "support@oralscan.ai",
       href: "mailto:support@oralscan.ai",
     },
     {
       icon: PhoneIcon,
-      label: "Phone",
+      label: t("contact.labels.phone", "Phone"),
       value: "+1 (800) 555-0123",
       href: "tel:+18005550123",
     },
     {
       icon: MapPinIcon,
-      label: "Address",
+      label: t("contact.labels.address", "Address"),
       value: "123 Medical Center Dr, San Francisco, CA 94102",
     },
     {
       icon: ClockIcon,
-      label: "Hours",
-      value: "Mon-Fri: 8am-6pm PST",
+      label: t("contact.labels.hours", "Hours"),
+      value: t("contact.labels.hoursVal", "Mon-Fri: 8am-6pm PST"),
     },
   ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-right" dir="rtl">
       {/* Hero */}
       <section className="relative overflow-hidden py-20">
         <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-cyan-50 to-white" />
@@ -114,11 +124,10 @@ export function ContactPage() {
             className="text-center max-w-3xl mx-auto"
           >
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">
-              Get in Touch
+              {t("contact.heroTitle", "Get in Touch")}
             </h1>
             <p className="text-xl text-slate-600 leading-relaxed">
-              Have questions about our AI screening technology or need to
-              connect with a healthcare professional? We're here to help.
+              {t("contact.heroSubtitle", "Have questions about our AI screening technology or need to connect with a healthcare professional? We're here to help.")}
             </p>
           </motion.div>
         </div>
@@ -157,11 +166,10 @@ export function ContactPage() {
                       <CheckCircleIcon className="w-8 h-8 text-emerald-600" />
                     </div>
                     <h3 className="text-2xl font-bold text-slate-900 mb-3">
-                      Message Sent!
+                      {t("contact.submitted.title", "Message Sent!")}
                     </h3>
                     <p className="text-slate-600 mb-6">
-                      Thank you for reaching out. We'll get back to you within
-                      24-48 hours.
+                      {t("contact.submitted.subtitle", "Thank you for reaching out. We'll get back to you within 24-48 hours.")}
                     </p>
                     <Button
                       onClick={() => {
@@ -177,13 +185,13 @@ export function ContactPage() {
                       variant="secondary"
                       className="px-6 py-3 border-2 border-slate-200 rounded-xl"
                     >
-                      Send Another Message
+                      {t("contact.submitted.sendAgain", "Send Another Message")}
                     </Button>
                   </motion.div>
                 ) : (
                   <>
                     <h2 className="text-2xl font-bold text-slate-900 mb-6">
-                      Send Us a Message
+                      {t("contact.formTitle", "Send Us a Message")}
                     </h2>
                     <form onSubmit={handleSubmit} className="space-y-6">
                       <div className="grid sm:grid-cols-2 gap-6">
@@ -192,7 +200,7 @@ export function ContactPage() {
                             htmlFor="name"
                             className="block text-sm font-medium text-slate-700 mb-2"
                           >
-                            Full Name *
+                            {t("contact.fields.name", "Full Name *")}
                           </label>
                           <Input
                             id="name"
@@ -214,7 +222,7 @@ export function ContactPage() {
                             htmlFor="email"
                             className="block text-sm font-medium text-slate-700 mb-2"
                           >
-                            Email Address *
+                            {t("contact.fields.email", "Email Address *")}
                           </label>
                           <Input
                             id="email"
@@ -239,7 +247,7 @@ export function ContactPage() {
                             htmlFor="phone"
                             className="block text-sm font-medium text-slate-700 mb-2"
                           >
-                            Phone Number
+                            {t("contact.fields.phone", "Phone Number")}
                           </label>
                           <Input
                             id="phone"
@@ -254,7 +262,7 @@ export function ContactPage() {
                             htmlFor="subject"
                             className="block text-sm font-medium text-slate-700 mb-2"
                           >
-                            Subject
+                            {t("contact.fields.subject", "Subject")}
                           </label>
                           <Input
                             id="subject"
@@ -271,7 +279,7 @@ export function ContactPage() {
                           htmlFor="message"
                           className="block text-sm font-medium text-slate-700 mb-2"
                         >
-                          Message *
+                          {t("contact.fields.message", "Message *")}
                         </label>
                         <Textarea
                           id="message"
@@ -307,12 +315,12 @@ export function ContactPage() {
                               }}
                               className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
                             />
-                            Sending...
+                            {t("contact.sending", "Sending...")}
                           </>
                         ) : (
                           <>
                             <SendIcon className="w-5 h-5 mr-2" />
-                            Send Message
+                            {t("contact.sendBtn", "Send Message")}
                           </>
                         )}
                       </Button>
@@ -340,7 +348,7 @@ export function ContactPage() {
                 className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100"
               >
                 <h3 className="text-lg font-semibold text-slate-900 mb-4">
-                  Contact Information
+                  {t("contact.info.title", "Contact Information")}
                 </h3>
                 <div className="space-y-4">
                   {contactInfo.map((item) => (
@@ -385,14 +393,13 @@ export function ContactPage() {
                   <MessageSquareIcon className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">
-                  Need Care Guidance?
+                  {t("contact.support.title", "Need Care Guidance?")}
                 </h3>
                 <p className="text-teal-100 text-sm mb-4">
-                  Need to speak with a healthcare professional? Send us a
-                  message and we will help you find the right specialist.
+                  {t("contact.support.desc", "Need to speak with a healthcare professional? Send us a message and we will help you find the right specialist.")}
                 </p>
                 <Button className="w-full bg-teal-600 text-white hover:bg-teal-700 rounded-xl py-3 shadow-md hover:shadow-lg transition-all duration-300">
-                  Send Message
+                  {t("contact.sendBtn", "Send Message")}
                 </Button>
               </motion.div>
 
@@ -415,23 +422,21 @@ export function ContactPage() {
                   <AlertCircleIcon className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <h4 className="font-semibold text-red-800 mb-1">
-                      Medical Emergency?
+                      {t("contact.emergency.title", "Medical Emergency?")}
                     </h4>
                     <p className="text-sm text-red-700 mb-3">
-                      If you're experiencing a medical emergency, please call
-                      emergency services immediately.
+                      {t("contact.emergency.desc", "If you're experiencing a medical emergency, please call emergency services immediately.")}
                     </p>
                     <a
                       href="tel:911"
                       className="inline-flex items-center gap-2 text-red-700 font-semibold hover:text-red-800"
                     >
                       <PhoneIcon className="w-4 h-4" />
-                      Call 911
+                      {t("contact.emergency.call", "Call 911")}
                     </a>
                   </div>
                 </div>
               </motion.div>
-
               {/* Response Time */}
               <motion.div
                 initial={{

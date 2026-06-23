@@ -19,7 +19,7 @@ export function useLogout() {
       console.error("Server update failed:", error);
     } finally {
       localStorage.clear(); 
-      navigate('/signUp'); 
+      navigate('/login');
     }
   };
   return handleLogout;

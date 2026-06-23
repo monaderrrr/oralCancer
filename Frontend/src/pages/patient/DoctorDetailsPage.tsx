@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import {
   ArrowLeft,
   MapPin,
@@ -19,6 +19,7 @@ import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 import { Textarea } from "../../components/ui/Textarea";
 import API, { IMAGE_BASE_URL } from "../../Api";
+import { useTranslation } from "react-i18next"; 
 
 interface Doctor {
   _id: string;
@@ -50,7 +51,8 @@ interface DoctorReview {
 }
 
 export function DoctorDetailsPage() {
-  const { id } = useParams(); // هذا هو doctorId من الرابط
+  const { t } = useTranslation(); 
+  const { id } = useParams(); 
   const navigate = useNavigate();
 
   const [doctor, setDoctor] = useState<Doctor | null>(null);
@@ -110,19 +112,15 @@ export function DoctorDetailsPage() {
 
   const submitReview = async () => {
     if (!rating) {
-      setReviewError("Please choose a rating.");
+      setReviewError(t("doctorDetails.errors.chooseRating", "Please choose a rating."));
       return;
     }
 
     try {
-      setReviewSubmitting(true);
-      setReviewError("");
-
       const res = await API.post(`/api/v1/doctor/review/${id}`, {
         stars: Number(rating),
         comment: reviewComment.trim(),
       });
-
       const nextRating = res.data?.data?.rating;
       const newReview = res.data?.data?.review;
 
@@ -140,7 +138,7 @@ export function DoctorDetailsPage() {
       setReviewComment("");
     } catch (err: any) {
       console.error("Error submitting rating:", err);
-      setReviewError(err.response?.data?.message || "Failed to submit review.");
+      setReviewError(err.response?.data?.message || t("doctorDetails.errors.reviewFailed", "Failed to submit review."));
     } finally {
       setReviewSubmitting(false);
     }
@@ -148,7 +146,7 @@ export function DoctorDetailsPage() {
 
   const shareLatestScan = async () => {
     if (!doctor?._id || !scanId) {
-      alert("No recent scan found to share.");
+      alert(t("doctorDetails.alerts.noScan", "No recent scan found to share."));
       return;
     }
 
@@ -157,10 +155,10 @@ export function DoctorDetailsPage() {
       await API.post("/api/v1/patient/scans/share", {
         doctorId: doctor._id,
       });
-      alert(`Scan shared successfully with Dr. ${doctor.fullName} ✅`);
+      alert(`${t("doctorDetails.alerts.shareSuccess", "Scan shared successfully with Dr.")} ${doctor.fullName} ✅`);
     } catch (err: any) {
       console.error("Share error:", err);
-      alert(err.response?.data?.message || "Failed to share scan");
+      alert(err.response?.data?.message || t("doctorDetails.errors.shareFailed", "Failed to share scan"));
     } finally {
       setSharing(false);
     }
@@ -178,7 +176,7 @@ export function DoctorDetailsPage() {
       }
     } catch (err: any) {
       console.error("Start chat error:", err);
-      alert("Failed to start chat.");
+      alert(t("chat.alerts.startFailed", "Failed to start chat."));
     }
   };
 
@@ -210,7 +208,7 @@ export function DoctorDetailsPage() {
   }
 
   if (!doctor) {
-    return <div className="text-center mt-20">Doctor not found</div>;
+    return <div className="text-center mt-20">{t("doctorCard.unknown", "Doctor not found")}</div>;
   }
 
   const image = doctor.profileImage ? `${IMAGE_BASE_URL}${doctor.profileImage}` : null;
@@ -227,7 +225,7 @@ export function DoctorDetailsPage() {
     : true;
 
   return (
-    <div className="min-h-screen bg-slate-50 py-10">
+    <div className="min-h-screen bg-slate-50 py-10 text-left">
       <div className="max-w-6xl mx-auto px-4">
         {/* BACK BUTTON */}
         <button
@@ -235,13 +233,13 @@ export function DoctorDetailsPage() {
           className="flex items-center gap-2 mb-6 text-slate-600 hover:text-teal-600 transition"
         >
           <ArrowLeft className="w-5 h-5" />
-          Back
+          {t("onboarding.back", "Back")}
         </button>
 
         {/* PROFILE HEADER (Same Design) */}
         <Card className="p-8 rounded-3xl mb-8 border-none shadow-sm">
           <div className="flex flex-col md:flex-row items-center gap-6">
-            <div className="w-36 h-36 rounded-3xl overflow-hidden bg-teal-50 flex items-center justify-center shadow-inner">
+            <div className="w-36 h-36 rounded-3xl overflow-hidden bg-teal-50 flex items-center justify-center shadow-inner shrink-0">
               {image ? (
                 <img src={image} alt={doctor.fullName} className="w-full h-full object-cover" />
               ) : (
@@ -251,13 +249,13 @@ export function DoctorDetailsPage() {
 
             <div className="text-center md:text-left space-y-2">
               <h1 className="text-3xl font-bold text-slate-900">{doctor.fullName}</h1>
-              <p className="text-slate-500 font-medium">{doctor.specialization || "Specialist"}</p>
+              <p className="text-slate-500 font-medium">{doctor.specialization || t("doctorCard.specialist", "Specialist")}</p>
               <div className="flex items-center justify-center md:justify-start gap-2">
                 <BadgeCheck className="w-4 h-4 text-teal-500" />
-                <span className="text-sm font-medium text-slate-600">Verified Specialist</span>
+                <span className="text-sm font-medium text-slate-600">{t("doctorDetails.verifiedLabel", "Verified Specialist")}</span>
                 {isNewDoctor && (
                   <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700">
-                    New Doctor
+                    {t("doctorDetails.newDoctorTag", "New Doctor")}
                   </span>
                 )}
               </div>
@@ -277,24 +275,24 @@ export function DoctorDetailsPage() {
             <Card className="p-6 rounded-3xl border-none shadow-sm">
               <h2 className="flex items-center gap-2 font-bold text-slate-800 mb-3">
                 <FileText className="w-5 h-5 text-teal-600" />
-                Biography
+                {t("settings.labels.bio", "Biography")}
               </h2>
-              <p className="text-slate-600 leading-relaxed">
-                {doctor.bio || "No biography details provided."}
+              <p className="text-slate-600 leading-relaxed text-sm">
+                {doctor.bio || t("doctorDetails.noBio", "No biography details provided.")}
               </p>
             </Card>
 
             <Card className="p-6 rounded-3xl border-none shadow-sm">
               <h2 className="flex items-center gap-2 font-bold text-slate-800 mb-3">
                 <MapPin className="w-5 h-5 text-red-500" />
-                Location
+                {t("hospitals.labels.distance", "Location")}
               </h2>
-              <div className="space-y-2">
-                <p className="text-slate-600">🏥 Clinic: <span className="font-medium">{doctor.clinicAddress || "N/A"}</span></p>
-                <p className="text-slate-600">🏥 Hospital: <span className="font-medium">{doctor.hospital || "N/A"}</span></p>
+              <div className="space-y-2 text-sm">
+                <p className="text-slate-600">🏥 {t("onboarding.inputs.manualAddress", "Clinic Detailed Address")}: <span className="font-medium">{doctor.clinicAddress || "N/A"}</span></p>
+                <p className="text-slate-600">🏥 {t("onboarding.inputs.clinicName", "Hospital")}: <span className="font-medium">{doctor.hospital || "N/A"}</span></p>
                 {hasCoordinates && (
                   <p className="text-slate-600">
-                    📍 Coordinates: <span className="font-medium">{doctor.lat?.toFixed(5)}, {doctor.lng?.toFixed(5)}</span>
+                    📍 {t("auth.signup.coordinatesLabel", "Coordinates")}: <span className="font-medium">{doctor.lat?.toFixed(5)}, {doctor.lng?.toFixed(5)}</span>
                   </p>
                 )}
                 {mapsUrl && (
@@ -302,16 +300,16 @@ export function DoctorDetailsPage() {
                     href={mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex text-sm font-semibold text-teal-700 hover:text-teal-800"
+                    className="inline-flex text-sm font-semibold text-teal-700 hover:text-teal-800 mt-1"
                   >
-                    Open in Google Maps
+                    {t("doctorCard.openMaps", "Open in Google Maps")}
                   </a>
                 )}
               </div>
             </Card>
 
             {/* MAP SECTION */}
-            <div className="h-72 rounded-3xl overflow-hidden shadow-sm">
+            <div className="h-72 rounded-3xl overflow-hidden shadow-sm border border-slate-100 bg-white">
               <iframe
                 title="clinic-location"
                 className="w-full h-full border-none"
@@ -325,10 +323,10 @@ export function DoctorDetailsPage() {
                 <div>
                   <h2 className="flex items-center gap-2 font-bold text-slate-800">
                     <Star className="w-5 h-5 text-yellow-500" />
-                    Patient Reviews
+                    {t("community.labels.comments", "Patient Reviews")}
                   </h2>
                   <p className="text-sm text-slate-500 mt-1">
-                    Reviews are shared with other patients after submission.
+                    {t("doctorDetails.reviewNotice", "Reviews are shared with other patients after submission.")}
                   </p>
                 </div>
                 <span className="text-sm font-semibold text-yellow-600">
@@ -339,37 +337,37 @@ export function DoctorDetailsPage() {
               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 mb-5">
                 <div className="flex items-center gap-1 mb-3">{renderStars()}</div>
                 <Textarea
-                  label="Your review"
-                  placeholder="Write your experience with this doctor..."
+                  label={t("doctorDetails.labels.yourReview", "Your review")}
+                  placeholder={t("settings.placeholders.bio", "Write your experience with this doctor...")}
                   value={reviewComment}
                   onChange={(e) => setReviewComment(e.target.value)}
-                  className="min-h-[120px]"
+                  className="min-h-[120px] bg-white text-sm"
                 />
-                {reviewError && <p className="mt-2 text-sm text-red-600">{reviewError}</p>}
+                {reviewError && <p className="mt-2 text-sm text-red-600 font-medium">{reviewError}</p>}
                 <Button
                   className="mt-4"
                   leftIcon={<Send className="w-4 h-4" />}
                   onClick={submitReview}
                   disabled={reviewSubmitting}
                 >
-                  {reviewSubmitting ? "Submitting..." : "Submit Review"}
+                  {reviewSubmitting ? t("community.buttons.posting", "Submitting...") : t("community.buttons.postComment", "Submit Review")}
                 </Button>
               </div>
 
               <div className="space-y-4">
                 {reviews.length === 0 ? (
-                  <p className="text-sm text-slate-500">No patient reviews yet.</p>
+                  <p className="text-sm text-slate-500 font-medium py-4 text-center">{t("community.create.noComments", "No patient reviews yet.")}</p>
                 ) : (
                   reviews.map((review) => (
-                    <div key={review._id} className="rounded-2xl border border-slate-100 bg-white p-4">
+                    <div key={review._id} className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
                         <div>
-                          <p className="font-semibold text-slate-900">
-                            {review.patient?.fullName || review.patientId?.fullName || "Patient"}
+                          <p className="font-semibold text-slate-900 text-sm">
+                            {review.patient?.fullName || review.patientId?.fullName || t("roles.patient", "Patient")}
                           </p>
-                          <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-teal-50 px-2 py-1 text-xs font-semibold text-teal-700">
+                          <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-teal-50 px-2 py-0.5 text-xs font-semibold text-teal-700">
                             <ShieldCheck className="w-3 h-3" />
-                            Verified patient
+                            {t("doctorDetails.verifiedPatientLabel", "Verified patient")}
                           </div>
                         </div>
                         <div className="flex items-center gap-1">
@@ -386,11 +384,11 @@ export function DoctorDetailsPage() {
                         </div>
                       </div>
                       {review.comment && (
-                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-600">
+                        <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-slate-600 pl-1">
                           {review.comment}
                         </p>
                       )}
-                      <p className="mt-3 text-xs text-slate-400">
+                      <p className="mt-3 text-xs text-slate-400 pl-1">
                         {new Date(review.createdAt).toLocaleDateString()}
                       </p>
                     </div>
@@ -403,21 +401,21 @@ export function DoctorDetailsPage() {
           {/* SIDE COLUMN */}
           <div className="space-y-4">
             <Card className="p-5 rounded-3xl border-none shadow-sm">
-              <h3 className="font-bold text-slate-800 mb-3">Contact Information</h3>
+              <h3 className="font-bold text-slate-800 mb-3">{t("doctorDetails.contactHeader", "Contact Information")}</h3>
               <div className="space-y-3">
-                <p className="flex items-center gap-2 text-sm text-slate-600">
-                  <Mail className="w-4 h-4 text-teal-600" />
+                <p className="flex items-center gap-2 text-sm text-slate-600 break-all">
+                  <Mail className="w-4 h-4 text-teal-600 shrink-0" />
                   {doctor.email}
                 </p>
                 <div className="relative">
                   <button
                     type="button"
                     onClick={() => phoneNumber && setShowPhoneOptions((prev) => !prev)}
-                    className="flex w-full items-center gap-2 rounded-xl px-1 py-1 text-left text-sm text-slate-600 hover:bg-slate-50 disabled:cursor-default"
+                    className="flex w-full items-center gap-2 rounded-xl px-1 py-1 text-left text-sm text-slate-600 hover:bg-slate-50 disabled:cursor-default outline-none"
                     disabled={!phoneNumber}
                   >
-                    <Phone className="w-4 h-4 text-teal-600" />
-                    {phoneNumber || "N/A"}
+                    <Phone className="w-4 h-4 text-teal-600 shrink-0" />
+                    <span className="truncate">{phoneNumber || "N/A"}</span>
                   </button>
 
                   {showPhoneOptions && phoneNumber && (
@@ -436,7 +434,7 @@ export function DoctorDetailsPage() {
                         className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-teal-50 hover:text-teal-700"
                       >
                         <PhoneCall className="w-4 h-4" />
-                        Phone Call
+                        {t("doctorDetails.phoneCallOption", "Phone Call")}
                       </a>
                     </div>
                   )}
@@ -447,30 +445,30 @@ export function DoctorDetailsPage() {
             {/* ACTION BUTTONS */}
             <div className="space-y-3 pt-2">
               <Button
-                className="w-full py-6 rounded-2xl shadow-md font-bold bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white"
+                className="w-full py-6 rounded-2xl shadow-md font-bold bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white border-none"
                 onClick={() => navigate(`/patient/book-appointment/${doctor._id}`)}
               >
-                Book Consultation (${doctor.consultationFee ?? 0})
+                {t("bookingFlow.buttons.viewLoc", "Book Consultation")} (${doctor.consultationFee ?? 0})
               </Button>
 
-              <Button className="w-full py-6 rounded-2xl shadow-md font-bold" onClick={startChat}>
-                Chat with Doctor
+              <Button className="w-full py-6 rounded-2xl shadow-md font-bold text-slate-700" variant="outline" onClick={startChat}>
+                {t("doctorDetails.buttons.chat", "Chat with Doctor")}
               </Button>
 
               <Button
-                className={`w-full py-6 rounded-2xl font-bold transition ${
+                className={`w-full py-6 rounded-2xl font-bold transition border-none ${
                   !scanId 
-                  ? "bg-slate-200 text-slate-400 cursor-not-allowed" 
-                  : "bg-teal-100 text-teal-700 hover:bg-teal-200"
+                    ? "bg-slate-200 text-slate-400 cursor-not-allowed" 
+                    : "bg-teal-100 text-teal-700 hover:bg-teal-200"
                 }`}
                 onClick={shareLatestScan}
                 disabled={sharing || !scanId}
               >
-                {sharing ? "Sharing..." : "Share Latest Scan"}
+                {sharing ? t("verification.submittingBtn", "Sharing...") : t("doctorDetails.buttons.shareScan", "Share Latest Scan")}
               </Button>
               {!scanId && (
-                <p className="text-[10px] text-center text-red-400">
-                  * No scans available to share.
+                <p className="text-[10px] text-center text-red-500 font-medium">
+                  {t("doctorDetails.noScansNotice", "* No scans available to share.")}
                 </p>
               )}
             </div>

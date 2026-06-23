@@ -6,7 +6,10 @@ import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Badge } from '../../components/ui/Badge';
 import { RiskScoreCard } from '../../components/medical/RiskScoreCard';
+import { useTranslation } from 'react-i18next'; 
+
 export function ReportDetailPage() {
+  const { t } = useTranslation(); 
   const {
     id
   } = useParams();
@@ -36,7 +39,7 @@ export function ReportDetailPage() {
     recommendations: ['Continue regular oral hygiene routine', 'Schedule next screening in 6 months', 'Monitor for any changes in oral tissue'],
     doctorNotes: 'Scan reviewed by Dr. Sarah Johnson on March 16, 2024'
   };
-  return <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-8">
+  return <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-8 text-left">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div initial={{
@@ -47,13 +50,13 @@ export function ReportDetailPage() {
         y: 0
       }} className="mb-8">
           <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/patient/reports')} className="mb-4">
-            Back to Reports
+            {t('reports.back', 'Back to Reports')}
           </Button>
 
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-slate-900 mb-2">
-                Scan Report
+                {t('reports.scanReport', 'Scan Report')}
               </h1>
               <p className="text-slate-600">
                 {new Date(report.date).toLocaleDateString('en-US', {
@@ -67,10 +70,10 @@ export function ReportDetailPage() {
 
             <div className="flex gap-2">
               <Button variant="outline" size="sm" leftIcon={<Download className="w-4 h-4" />} onClick={() => alert('PDF download (UI only)')}>
-                Download
+                {t('common.download', 'Download')}
               </Button>
               <Button variant="outline" size="sm" leftIcon={<Share2 className="w-4 h-4" />} onClick={() => alert('Share report (UI only)')}>
-                Share
+                {t('common.share', 'Share')}
               </Button>
             </div>
           </div>
@@ -101,7 +104,7 @@ export function ReportDetailPage() {
       }} className="mb-8">
           <Card className="p-6">
             <h2 className="text-xl font-bold text-slate-900 mb-6">
-              Detailed Findings
+              {t('reports.findings', 'Detailed Findings')}
             </h2>
             <div className="space-y-4">
               {report.findings.map((finding, index) => <div key={finding.id} className="p-4 bg-slate-50 rounded-lg border border-slate-200">
@@ -135,7 +138,7 @@ export function ReportDetailPage() {
       }} className="mb-8">
           <Card className="p-6">
             <h2 className="text-xl font-bold text-slate-900 mb-6">
-              Recommendations
+              {t('reports.recommendations', 'Recommendations')}
             </h2>
             <ul className="space-y-3">
               {report.recommendations.map((rec, index) => <li key={index} className="flex items-start gap-3">
@@ -163,7 +166,7 @@ export function ReportDetailPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-slate-900 mb-2">
-                    Doctor's Notes
+                    {t('reports.doctorNotes', "Doctor's Notes")}
                   </h3>
                   <p className="text-sm text-slate-700">{report.doctorNotes}</p>
                 </div>
@@ -182,10 +185,10 @@ export function ReportDetailPage() {
         delay: 0.5
       }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Button variant="outline" leftIcon={<AlertCircle className="w-4 h-4" />} onClick={() => navigate('/patient/doctors')}>
-            Find a Specialist
+            {t('reports.findSpecialist', 'Find a Specialist')}
           </Button>
           <Button variant="outline" leftIcon={<History className="w-4 h-4" />} onClick={() => navigate('/patient/scan-history')}>
-            View All Scans
+            {t('reports.viewAllScans', 'View All Scans')}
           </Button>
         </motion.div>
       </div>

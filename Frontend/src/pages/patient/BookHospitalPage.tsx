@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
+import { useTranslation } from "react-i18next"; 
 
 interface Hospital {
   id?: number;
@@ -15,6 +16,7 @@ interface Hospital {
 }
 
 export function BookHospitalPage() {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
 
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
@@ -23,7 +25,6 @@ export function BookHospitalPage() {
   const [loading, setLoading] = useState(false);
   const [visibleCount, setVisibleCount] = useState(5);
 
-  // Cities list
   const cities = [
     "Cairo",
     "Mansoura",
@@ -37,7 +38,6 @@ export function BookHospitalPage() {
     const timer = setTimeout(() => {
       setDebouncedCity(city);
     }, 500);
-
     return () => clearTimeout(timer);
   }, [city]);
 
@@ -48,29 +48,25 @@ export function BookHospitalPage() {
   useEffect(() => {
     const fetchHospitals = async () => {
       setLoading(true);
-
       try {
         const url = debouncedCity
-          ? `${import.meta.env.VITE_AI_URL}/api/hospitals?city=${debouncedCity}`
-          : `${import.meta.env.VITE_AI_URL}/api/hospitals`;
+          ? `http://127.0.0.1:8000/api/hospitals?city=${debouncedCity}`
+          : `http://127.0.0.1:8000/api/hospitals`;
 
         const res = await fetch(url);
         const data = await res.json();
-
         setHospitals(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("ERROR:", err);
         setHospitals([]);
       }
-
       setLoading(false);
     };
-
     fetchHospitals();
   }, [debouncedCity]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-8">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-8 text-left">
       <div className="max-w-6xl mx-auto px-4">
 
         <motion.div
@@ -79,20 +75,20 @@ export function BookHospitalPage() {
           className="mb-8"
         >
           <Button onClick={() => navigate('/patient/dashboard')} className="mb-4">
-            <ArrowLeft className="w-4 h-4" /> Back
+            <ArrowLeft className="w-4 h-4" /> {t("onboarding.back", "Back")}
           </Button>
 
           <h1 className="text-3xl font-bold mb-2">
-            Hospitals Near You
+            {t("hospitals.title", "Hospitals Near You")}
           </h1>
         </motion.div>
 
         <select
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          className="border p-2 rounded w-full mb-6"
+          className="border p-2 rounded w-full mb-6 text-sm bg-white outline-none focus:ring-2 focus:ring-teal-500"
         >
-          <option value="">All Cities</option>
+          <option value="">{t("bookingFlow.allCities", "All Cities")}</option>
           {cities.map((c) => (
             <option key={c} value={c}>
               {c}
@@ -100,10 +96,10 @@ export function BookHospitalPage() {
           ))}
         </select>
 
-        {loading && <p>⏳ Loading hospitals...</p>}
+        {loading && <p className="text-gray-500 text-sm py-4 text-center">{t("hospitals.loading", "Loading hospitals...")}</p>}
 
         {!loading && hospitals.length === 0 && (
-          <p>No hospitals found</p>
+          <p className="text-gray-500 text-sm py-4 text-center">{t("hospitals.noHospitals", "No hospitals found")}</p>
         )}
 
         <div className="space-y-4">
@@ -117,7 +113,7 @@ export function BookHospitalPage() {
                 className="p-6 hover:shadow-lg transition cursor-pointer"
                 onClick={() => hospital.id && navigate(`/hospital-details/${hospital.id}`)}
               >
-                <h3 className="font-bold text-lg">
+                <h3 className="font-bold text-lg text-slate-900">
                   {hospital.name}
                 </h3>
 
@@ -133,14 +129,14 @@ export function BookHospitalPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-blue-600 text-sm mt-2 block"
+                    className="text-teal-600 font-bold text-sm mt-2 block hover:underline"
                   >
-                    Open in Maps
+                    {t("doctorCard.openMaps", "Open in Maps")}
                   </a>
                 )}
 
                 {hospital.rating && (
-                  <p className="mt-1">⭐ {hospital.rating}</p>
+                  <p className="mt-1 text-sm font-semibold text-yellow-500">⭐ {hospital.rating}</p>
                 )}
               </Card>
             </motion.div>
@@ -150,7 +146,7 @@ export function BookHospitalPage() {
         {visibleCount < hospitals.length && (
           <div className="text-center mt-6">
             <Button onClick={() => setVisibleCount(prev => prev + 5)}>
-              See More
+              {t("bookingFlow.buttons.seeMoreHospitals", "See More")}
             </Button>
           </div>
         )}
@@ -159,4 +155,3 @@ export function BookHospitalPage() {
     </div>
   );
 }
-

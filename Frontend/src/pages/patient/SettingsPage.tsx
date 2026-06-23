@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { User, Bell, Shield, Save } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { PasswordInput } from '../../components/ui/PasswordInput';
 import API from '../../Api';
+import { useTranslation } from 'react-i18next';
 
 export function SettingsPage() {
+  const { t } = useTranslation(); 
+  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] =
     useState<'account' | 'notifications' | 'privacy'>('account');
@@ -38,15 +42,15 @@ export function SettingsPage() {
     const newErrors: any = {};
 
     if (!accountData.fullName.trim()) {
-      newErrors.fullName = "Full name is required";
+      newErrors.fullName = t("settings.errors.nameRequired", "Full name is required");
     }
 
     if (!accountData.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = t("settings.errors.emailRequired", "Email is required");
     }
 
     if (!accountData.phone.trim()) {
-      newErrors.phone = "Phone is required";
+      newErrors.phone = t("settings.errors.phoneRequired", "Phone is required");
     }
 
     const hasPassword =
@@ -57,18 +61,18 @@ export function SettingsPage() {
     if (hasPassword) {
 
       if (!passwordData.oldPassword) {
-        newErrors.oldPassword = "Current password is required";
+        newErrors.oldPassword = t("settings.errors.oldPassRequired", "Current password is required");
       }
 
       if (!passwordData.newPassword) {
-        newErrors.newPassword = "New password is required";
+        newErrors.newPassword = t("settings.errors.newPassRequired", "New password is required");
       } else if (!passwordRegex.test(passwordData.newPassword)) {
         newErrors.newPassword =
-          "Password must be 8+ chars, 1 uppercase, 1 number";
+          t("settings.errors.passFormat", "Password must be 8+ chars, 1 uppercase, 1 number");
       }
 
       if (passwordData.newPassword !== passwordData.confirmNewPassword) {
-        newErrors.confirmNewPassword = "Passwords do not match";
+        newErrors.confirmNewPassword = t("settings.errors.passMatch", "Passwords do not match");
       }
     }
 
@@ -112,7 +116,7 @@ export function SettingsPage() {
         passwordChanged = true;
       }
 
-      alert('Settings updated successfully ✅');
+      alert(t("settings.success", 'Settings updated successfully ✅'));
 
       if (passwordChanged) {
         localStorage.clear();
@@ -130,24 +134,24 @@ export function SettingsPage() {
 
     } catch (err: any) {
       console.log('ERROR:', err.response?.data);
-      alert(err.response?.data?.message || 'Update failed');
+      alert(err.response?.data?.message || t("settings.updateFailed", 'Update failed'));
     }
 
     setIsSaving(false);
   };
 
   const tabs = [
-    { id: 'account', label: 'Account', icon: User },
-    { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'privacy', label: 'Privacy', icon: Shield }
+    { id: 'account', label: t('settings.tabs.account', 'Account'), icon: User },
+    { id: 'notifications', label: t('settings.tabs.notifications', 'Notifications'), icon: Bell },
+    { id: 'privacy', label: t('settings.tabs.privacy', 'Privacy'), icon: Shield }
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8">
+    <div className="min-h-screen bg-slate-50 py-8 text-left" dir="rtl">
       <div className="max-w-5xl mx-auto px-4">
 
         <div className="mb-6">
-          <h1 className="text-2xl font-bold">Settings</h1>
+          <h1 className="text-2xl font-bold">{t("settings.title", "Settings")}</h1>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -182,7 +186,7 @@ export function SettingsPage() {
                 <>
                   <div>
                     <Input
-                      label="Full Name"
+                      label={t("settings.fields.fullName", "Full Name")}
                       value={accountData.fullName}
                       onChange={(e) =>
                         setAccountData({ ...accountData, fullName: e.target.value })
@@ -195,7 +199,7 @@ export function SettingsPage() {
 
                   <div>
                     <Input
-                      label="Email"
+                      label={t("settings.fields.email", "Email")}
                       value={accountData.email}
                       onChange={(e) =>
                         setAccountData({ ...accountData, email: e.target.value })
@@ -208,7 +212,7 @@ export function SettingsPage() {
 
                   <div>
                     <Input
-                      label="Phone"
+                      label={t("settings.fields.phone", "Phone")}
                       value={accountData.phone}
                       onChange={(e) =>
                         setAccountData({ ...accountData, phone: e.target.value })
@@ -220,7 +224,7 @@ export function SettingsPage() {
                   </div>
 
                   <Input
-                    label="Bio"
+                    label={t("settings.fields.bio", "Bio")}
                     value={accountData.bio}
                     onChange={(e) =>
                       setAccountData({ ...accountData, bio: e.target.value })
@@ -230,12 +234,12 @@ export function SettingsPage() {
                   {/* PASSWORD */}
                   <div className="pt-6 border-t space-y-3">
 
-                    <h3 className="font-semibold">Change Password</h3>
+                    <h3 className="font-semibold">{t("settings.fields.changePass", "Change Password")}</h3>
 
                     <div>
                       <PasswordInput
                         value={passwordData.oldPassword}
-                        placeholder="Current password"
+                        placeholder={t("settings.placeholders.currentPass", "Current password")}
                         onChange={(e) =>
                           setPasswordData({ ...passwordData, oldPassword: e.target.value })
                         }
@@ -248,7 +252,7 @@ export function SettingsPage() {
                     <div>
                       <PasswordInput
                         value={passwordData.newPassword}
-                        placeholder="New password"
+                        placeholder={t("settings.placeholders.newPass", "New password")}
                         onChange={(e) =>
                           setPasswordData({ ...passwordData, newPassword: e.target.value })
                         }
@@ -261,7 +265,7 @@ export function SettingsPage() {
                     <div>
                       <PasswordInput
                         value={passwordData.confirmNewPassword}
-                        placeholder="Confirm password"
+                        placeholder={t("settings.placeholders.confirmPass", "Confirm password")}
                         onChange={(e) =>
                           setPasswordData({ ...passwordData, confirmNewPassword: e.target.value })
                         }
@@ -281,7 +285,7 @@ export function SettingsPage() {
                       isLoading={isSaving}
                       leftIcon={<Save />}
                     >
-                      Save Changes
+                      {t("settings.save", "Save Changes")}
                     </Button>
                   </div>
                 </>
@@ -289,7 +293,7 @@ export function SettingsPage() {
 
               {activeTab !== 'account' && (
                 <div className="text-slate-500">
-                  This section is UI only
+                  {t("settings.uiOnly", "This section is UI only")}
                 </div>
               )}
 

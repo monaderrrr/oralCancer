@@ -5,8 +5,10 @@ import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 import API from "../../Api";
 import { useAuth } from "../../contexts/AuthContext";
+import { useTranslation } from "react-i18next";
 
 export function VerifyCodePage() {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -36,9 +38,9 @@ export function VerifyCodePage() {
   useEffect(() => {
     inputsRef.current[0]?.focus();
     if (!email) {
-        setError("Email is missing. Please go back to the previous step.");
+        setError(t("auth.errors.emailMissing", "Email is missing. Please go back to the previous step."));
     }
-  }, [email]);
+  }, [email, t]);
 
   useEffect(() => {
     if (resendTimer > 0) {
@@ -75,12 +77,12 @@ export function VerifyCodePage() {
 
   const handleSubmitAuto = async (fullCode: string) => {
     if (!email) {
-      setError("Email is missing. Go back and try again.");
+      setError(t("auth.errors.emailMissing", "Email is missing. Go back and try again."));
       return;
     }
 
     if (fullCode.length !== 6) {
-      setError("Please enter the complete 6-digit code");
+      setError(t("auth.errors.completeCode", "Please enter the complete 6-digit code"));
       return;
     }
 
@@ -130,7 +132,7 @@ export function VerifyCodePage() {
       }
     } catch (err: any) {
       console.error("Verification Error:", err);
-      setError(err.response?.data?.message || "Invalid or expired OTP code.");
+      setError(err.response?.data?.message || t("auth.errors.invalidOtp", "Invalid or expired OTP code."));
     } finally {
       setLoading(false);
     }
@@ -144,19 +146,17 @@ export function VerifyCodePage() {
 
     try {
       if (flow === "signup") {
-        // For signup, we need to resend OTP
         await API.post("/auth/resend-otp", { email: email.trim(), purpose: "signup" });
       } else {
-        // For forgot password, resend OTP
         await API.patch("/auth/forgetPassword", { email: email.trim() });
       }
       
       setResendTimer(60);
       setCanResend(false);
-      alert("Verification code sent successfully!");
+      alert(t("auth.alerts.codeResendSuccess", "Verification code sent successfully!"));
     } catch (err: any) {
       console.error("Resend Error:", err);
-      setError(err.response?.data?.message || "Failed to resend code.");
+      setError(err.response?.data?.message || t("auth.errors.resendFailed", "Failed to resend code."));
     } finally {
       setResendLoading(false);
     }
@@ -170,9 +170,9 @@ export function VerifyCodePage() {
             <ShieldCheck className="h-6 w-6 text-white" />
           </div>
         </div>
-        <h2 className="text-3xl font-extrabold text-gray-900">Verify Your Identity</h2>
+        <h2 className="text-3xl font-extrabold text-gray-900">{t("auth.verifyOtp.title", "Verify Your Identity")}</h2>
         <p className="mt-2 text-sm text-gray-600">
-          We've sent a code to <span className="font-semibold text-teal-700">{email}</span>
+          {t("auth.verifyOtp.subtitle", "We've sent a code to")} <span className="font-semibold text-teal-700">{email}</span>
         </p>
       </div>
 
@@ -211,22 +211,22 @@ export function VerifyCodePage() {
               isLoading={loading}
               className="py-3 text-lg font-semibold"
             >
-              Verify & Continue
+              {t("auth.buttons.verifyBtn", "Verify & Continue")}
             </Button>
             
             <p className="text-center text-xs text-gray-500 mt-4">
-              Didn't receive the code? 
+              {t("auth.verifyOtp.noCode", "Didn't receive the code?")}{" "}
               {canResend ? (
                 <button
                   onClick={handleResendCode}
                   disabled={resendLoading}
                   className="text-teal-600 hover:text-teal-500 font-medium ml-1 disabled:opacity-50"
                 >
-                  {resendLoading ? "Sending..." : "Resend code"}
+                  {resendLoading ? t("auth.buttons.sending", "Sending...") : t("auth.buttons.resendLink", "Resend code")}
                 </button>
               ) : (
                 <span className="text-gray-400 ml-1">
-                  Resend in {resendTimer}s
+                  {t("auth.verifyOtp.resendIn", "Resend in")} {resendTimer}s
                 </span>
               )}
             </p>

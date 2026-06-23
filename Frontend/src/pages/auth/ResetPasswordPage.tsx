@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { CheckCircle, AlertCircle, Lock, Eye, EyeOff } from "lucide-react";
 import API from "../../Api";
+import { useTranslation } from "react-i18next"; 
 
 export function ResetPasswordPage() {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -27,44 +29,38 @@ export function ResetPasswordPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setError("");
     setFieldError("");
 
     if (!password || !confirmPassword) {
-      setFieldError("All fields are required");
+      setFieldError(t("auth.errors.requiredFields", "All fields are required"));
       return;
     }
 
     if (password.trim().length < 8) {
-      setFieldError("Password must be at least 8 characters long");
+      setFieldError(t("auth.errors.passwordLength", "Password must be at least 8 characters long"));
       return;
     }
 
     if (password !== confirmPassword) {
-      setFieldError("Passwords do not match");
+      setFieldError(t("auth.errors.passwordMismatch", "Passwords do not match"));
       return;
     }
 
     try {
       setIsLoading(true);
-
-      const res = await API.put("/auth/resetPassword", {
+      await API.put("/auth/resetPassword", {
         email: email.trim().toLowerCase(),
         otp: otp.toString().trim(),
         password: password.trim(),
         confirmPassword: confirmPassword.trim(),
       });
-
-      console.log("Password reset successful:", res.data);
-
       setIsSuccess(true);
     } catch (err: any) {
       console.error("Reset API error:", err?.response?.data);
-
       setError(
         err?.response?.data?.message ||
-          "Reset failed. Your OTP may have expired. Please request a new one."
+          t("auth.errors.resetFailed", "Reset failed. Your OTP may have expired. Please request a new one.")
       );
     } finally {
       setIsLoading(false);
@@ -80,19 +76,18 @@ export function ResetPasswordPage() {
           </div>
 
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            Password Reset Successful!
+            {t("auth.reset.successTitle", "Password Reset Successful!")}
           </h2>
 
           <p className="text-gray-600 mb-6">
-            Your password has been reset successfully. You can now login using
-            your new password.
+            {t("auth.reset.successDesc", "Your password has been reset successfully. You can now login using your new password.")}
           </p>
 
           <button
             onClick={() => navigate("/login")}
             className="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 transition-colors font-medium"
           >
-            Go to Login
+            {t("auth.reset.goToLogin", "Go to Login")}
           </button>
         </div>
       </div>
@@ -107,11 +102,11 @@ export function ResetPasswordPage() {
         </div>
 
         <h2 className="text-3xl font-extrabold text-gray-900">
-          Set a New Password
+          {t("auth.reset.title", "Set a New Password")}
         </h2>
 
         <p className="mt-2 text-sm text-gray-600">
-          Resetting password for:
+          {t("auth.reset.subtitle", "Resetting password for:")}
           <span className="font-semibold text-teal-600 ml-1">{email}</span>
         </p>
       </div>
@@ -121,17 +116,16 @@ export function ResetPasswordPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
 
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded-md p-4 flex items-start gap-3">
+              <div className="bg-red-50 border border-red-200 rounded-md p-4 flex items-start gap-3 text-left">
                 <AlertCircle className="w-5 h-5 text-red-600 mt-0.5" />
                 <p className="text-sm text-red-700">{error}</p>
               </div>
             )}
 
-            <div className="space-y-4 text-right">
-
+            <div className="space-y-4 text-left">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  New Password
+                  {t("auth.inputs.newPassword", "New Password")}
                 </label>
 
                 <div className="relative">
@@ -160,7 +154,7 @@ export function ResetPasswordPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Confirm Password
+                  {t("auth.inputs.confirmPassword", "Confirm Password")}
                 </label>
 
                 <input
@@ -172,7 +166,6 @@ export function ResetPasswordPage() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                 />
               </div>
-
             </div>
 
             <button
@@ -184,7 +177,7 @@ export function ResetPasswordPage() {
                   : "bg-teal-600 hover:bg-teal-700"
               } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors`}
             >
-              {isLoading ? "Updating..." : "Reset Password"}
+              {isLoading ? t("auth.buttons.updating", "Updating...") : t("auth.buttons.resetBtn", "Reset Password")}
             </button>
 
           </form>

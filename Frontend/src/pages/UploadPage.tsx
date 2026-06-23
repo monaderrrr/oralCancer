@@ -2,6 +2,7 @@ import { useCallback, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { ArrowLeftIcon, Sparkles, Camera, RefreshCw } from "lucide-react";
+import { useTranslation } from "react-i18next"; 
 
 // Components
 import { Button } from "../components/ui/Button";
@@ -33,6 +34,7 @@ const pageVariants: Variants = {
 };
 
 export function UploadPage(): JSX.Element {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
   const { token } = useAuth();
 
@@ -48,7 +50,7 @@ export function UploadPage(): JSX.Element {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_AI_URL}/api/questions`);
+        const res = await fetch("http://127.0.0.1:8000/api/questions");
         const data = await res.json();
         const formatted = data.questions.map((q: any) => ({
           id: q.id,
@@ -100,11 +102,11 @@ export function UploadPage(): JSX.Element {
         }, 150);
 
       } catch (err: any) {
-        alert("Error analyzing image.");
+        alert(t("upload.errorAnalysis", "Error analyzing image."));
         setState("idle");
       }
     },
-    [answers, navigate, token]
+    [answers, navigate, token, t]
   );
 
   const handleAnswer = useCallback((answer: string) => {
@@ -118,7 +120,7 @@ export function UploadPage(): JSX.Element {
   const handleFileSelect = useCallback(async (selectedFile: File) => {
 
     if (!token) {
-      alert("Please login first to analyze images.");
+      alert(t("upload.errorLogin", "Please login first to analyze images."));
       navigate("/login");
       return;
     }
@@ -138,26 +140,45 @@ export function UploadPage(): JSX.Element {
     }, 150);
 
     try {
+
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const res = await fetch("http://127.0.0.1:8000/check-oral-image", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (data.status === "NOT_ORAL" || data.status === "UNCERTAIN") {
+        alert(data.message || t("upload.errorInvalid", "This image is not valid for oral analysis."));
+        setState("idle");
+        return;
+      }
+
       setState("questions");
 
     } catch (err) {
-      alert("Error validating image.");
+      alert(t("upload.errorValidation", "Error validating image."));
       setState("idle");
     }
 
-  }, [token, navigate]);
+  }, [token, navigate, t]);
+
   const isUploadStage = ["idle", "uploading", "analyzing"].includes(state);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-12">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-12 text-right" dir="rtl">
       <div className="max-w-4xl mx-auto px-4">
         <div className="mb-8">
           <Button variant="ghost" onClick={() => navigate(-1)} className="flex items-center gap-2 mb-6">
-            <ArrowLeftIcon className="w-4 h-4" /> Back
+            <ArrowLeftIcon className="w-4 h-4" /> {t("upload.back", "Back")}
           </Button>
           <h1 className="text-3xl font-bold text-slate-800 flex items-center gap-2">
-            <Sparkles className="w-6 h-6" /> AI Oral Analysis
+            <Sparkles className="w-6 h-6" /> {t("upload.title", "AI Oral Analysis")}
           </h1>
-          <p className="text-slate-500 mt-2">Upload or capture an image for clinical screening</p>
+          <p className="text-slate-500 mt-2">{t("upload.subtitle", "Upload or capture an image for clinical screening")}</p>
         </div>
 
         <AnimatePresence mode="wait">
@@ -165,7 +186,7 @@ export function UploadPage(): JSX.Element {
             <CameraCapture
               onCapture={handleFileSelect}
               onClose={() => setState("idle")}
-              answers={answers}
+              answers={answers} 
             />
           )}
 
@@ -183,7 +204,7 @@ export function UploadPage(): JSX.Element {
                 {state === "analyzing" && (
                   <div className="text-center py-6">
                     <RefreshCw className="w-8 h-8 mx-auto text-teal-600 animate-spin" />
-                    <h3 className="mt-3 text-lg font-semibold text-slate-800">Processing with AI...</h3>
+                    <h3 className="mt-3 text-lg font-semibold text-slate-800">{t("upload.processing", "Processing with AI...")}</h3>
                   </div>
                 )}
 
@@ -191,7 +212,7 @@ export function UploadPage(): JSX.Element {
                   <Button
                     onClick={() => {
                       if (!token) {
-                        alert("Please login to use the camera.");
+                        alert(t("upload.errorLogin", "Please login to use the camera."));
                         navigate("/login");
                       } else {
                         setState("camera");
@@ -199,11 +220,11 @@ export function UploadPage(): JSX.Element {
                     }}
                     className="flex-1 flex items-center justify-center gap-2"
                   >
-                    <Camera className="w-5 h-5" /> Open Camera
+                    <Camera className="w-5 h-5" /> {t("upload.openCamera", "Open Camera")}
                   </Button>
                   {file && (
                     <Button variant="outline" onClick={() => { setFile(null); setState("idle"); }} className="flex-1">
-                      Reset
+                      {t("upload.reset", "Reset")}
                     </Button>
                   )}
                 </div>

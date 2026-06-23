@@ -6,25 +6,29 @@ import { TopNavigation } from '../../components/timeline/TopNavigation';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
+import { useTranslation } from 'react-i18next'; 
+
 export function RiskReportPage() {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
   // Mock result data
   const riskScore = 35; // Low risk
   const riskLevel = 'Low Risk';
-  return <div className="min-h-screen bg-slate-50 pb-12">
+  
+  return <div className="min-h-screen bg-slate-50 pb-12 text-left">
       <TopNavigation />
 
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-slate-900">
-            Your Risk Report
+            {t('riskReport.title', 'Your Risk Report')}
           </h1>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" leftIcon={<Download className="w-4 h-4" />}>
-              Download PDF
+              {t('common.download', 'Download PDF')}
             </Button>
             <Button variant="ghost" size="sm" leftIcon={<Share2 className="w-4 h-4" />}>
-              Share
+              {t('common.share', 'Share')}
             </Button>
           </div>
         </div>
@@ -49,7 +53,7 @@ export function RiskReportPage() {
                   {riskScore}
                 </span>
                 <span className="text-xs text-slate-500 uppercase font-medium">
-                  Score
+                  {t('riskReport.score', 'Score')}
                 </span>
               </div>
             </div>
@@ -57,22 +61,21 @@ export function RiskReportPage() {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <h2 className="text-2xl font-bold text-slate-900">
-                  Low Risk Level
+                  {t('riskReport.lowLevel', 'Low Risk Level')}
                 </h2>
-                <Badge variant="success">Maintained</Badge>
+                <Badge variant="success">{t('riskReport.maintained', 'Maintained')}</Badge>
               </div>
               <p className="text-slate-600 mb-4">
-                Great job! Your lifestyle choices and health history indicate a
-                low risk for oral health issues. Keep up your current habits.
+                {t('riskReport.desc', 'Great job! Your lifestyle choices and health history indicate a low risk for oral health issues. Keep up your current habits.')}
               </p>
               <div className="flex gap-4 text-sm">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-teal-500"></div>
-                  <span className="text-slate-600">Lifestyle: Good</span>
+                  <span className="text-slate-600">{t('riskReport.lifestyle', 'Lifestyle: Good')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
-                  <span className="text-slate-600">History: Clear</span>
+                  <span className="text-slate-600">{t('riskReport.history', 'History: Clear')}</span>
                 </div>
               </div>
             </div>
@@ -81,21 +84,21 @@ export function RiskReportPage() {
           {/* Action Card */}
           <Card className="p-6 bg-teal-900 text-white flex flex-col justify-between">
             <div>
-              <h3 className="font-bold text-lg mb-2">Next Screening</h3>
+              <h3 className="font-bold text-lg mb-2">{t('riskReport.nextScreening', 'Next Screening')}</h3>
               <p className="text-teal-100 text-sm mb-6">
-                Based on your risk profile, we recommend your next screening in:
+                {t('riskReport.nextScreeningDesc', 'Based on your risk profile, we recommend your next screening in:')}
               </p>
-              <div className="text-3xl font-bold mb-1">6 Months</div>
+              <div className="text-3xl font-bold mb-1">6 {t('riskReport.months', 'Months')}</div>
               <div className="text-teal-300 text-sm">April 2024</div>
             </div>
             <Button className="w-full bg-white text-teal-900 hover:bg-teal-50 border-none mt-4" onClick={() => navigate('/patient/doctors')}>
-              Find a Specialist
+              {t('riskReport.findSpecialist', 'Find a Specialist')}
             </Button>
           </Card>
         </div>
 
         <h3 className="text-xl font-bold text-slate-900 mb-4">
-          Personalized Recommendations
+          {t('riskReport.recommendations', 'Personalized Recommendations')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <Card className="p-5 border-l-4 border-emerald-500">
@@ -103,11 +106,10 @@ export function RiskReportPage() {
               <CheckCircle className="w-5 h-5 text-emerald-500 mt-0.5" />
               <div>
                 <h4 className="font-bold text-slate-900 mb-1">
-                  Maintain Oral Hygiene
+                  {t('riskReport.hygieneTitle', 'Maintain Oral Hygiene')}
                 </h4>
                 <p className="text-sm text-slate-600">
-                  Continue brushing twice daily and flossing. Consider adding an
-                  antiseptic mouthwash.
+                  {t('riskReport.hygieneDesc', 'Continue brushing twice daily and flossing. Consider adding an antiseptic mouthwash.')}
                 </p>
               </div>
             </div>
@@ -118,11 +120,10 @@ export function RiskReportPage() {
               <AlertTriangle className="w-5 h-5 text-amber-500 mt-0.5" />
               <div>
                 <h4 className="font-bold text-slate-900 mb-1">
-                  Monitor Alcohol Intake
+                  {t('riskReport.alcoholTitle', 'Monitor Alcohol Intake')}
                 </h4>
                 <p className="text-sm text-slate-600">
-                  Try to limit alcohol consumption to moderate levels to keep
-                  your risk low.
+                  {t('riskReport.alcoholDesc', 'Try to limit alcohol consumption to moderate levels to keep your risk low.')}
                 </p>
               </div>
             </div>
@@ -131,7 +132,7 @@ export function RiskReportPage() {
 
         <div className="flex justify-center">
           <Button variant="outline" rightIcon={<ArrowRight className="w-4 h-4" />} onClick={() => navigate('/patient/dashboard')}>
-            Back to Dashboard
+            {t('common.backToDashboard', 'Back to Dashboard')}
           </Button>
         </div>
       </div>

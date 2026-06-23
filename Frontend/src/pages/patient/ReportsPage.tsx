@@ -5,6 +5,7 @@ import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { useNavigate } from 'react-router-dom';
 import API from '../../Api';
+import { useTranslation } from 'react-i18next'; 
 
 /**
  * ReportsPage (based on Scans API)
@@ -32,6 +33,7 @@ interface Report {
 }
 
 export function ReportsPage() {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
   const [reports, setReports] = useState<Report[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -71,13 +73,13 @@ export function ReportsPage() {
   const getRiskBadge = (risk: Report['riskLevel']) => {
     switch (risk) {
       case 'low':
-        return <Badge variant="success">Low Risk</Badge>;
+        return <Badge variant="success">{t('reports.risk.low', 'Low Risk')}</Badge>;
       case 'medium':
-        return <Badge variant="warning">Medium Risk</Badge>;
+        return <Badge variant="warning">{t('reports.risk.medium', 'Medium Risk')}</Badge>;
       case 'high':
-        return <Badge variant="danger">High Risk</Badge>;
+        return <Badge variant="danger">{t('reports.risk.high', 'High Risk')}</Badge>;
       default:
-        return <Badge variant="default">Unknown</Badge>;
+        return <Badge variant="default">{t('reports.risk.unknown', 'Unknown')}</Badge>;
     }
   };
 
@@ -134,7 +136,7 @@ export function ReportsPage() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8">
+    <div className="min-h-screen bg-slate-50 py-8 text-left">
       <div className="max-w-6xl mx-auto px-4">
 
         {/* Header */}
@@ -144,9 +146,9 @@ export function ReportsPage() {
               <FileText className="w-6 h-6 text-teal-600" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Medical Reports</h1>
+              <h1 className="text-2xl font-bold">{t('reports.title', 'Medical Reports')}</h1>
               <p className="text-slate-600">
-                View your scan history and results
+                {t('reports.subtitle', 'View your scan history and results')}
               </p>
             </div>
           </div>
@@ -156,16 +158,16 @@ export function ReportsPage() {
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="w-10 h-10 animate-spin text-teal-600" />
-            <p className="mt-4 text-slate-500">Loading reports...</p>
+            <p className="mt-4 text-slate-500">{t('preview.loading', 'Loading reports...')}</p>
           </div>
         ) : reports.length === 0 ? (
           <Card className="p-12 text-center border-dashed border-2">
-            <h3 className="text-lg font-semibold mb-2">No reports found</h3>
+            <h3 className="text-lg font-semibold mb-2">{t('reports.noReports', 'No reports found')}</h3>
             <p className="text-slate-600 mb-4">
-              Start your first scan to generate reports
+              {t('reports.startScan', 'Start your first scan to generate reports')}
             </p>
             <Button onClick={() => navigate('/patient/upload')}>
-              Start New Scan
+              {t('dashboard.scans.startBtn', 'Start New Scan')}
             </Button>
           </Card>
         ) : (
@@ -174,20 +176,20 @@ export function ReportsPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 
               <SummaryCard
-                label="Total Scans"
+                label={t('reports.stats.total', 'Total Scans')}
                 value={reports.length}
                 icon={FileText}
               />
 
               <SummaryCard
-                label="Latest Risk"
+                label={t('reports.stats.latest', 'Latest Risk')}
                 value={latestRisk.toUpperCase()}
                 icon={CheckCircle}
-                subtext="From last scan"
+                subtext={t('reports.stats.lastScan', 'From last scan')}
               />
 
               <SummaryCard
-                label="Avg Confidence"
+                label={t('reports.stats.confidence', 'Avg Confidence')}
                 value={`${avgConfidence}%`}
                 icon={TrendingUp}
               />
@@ -211,7 +213,7 @@ export function ReportsPage() {
                       <div>
                         <div className="flex items-center gap-2">
                           <h3 className="font-semibold">
-                            Scan Report
+                            {t('reports.scanReport', 'Scan Report')}
                           </h3>
                           {getRiskBadge(report.riskLevel)}
                         </div>
@@ -222,13 +224,13 @@ export function ReportsPage() {
                         </p>
 
                         <p className="text-sm text-slate-600 mt-2">
-                          Risk Score: {report.riskScore || 'N/A'}%
+                          {t('reports.riskScore', 'Risk Score')}: {report.riskScore || 'N/A'}%
                         </p>
                         {report.reviewStatus && (
                           <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
                             <span>{report.reviewStatus}</span>
                             {report.reviewStatus === "Reviewed" && report.doctorReview?.doctorName ? (
-                              <span className="text-slate-500">by Dr. {report.doctorReview.doctorName}</span>
+                              <span className="text-slate-500">{t('reports.byDr', 'by Dr.')} {report.doctorReview.doctorName}</span>
                             ) : null}
                           </div>
                         )}

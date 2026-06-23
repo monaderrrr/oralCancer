@@ -28,14 +28,15 @@ import { DoctorSidebar } from "../../components/doctor/DoctorSidebar";
 import { ActivityFeedItem } from "../../components/doctor/ActivityFeedItem";
 import { useDoctor } from "../../contexts/DoctorContext";
 import { useAuth } from "../../contexts/AuthContext";
+import { useTranslation } from "react-i18next"; 
 
 export function DashboardPage() {
+  const { t } = useTranslation(); 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const { user } = useAuth();
   const { dashboard, activity, loading, refreshDashboard } = useDoctor();
 
-  // ✅ Memoized safe access (prevent re-render issues)
   const stats = dashboard?.stats || {};
   const charts = dashboard?.charts || {};
 
@@ -43,7 +44,6 @@ export function DashboardPage() {
   const patientGrowth = charts.patientGrowth || [];
   const risk = charts.riskDistribution || { low: 0, medium: 0, high: 0 };
 
-  // ✅ FIX activity safely
   const activityList = useMemo(() => {
     if (Array.isArray(activity)) return activity;
     return activity?.recentActivity || [];
@@ -55,14 +55,13 @@ export function DashboardPage() {
     high: "#ef4444",
   };
 
-  // ✅ Memoized chart data (better performance)
   const riskDistributionData = useMemo(() => {
     return [
-      { name: "Low", value: risk.low, color: RISK_COLORS.low },
-      { name: "Medium", value: risk.medium, color: RISK_COLORS.medium },
-      { name: "High", value: risk.high, color: RISK_COLORS.high },
+      { name: t('riskLevels.low', 'Low'), value: risk.low, color: RISK_COLORS.low },
+      { name: t('riskLevels.medium', 'Medium'), value: risk.medium, color: RISK_COLORS.medium },
+      { name: t('riskLevels.high', 'High'), value: risk.high, color: RISK_COLORS.high },
     ].filter((i) => i.value > 0);
-  }, [risk]);
+  }, [risk, t]);
 
   useEffect(() => {
     refreshDashboard();
@@ -73,7 +72,7 @@ export function DashboardPage() {
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center">
           <RefreshCw className="w-10 h-10 animate-spin text-teal-600 mx-auto mb-4" />
-          <p className="text-slate-500 font-medium">Loading Dashboard...</p>
+          <p className="text-slate-500 font-medium">{t('preview.loading', 'Loading Dashboard...')}</p>
         </div>
       </div>
     );
@@ -88,7 +87,7 @@ export function DashboardPage() {
 
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* HEADER */}
-        <header className="bg-white border-b px-6 py-4 flex justify-between items-center">
+        <header className="bg-white border-b px-6 py-4 flex justify-between items-center text-left">
           <button
             className="lg:hidden p-2"
             onClick={() => setIsSidebarOpen(true)}
@@ -98,10 +97,10 @@ export function DashboardPage() {
 
           <div>
             <h1 className="text-xl lg:text-2xl font-bold">
-              Welcome, Dr. {user?.fullName?.split(" ")[0] || "Doctor"}
+              {t('dashboard.welcome', 'Welcome')}, {t('sidebar.doctorPrefix', 'Dr.')} {user?.fullName?.split(" ")[0] || "Doctor"}
             </h1>
             <p className="text-sm text-slate-500">
-              Clinic Overview Dashboard
+              {t('dashboard.overview', 'Clinic Overview Dashboard')}
             </p>
           </div>
 
@@ -113,18 +112,18 @@ export function DashboardPage() {
             <RefreshCw
               className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`}
             />
-            Refresh
+            {t('dashboard.refreshBtn', 'Refresh')}
           </Button>
         </header>
 
         {/* MAIN */}
         <main className="flex-1 overflow-y-auto p-6">
-          <div className="max-w-7xl mx-auto space-y-8">
+          <div className="max-w-7xl mx-auto space-y-8 text-left">
             {/* STATS */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <Card className="p-5 border-l-4 border-teal-500 flex justify-between">
                 <div>
-                  <p className="text-sm text-slate-500">Patients</p>
+                  <p className="text-sm text-slate-500">{t('sidebar.patients', 'Patients')}</p>
                   <h2 className="text-3xl font-bold">
                     {stats.totalPatients ?? 0}
                   </h2>
@@ -134,7 +133,7 @@ export function DashboardPage() {
 
               <Card className="p-5 border-l-4 border-blue-500 flex justify-between">
                 <div>
-                  <p className="text-sm text-slate-500">Today's Scans</p>
+                  <p className="text-sm text-slate-500">{t('dashboard.stats.todayScans', "Today's Scans")}</p>
                   <h2 className="text-3xl font-bold">
                     {stats.newScansToday ?? 0}
                   </h2>
@@ -144,7 +143,7 @@ export function DashboardPage() {
 
               <Card className="p-5 border-l-4 border-red-500 flex justify-between">
                 <div>
-                  <p className="text-sm text-slate-500">High Risk</p>
+                  <p className="text-sm text-slate-500">{t('dashboard.stats.highRisk', 'High Risk')}</p>
                   <h2 className="text-3xl font-bold text-red-600">
                     {stats.highRiskCases ?? 0}
                   </h2>
@@ -157,7 +156,7 @@ export function DashboardPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card className="p-6">
                 <h3 className="font-bold mb-4 flex items-center gap-2">
-                  <TrendingUp className="text-teal-600" /> Weekly Scans
+                  <TrendingUp className="text-teal-600" /> {t('dashboard.charts.weeklyTitle', 'Weekly Scans')}
                 </h3>
                 <ResponsiveContainer width="100%" height={250}>
                   <BarChart data={weeklyScans}>
@@ -171,7 +170,7 @@ export function DashboardPage() {
               </Card>
 
               <Card className="p-6">
-                <h3 className="font-bold mb-4">Patient Growth</h3>
+                <h3 className="font-bold mb-4">{t('dashboard.charts.growthTitle', 'Patient Growth')}</h3>
                 <ResponsiveContainer width="100%" height={250}>
                   <LineChart data={patientGrowth}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -193,7 +192,7 @@ export function DashboardPage() {
             {/* RISK + ACTIVITY */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <Card className="p-6">
-                <h3 className="font-bold mb-4">Risk Distribution</h3>
+                <h3 className="font-bold mb-4">{t('dashboard.charts.riskDistribution', 'Risk Distribution')}</h3>
                 {riskDistributionData.length ? (
                   <ResponsiveContainer width="100%" height={250}>
                     <PieChart>
@@ -211,22 +210,22 @@ export function DashboardPage() {
                     </PieChart>
                   </ResponsiveContainer>
                 ) : (
-                  <p className="text-center text-slate-400">
-                    No data available
+                  <p className="text-center text-slate-400 py-12">
+                    {t('chart.noData', 'No data available')}
                   </p>
                 )}
               </Card>
 
               <Card className="p-6 lg:col-span-2">
-                <h3 className="font-bold mb-4">Recent Activity</h3>
+                <h3 className="font-bold mb-4">{t('dashboard.recentActivity', 'Recent Activity')}</h3>
                 <div className="space-y-2 max-h-[350px] overflow-y-auto pr-2">
                   {activityList.length ? (
                     activityList.map((item) => (
                       <ActivityFeedItem key={item.id} {...item} />
                     ))
                   ) : (
-                    <p className="text-center text-slate-400">
-                      No activity found
+                    <p className="text-center text-slate-400 py-12">
+                      {t('activity.noDetails', 'No activity found')}
                     </p>
                   )}
                 </div>

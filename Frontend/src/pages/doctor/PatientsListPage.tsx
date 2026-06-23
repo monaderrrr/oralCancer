@@ -4,6 +4,7 @@ import { DoctorSidebar } from "../../components/doctor/DoctorSidebar";
 import { PatientCard } from "../../components/doctor/PatientCard";
 import API from "../../Api";
 import socket from "../../socket/Socket";
+import { useTranslation } from "react-i18next"; 
 
 interface Patient {
   patientId: string;
@@ -18,6 +19,7 @@ interface Patient {
 }
 
 export function PatientsListPage() {
+  const { t } = useTranslation(); 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -137,13 +139,13 @@ export function PatientsListPage() {
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto p-6 text-left">
           <div className="max-w-7xl mx-auto space-y-6">
 
             <div>
-              <h1 className="text-2xl font-bold">Shared Patients</h1>
+              <h1 className="text-2xl font-bold">{t("patients.sharedTitle", "Shared Patients")}</h1>
               <p className="text-slate-500">
-                Patients who shared scans with you
+                {t("patients.sharedDesc", "Patients who shared scans with you")}
               </p>
             </div>
 
@@ -157,13 +159,13 @@ export function PatientsListPage() {
                     setSearchTerm(e.target.value);
                     setPagination((p) => ({ ...p, page: 1 }));
                   }}
-                  placeholder="Search patients..."
-                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
+                  placeholder={t("payments.searchPlaceholder", "Search patients...")}
+                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-sm bg-white"
                 />
               </div>
 
               {/* FILTER */}
-              <div className="flex gap-2 mt-3">
+              <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
                 {["all", "high", "medium", "low"].map((type) => (
                   <button
                     key={type}
@@ -171,13 +173,13 @@ export function PatientsListPage() {
                       setRiskFilter(type);
                       setPagination((p) => ({ ...p, page: 1 }));
                     }}
-                    className={`px-3 py-1 rounded-lg border text-sm ${
+                    className={`px-3 py-1 rounded-lg border text-sm font-medium uppercase tracking-wide transition ${
                       riskFilter === type
-                        ? "bg-teal-600 text-white"
-                        : "bg-white"
+                        ? "bg-teal-600 text-white border-teal-600"
+                        : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
                     }`}
                   >
-                    {type.toUpperCase()}
+                    {type === "all" ? t("notifications.tabs.all", "all") : t(`riskLevels.${type}`, type)}
                   </button>
                 ))}
               </div>
@@ -195,9 +197,9 @@ export function PatientsListPage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-20">
-                <Users className="mx-auto w-10 h-10 text-slate-300" />
-                <p>No Patients Found</p>
+              <div className="text-center py-20 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                <Users className="mx-auto w-10 h-10 text-slate-300 mb-3" />
+                <p className="text-slate-500 text-sm font-medium">{t("patients.empty", "No Patients Found")}</p>
               </div>
             )}
 

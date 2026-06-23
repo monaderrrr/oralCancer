@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useTranslation } from "react-i18next"; 
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export default function DoctorsMap({ doctors, userLocation }: Props) {
+    const { t } = useTranslation(); 
 
     const center = userLocation
         ? [userLocation.lat, userLocation.lng]
@@ -44,7 +46,7 @@ export default function DoctorsMap({ doctors, userLocation }: Props) {
 
                 {userLocation && (
                     <Marker position={[userLocation.lat, userLocation.lng]}>
-                        <Popup>You are here</Popup>
+                        <Popup>{t("bookingFlow.mapUserPopup", "You are here")}</Popup>
                     </Marker>
                 )}
 

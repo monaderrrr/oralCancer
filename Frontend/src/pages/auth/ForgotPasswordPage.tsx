@@ -5,8 +5,10 @@ import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { Card } from "../../components/ui/Card";
 import API from "../../Api";
+import { useTranslation } from "react-i18next"; 
 
 export function ForgotPasswordPage() {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -17,13 +19,13 @@ export function ForgotPasswordPage() {
     setIsLoading(true);
     setError("");
 
-   try {
-    const response = await API.patch("/auth/forgetPassword", { email }); 
-    alert(response.data.message);
-    navigate("/verify-code", { state: { email, flow: "forgot" } });
-  } catch (err: any) {
-    setError(err.response?.data?.message || "Failed to send OTP");
-   } finally {
+    try {
+      const response = await API.patch("/auth/forgetPassword", { email }); 
+      alert(response.data.message);
+      navigate("/verify-code", { state: { email, flow: "forgot" } });
+    } catch (err: any) {
+      setError(err.response?.data?.message || t("auth.errors.otpFailed", "Failed to send OTP"));
+    } finally {
       setIsLoading(false);
     }
   };
@@ -36,8 +38,8 @@ export function ForgotPasswordPage() {
             <Mail className="h-6 w-6 text-white" />
           </div>
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Forgot Password?</h2>
-        <p className="mt-2 text-center text-sm text-gray-600">Enter your email to receive a verification code.</p>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">{t("auth.forgot.title", "Forgot Password?")}</h2>
+        <p className="mt-2 text-center text-sm text-gray-600">{t("auth.forgot.subtitle", "Enter your email to receive a verification code.")}</p>
         {error && <p className="mt-2 text-center text-sm text-red-600">{error}</p>}
       </div>
 
@@ -45,20 +47,20 @@ export function ForgotPasswordPage() {
         <Card className="py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <Input
-              label="Email address"
+              label={t("auth.inputs.email", "Email address")}
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
+              placeholder={t("auth.placeholders.email", "Enter your email")}
             />
             <Button type="submit" fullWidth disabled={isLoading} isLoading={isLoading}>
-              {isLoading ? "Sending OTP..." : "Send Verification Code"}
+              {isLoading ? t("auth.buttons.sendingOtp", "Sending OTP...") : t("auth.buttons.sendCode", "Send Verification Code")}
             </Button>
           </form>
           <div className="mt-6 text-center">
             <Link to="/login" className="font-medium text-teal-600 hover:text-teal-500 flex items-center justify-center gap-2">
-              <ArrowLeft className="h-4 w-4" /> Back to Login
+              <ArrowLeft className="h-4 w-4" /> {t("auth.backToLogin", "Back to Login")}
             </Link>
           </div>
         </Card>

@@ -11,8 +11,7 @@ import {
 import { TopNavigation } from "../../components/timeline/TopNavigation";
 import { Card } from "../../components/ui/Card";
 import API from "../../Api";
-
-/* ================= TYPES ================= */
+import { useTranslation } from "react-i18next"; 
 
 type Scan = {
   scanId: string;
@@ -32,18 +31,17 @@ type Goal = {
   color: string;
 };
 
-type Activity = {
+type ActivityType = {
   id: string;
   title?: string;
   description?: string;
   timestamp?: string;
 };
 
-/* ================= COMPONENT ================= */
-
 export function GoalsPage() {
+  const { t } = useTranslation(); 
   const [goals, setGoals] = useState<Goal[]>([]);
-  const [reminders, setReminders] = useState<Activity[]>([]);
+  const [reminders, setReminders] = useState<ActivityType[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -56,15 +54,11 @@ export function GoalsPage() {
           API.get("/api/v1/patient/scans/history?limit=20"),
         ]);
 
-        const activities: Activity[] =
-          activityRes.data?.data?.activities || [];
-
+        const activities: ActivityType[] = activityRes.data?.data?.activities || [];
         const scans: Scan[] = scanRes.data?.data?.scans || [];
 
-        /* ================= REMINDERS ================= */
         setReminders(activities.slice(0, 5));
 
-        /* ================= GROUP SCANS ================= */
         const grouped: Record<"high" | "medium" | "low", Scan[]> = {
           high: [],
           medium: [],
@@ -75,8 +69,6 @@ export function GoalsPage() {
           const risk = scan.riskLevel || "low";
           grouped[risk].push(scan);
         });
-
-        /* ================= BUILD GOALS ================= */
 
         const goalsData: Goal[] = [];
 
@@ -94,9 +86,8 @@ export function GoalsPage() {
         if (grouped.high.length > 0) {
           goalsData.push({
             id: "high-risk",
-            title: "Urgent medical follow-up required",
-            description:
-              "High risk detected in multiple scans. Please consult a specialist immediately.",
+            title: t("goals.high.title", "Urgent medical follow-up required"),
+            description: t("goals.high.desc", "High risk detected in multiple scans. Please consult a specialist immediately."),
             progress: Math.round(calcAvg(grouped.high)),
             streak: grouped.high.length,
             completed: false,
@@ -109,9 +100,8 @@ export function GoalsPage() {
         if (grouped.medium.length > 0) {
           goalsData.push({
             id: "medium-risk",
-            title: "Monitor your oral health closely",
-            description:
-              "Regular scans are recommended to track changes in your condition.",
+            title: t("goals.medium.title", "Monitor your oral health closely"),
+            description: t("goals.medium.desc", "Regular scans are recommended to track changes in your condition."),
             progress: Math.round(calcAvg(grouped.medium)),
             streak: grouped.medium.length,
             completed: false,
@@ -124,9 +114,8 @@ export function GoalsPage() {
         if (grouped.low.length > 0) {
           goalsData.push({
             id: "low-risk",
-            title: "Healthy status maintained",
-            description:
-              "Your condition is stable. Keep maintaining your routine.",
+            title: t("goals.low.title", "Healthy status maintained"),
+            description: t("goals.low.desc", "Your condition is stable. Keep maintaining your routine."),
             progress: Math.round(calcAvg(grouped.low)),
             streak: grouped.low.length,
             completed: true,
@@ -146,125 +135,101 @@ export function GoalsPage() {
     };
 
     fetchGoals();
-  }, []);
+  }, [t]);
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-12">
+    <div className="min-h-screen bg-slate-50 pb-12 text-left">
       <TopNavigation />
 
       <div className="max-w-5xl mx-auto px-4 py-8">
-
         {/* HEADER */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold">Health Goals</h1>
+          <h1 className="text-3xl font-bold">{t("dashboard.quickActions.myGoals", "Health Goals")}</h1>
           <p className="text-slate-600">
-            AI-powered goals derived from your scan history
+            {t("goals.headerDesc", "AI-powered goals derived from your scan history")}
           </p>
         </div>
 
         {loading ? (
-          <p className="text-slate-500">Loading...</p>
+          <p className="text-slate-500 py-12 text-center">{t("onboarding.openingStripe", "Loading...")}</p>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
             {/* ================= GOALS ================= */}
             <div className="lg:col-span-2 space-y-6">
-
-              <h2 className="text-xl font-bold">Your Active Goals</h2>
+              <h2 className="text-xl font-bold">{t("goals.activeHeader", "Your Active Goals")}</h2>
 
               {goals.length === 0 ? (
-                <p className="text-slate-500">No goals available</p>
+                <p className="text-slate-500 text-sm font-medium py-4">{t("goals.noGoals", "No goals available")}</p>
               ) : (
-                goals.map((goal) => {
-                  const Icon = goal.icon;
+                <div className="space-y-4">
+                  {goals.map((goal) => {
+                    const Icon = goal.icon;
 
-                  return (
-                    <motion.div key={goal.id} whileHover={{ scale: 1.02 }}>
-                      <Card className="p-6">
+                    return (
+                      <motion.div key={goal.id} whileHover={{ scale: 1.01 }}>
+                        <Card className="p-6">
+                          <div className="flex gap-3">
+                            <Icon className={`${goal.color} w-5 h-5 mt-1 shrink-0`} />
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-bold text-lg text-slate-900">{goal.title}</h3>
+                              <p className="text-sm text-slate-500 mt-1">{goal.description}</p>
 
-                        <div className="flex gap-3">
+                              {/* progress */}
+                              <div className="mt-4 w-full bg-slate-100 rounded-full h-2">
+                                <div
+                                  className="bg-teal-600 h-2 rounded-full transition-all duration-500"
+                                  style={{ width: `${goal.progress}%` }}
+                                />
+                              </div>
 
-                          <Icon className={`${goal.color} w-5 h-5 mt-1`} />
-
-                          <div className="flex-1">
-
-                            <h3 className="font-bold text-lg">
-                              {goal.title}
-                            </h3>
-
-                            <p className="text-sm text-slate-500 mt-1">
-                              {goal.description}
-                            </p>
-
-                            {/* progress */}
-                            <div className="mt-4 w-full bg-slate-100 rounded-full h-2">
-                              <div
-                                className="bg-teal-600 h-2 rounded-full"
-                                style={{ width: `${goal.progress}%` }}
-                              />
-                            </div>
-
-                            <div className="flex justify-between text-sm mt-3">
-
-                              <span className="flex items-center gap-1">
-                                <Flame className="w-4 h-4 text-orange-500" />
-                                {goal.streak} scan streak
-                              </span>
-
-                              {goal.completed && (
-                                <span className="text-emerald-600 flex items-center gap-1 font-medium">
-                                  <Check className="w-4 h-4" />
-                                  Stable
+                              <div className="flex justify-between items-center text-sm mt-3">
+                                <span className="flex items-center gap-1 font-medium text-slate-600 text-xs">
+                                  <Flame className="w-4 h-4 text-orange-500" />
+                                  {goal.streak} {t("goals.streakCount", "scan streak")}
                                 </span>
-                              )}
 
+                                {goal.completed && (
+                                  <span className="text-emerald-600 flex items-center gap-1 font-semibold text-xs">
+                                    <Check className="w-4 h-4" />
+                                    {t("goals.stableBadge", "Stable")}
+                                  </span>
+                                )}
+                              </div>
                             </div>
-
                           </div>
-                        </div>
-
-                      </Card>
-                    </motion.div>
-                  );
-                })
+                        </Card>
+                      </motion.div>
+                    );
+                  })}
+                </div>
               )}
             </div>
 
             {/* ================= REMINDERS ================= */}
-            <div>
-
-              <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
-
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold">{t("dashboard.recentActivity", "Recent Activity")}</h2>
               <Card className="p-4">
-
                 {reminders.length === 0 ? (
-                  <p className="text-slate-500">No activity</p>
+                  <p className="text-slate-500 text-sm font-medium py-4 text-center">{t("activity.noDetails", "No activity")}</p>
                 ) : (
-                  reminders.map((r) => (
-                    <div key={r.id} className="flex gap-3 py-3 border-b">
-
-                      <Activity className="text-teal-600 w-4 h-4 mt-1" />
-
-                      <div>
-                        <p className="font-medium">
-                          {r.title || r.description}
-                        </p>
-
-                        <p className="text-xs text-slate-500">
-                          {r.timestamp
-                            ? new Date(r.timestamp).toLocaleString()
-                            : ""}
-                        </p>
+                  <div className="divide-y divide-slate-100">
+                    {reminders.map((r) => (
+                      <div key={r.id} className="flex gap-3 py-3 first:pt-0 last:pb-0">
+                        <Activity className="text-teal-600 w-4 h-4 mt-1 shrink-0" />
+                        <div>
+                          <p className="font-semibold text-sm text-slate-900 leading-tight">
+                            {r.title || r.description}
+                          </p>
+                          <p className="text-xs text-slate-400 mt-1">
+                            {r.timestamp ? new Date(r.timestamp).toLocaleString() : ""}
+                          </p>
+                        </div>
                       </div>
-
-                    </div>
-                  ))
+                    ))}
+                  </div>
                 )}
-
               </Card>
-
             </div>
-
           </div>
         )}
       </div>

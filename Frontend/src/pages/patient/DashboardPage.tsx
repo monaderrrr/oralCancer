@@ -24,6 +24,7 @@ import { TopNavigation } from "../../components/timeline/TopNavigation";
 import { TodaysActions } from "../../components/timeline/TodaysActions";
 import { TimelineEvent, TimelineEventData, EventType } from "../../components/timeline/TimelineEvent";
 import API from "../../Api";
+import { useTranslation } from "react-i18next"; 
 
 interface LatestScan {
   scanId: string;
@@ -53,7 +54,7 @@ interface DashboardData {
 }
 
 interface Place {
-  id: string;
+  id: string; 
   name: string;
   address?: string;
   lat?: number;
@@ -63,12 +64,12 @@ interface Place {
 }
 
 const mapActivityType = (type: string): EventType => {
-  const t = type.toUpperCase();
+  const t = type.toUpperCase(); 
   if (t.includes("SCAN") || t.includes("REVIEWED")) return "scan";
   if (t.includes("RECOMMENDATION")) return "recommendation";
   if (t.includes("MESSAGE") || t.includes("CHAT")) return "message";
   if (t.includes("APPOINTMENT")) return "appointment";
-  return "symptom";
+  return "symptom"; 
 };
 
 const distanceInKm = (fromLat: number, fromLng: number, toLat?: number, toLng?: number) => {
@@ -96,16 +97,8 @@ const findNearest = <T extends Place>(places: T[], latitude: number, longitude: 
   }, null);
 };
 
-const formatLastScan = (date?: string) => {
-  if (!date) return "No saved scans yet";
-  const scanDate = new Date(date);
-  const diffMs = Date.now() - scanDate.getTime();
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  if (diffDays <= 0) return `Today at ${scanDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
-  if (diffDays === 1) return "Yesterday";
-  return `${diffDays} days ago`;
-};
 export function DashboardPage() {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
   const { user } = useAuth();
   const [dashboard, setDashboard] = useState<DashboardData | null>(null);
@@ -116,7 +109,16 @@ export function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [loadingPlaces, setLoadingPlaces] = useState(true);
 
-  // ✅ FIX HERE (only change)
+  const formatLastScan = (date?: string) => {
+    if (!date) return t("dashboardPatient.scans.noSaved", "No saved scans yet");
+    const scanDate = new Date(date);
+    const diffMs = Date.now() - scanDate.getTime();
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    if (diffDays <= 0) return `${t("timeline.time.today", "Today")} ${t("paymentModal.labels.at", "at")} ${scanDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+    if (diffDays === 1) return t("timeline.time.yesterday", "Yesterday");
+    return `${diffDays} ${t("timeline.time.daysAgo", "days ago")}`;
+  };
+
   const startChat = async (doctorId: string) => {
     try {
       const res = await API.post("/api/v1/chat/conversations", {
@@ -149,15 +151,13 @@ export function DashboardPage() {
     fetchDashboard();
   }, []);
 
-  // باقي الكود زي ما هو 100% بدون أي تغيير
-
   useEffect(() => {
     const loadPlaces = async (coords?: GeolocationCoordinates) => {
       setLoadingPlaces(true);
       try {
         const [doctorsRes, hospitalsRes] = await Promise.all([
           API.get("/api/v1/patient/doctors"),
-          fetch(`${import.meta.env.VITE_AI_URL}/api/hospitals`).then(res => res.json()).catch(() => [])
+          fetch("http://127.0.0.1:8000/api/hospitals").then(res => res.json()).catch(() => [])
         ]);
 
         const nextDoctors = (doctorsRes.data?.data || []).map((doc: any) => ({
@@ -227,10 +227,10 @@ export function DashboardPage() {
       {
         id: "latest-scan",
         type: "task" as const,
-        title: latestScan ? `Last scan: ${formatLastScan(latestScan.createdAt)}` : "Start your first oral scan",
+        title: latestScan ? `${t("dashboardPatient.scans.lastScan", "Last scan")}: ${formatLastScan(latestScan.createdAt)}` : t("dashboard.scans.startFirst", "Start your first oral scan"),
         time: latestScan
-          ? `${latestScan.riskLevel.toUpperCase()} risk${latestScan.riskScore ? ` • ${latestScan.riskScore}% score` : ""}`
-          : "No scan has been saved for this account yet",
+          ? `${t(`riskLevels.${latestScan.riskLevel}`, latestScan.riskLevel).toUpperCase()} ${t("timeline.risk", "risk")}${latestScan.riskScore ? ` • ${latestScan.riskScore}% ${t("dashboard.scans.score", "score")}` : ""}`
+          : t("dashboardPatient.scans.noSavedDesc", "No scan has been saved for this account yet"),
         urgent: latestScan?.riskLevel === "high",
       },
       ...(dashboard?.summary?.pendingRecommendations
@@ -238,14 +238,14 @@ export function DashboardPage() {
           {
             id: "recommendations",
             type: "task" as const,
-            title: `${dashboard.summary.pendingRecommendations} recommendation(s) pending`,
-            time: "Review your doctor follow-up guidance",
+            title: `${dashboard.summary.pendingRecommendations} ${t("dashboardPatient.scans.pendingRecs", "recommendation(s) pending")}`,
+            time: t("dashboadashboardPatientrd.scans.reviewGuidance", "Review your doctor follow-up guidance"),
             urgent: true,
           },
         ]
         : []),
     ],
-    [dashboard, latestScan]
+    [dashboard, latestScan, t]
   );
 
   const handleActionClick = (action: { id: string }) => {
@@ -260,7 +260,7 @@ export function DashboardPage() {
     nearestDoctor
       ? {
         kind: "doctor" as const,
-        label: "Nearest Doctor",
+        label: t("bookingFlow.nearestDocLabel", "Nearest Doctor"),
         place: nearestDoctor,
         icon: Stethoscope,
         path: `/doctor-details/${nearestDoctor.id}`,
@@ -270,7 +270,7 @@ export function DashboardPage() {
     nearestHospital
       ? {
         kind: "hospital" as const,
-        label: "Nearest Hospital",
+        label: t("bookingFlow.nearestHospLabel", "Nearest Hospital"),
         place: nearestHospital,
         icon: Building2,
         path: `/hospital-details/${nearestHospital.id}`,
@@ -286,21 +286,28 @@ export function DashboardPage() {
     accent: "teal" | "blue";
   }>;
 
+  // Quick actions array mapped directly to keep dynamic routing intact
+  const quickActionsData = [
+    { title: t("nav.newScan", "New Scan"), icon: Upload, path: "/patient/upload" },
+    { title: t("dashboardPatient.quickActions.education", "Education"), icon: BookOpen, path: "/patient/education" },
+    { title: t("dashboardPatient.quickActions.riskQuiz", "Risk Quiz"), icon: ClipboardCheck, path: "/patient/risk-assessment" },
+    { title: t("dashboardPatient.quickActions.myGoals", "My Goals"), icon: Target, path: "/patient/goals" },
+    { title: t("nav.history", "Progress"), icon: TrendingUp, path: "/patient/progress" },
+    { title: t("dashboardPatient.quickActions.family", "Family Hub"), icon: Users, path: "/patient/family" },
+    { title: t("nav.community", "Community"), icon: Users, path: "/patient/community" },
+    { title: t("dashboardPatient.quickActions.billing", "Billing & Invoices"), icon: CreditCard, path: "/patient/invoices" },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-left">
       <TopNavigation />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="mb-8"
-        >
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="mb-8">
           <h1 className="text-3xl font-bold text-slate-900 mb-2">
-            Welcome back, {user?.fullName || user?.email || "Patient"}
+            {t("dashboardPatient.welcome", "Welcome back")}, {user?.fullName || user?.email || t("roles.patient", "Patient")}
           </h1>
-          <p className="text-slate-600">Your latest scan, care actions, and nearby care options.</p>
+          <p className="text-slate-600">{t("dashboardPatient.subtitleDesc", "Your latest scan, care actions, and nearby care options.")}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
@@ -318,15 +325,15 @@ export function DashboardPage() {
                 )}
               </div>
               <div>
-                <p className="text-sm font-semibold text-teal-700 mb-1">Latest Scan</p>
+                <p className="text-sm font-semibold text-teal-700 mb-1">{t("nav.newScan", "Latest Scan")}</p>
                 <h2 className="text-xl font-bold text-slate-900">{formatLastScan(latestScan?.createdAt)}</h2>
                 <p className="text-sm text-slate-700 mt-2">
                   {latestScan
-                    ? `${latestScan.diagnosis || latestScan.riskLevel} • Confidence ${latestScan.confidence ?? 0}%`
-                    : "Run a scan to start tracking your oral health history."}
+                    ? `${latestScan.diagnosis || t(`riskLevels.${latestScan.riskLevel}`, latestScan.riskLevel)} • ${t("scanReview.confidence", "Confidence")} ${latestScan.confidence ?? 0}%`
+                    : t("dashboardPatient.scans.startNotice", "Run a scan to start tracking your oral health history.")}
                 </p>
                 <Button className="mt-4" onClick={() => navigate(latestScan ? "/results" : "/patient/upload")}>
-                  {latestScan ? "View Result" : "New Scan"}
+                  {latestScan ? t("actions.viewDetails", "View Result") : t("nav.newScan", "New Scan")}
                 </Button>
               </div>
             </div>
@@ -336,9 +343,9 @@ export function DashboardPage() {
         <section className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-xl font-bold text-slate-900">Recommended Nearby Care</h2>
+              <h2 className="text-xl font-bold text-slate-900">{t("bookingFlow.nearbyCareHeader", "Recommended Nearby Care")}</h2>
               <p className="text-sm text-slate-600">
-                Showing all available doctors and hospitals, with the nearest options highlighted.
+                {t("bookingFlow.nearbyCareDesc", "Showing all available doctors and hospitals, with the nearest options highlighted.")}
               </p>
             </div>
             {loadingPlaces && <RefreshCw className="w-5 h-5 text-teal-600 animate-spin" />}
@@ -347,39 +354,27 @@ export function DashboardPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             {recommendedPlaces.map((item) => {
               const Icon = item.icon;
-              const isDoctor = item.kind === "doctor";
+              const isDocKind = item.kind === "doctor";
               return (
-                <Card
-                  key={item.kind}
-                  className={`p-5 border-2 ${isDoctor ? "border-teal-300 bg-teal-50" : "border-blue-300 bg-blue-50"
-                    } shadow-md`}
-                >
+                <Card key={item.kind} className={`p-5 border-2 ${isDocKind ? "border-teal-300 bg-teal-50" : "border-blue-300 bg-blue-50"} shadow-md`}>
                   <div className="flex items-start gap-4">
-                    <div
-                      className={`w-12 h-12 rounded-xl flex items-center justify-center ${isDoctor ? "bg-teal-100 text-teal-700" : "bg-blue-100 text-blue-700"
-                        }`}
-                    >
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${isDocKind ? "bg-teal-100 text-teal-700" : "bg-blue-100 text-blue-700"}`}>
                       <Icon className="w-6 h-6" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <Badge variant={isDoctor ? "info" : "default"}>Recommended</Badge>
+                        <Badge variant={isDocKind ? "info" : "default"}>{t("onboarding.steps.subscription", "Recommended")}</Badge>
                         <span className="text-xs text-slate-500">{item.label}</span>
                       </div>
                       <h3 className="font-bold text-slate-900 truncate">{item.place.name}</h3>
                       <p className="text-sm text-slate-600 line-clamp-2">{item.place.address || item.place.type}</p>
                       <div className="flex gap-2 mt-4">
                         <Button size="sm" onClick={() => navigate(item.path)}>
-                          View Location
+                          {t("bookingFlow.buttons.viewLoc", "View Location")}
                         </Button>
-                        {isDoctor && (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => startChat(item.place.id)}
-                            leftIcon={<MessageCircle className="w-4 h-4" />}
-                          >
-                            Message
+                        {isDocKind && (
+                          <Button size="sm" variant="outline" onClick={() => startChat(item.place.id)} leftIcon={<MessageCircle className="w-4 h-4" />}>
+                            {t("sidebar.messages", "Message")}
                           </Button>
                         )}
                       </div>
@@ -394,11 +389,11 @@ export function DashboardPage() {
             <Card className="p-5">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="font-bold text-slate-900">Doctors</h3>
-                  <p className="text-sm text-slate-600">{doctors.length} available across all locations</p>
+                  <h3 className="font-bold text-slate-900">{t("sidebar.doctors", "Doctors")}</h3>
+                  <p className="text-sm text-slate-600">{doctors.length} {t("dashboardPatient.places.availableCount", "available across all locations")}</p>
                 </div>
                 <Button size="sm" variant="outline" onClick={() => navigate("/patient/doctors")}>
-                  View All
+                  {t("notifications.tabs.all", "View All")}
                 </Button>
               </div>
               <div className="space-y-3">
@@ -409,7 +404,7 @@ export function DashboardPage() {
                       <p className="text-xs text-slate-500 truncate">{doctor.address || doctor.type}</p>
                     </div>
                     <Button size="sm" variant="outline" onClick={() => startChat(doctor.id)}>
-                      Message
+                      {t("sidebar.messages", "Message")}
                     </Button>
                   </div>
                 ))}
@@ -419,20 +414,16 @@ export function DashboardPage() {
             <Card className="p-5">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="font-bold text-slate-900">Hospitals</h3>
-                  <p className="text-sm text-slate-600">{hospitals.length} available across all locations</p>
+                  <h3 className="font-bold text-slate-900">{t("hospitals.title", "Hospitals")}</h3>
+                  <p className="text-sm text-slate-600">{hospitals.length} {t("dashboardPatient.places.availableCount", "available across all locations")}</p>
                 </div>
                 <Button size="sm" variant="outline" onClick={() => navigate("/patient/hospitals")}>
-                  View All
+                  {t("notifications.tabs.all", "View All")}
                 </Button>
               </div>
               <div className="space-y-3">
                 {hospitals.slice(0, 3).map((hospital) => (
-                  <button
-                    key={hospital.id}
-                    onClick={() => navigate(`/hospital-details/${hospital.id}`)}
-                    className="w-full text-left flex items-center justify-between gap-3 border-t border-slate-100 pt-3"
-                  >
+                  <button key={hospital.id} type="button" onClick={() => navigate(`/hospital-details/${hospital.id}`)} className="w-full text-left flex items-center justify-between gap-3 border-t border-slate-100 pt-3">
                     <div className="min-w-0">
                       <p className="font-medium text-slate-900 truncate">{hospital.name}</p>
                       <p className="text-xs text-slate-500 truncate">{hospital.address}</p>
@@ -445,27 +436,13 @@ export function DashboardPage() {
           </div>
         </section>
 
-        <h2 className="text-xl font-bold text-slate-900 mb-4">Quick Actions</h2>
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
-        >
-          {[
-            { title: "New Scan", icon: Upload, path: "/patient/upload", color: "teal" },
-            { title: "Education", icon: BookOpen, path: "/patient/education", color: "blue" },
-            { title: "Risk Quiz", icon: ClipboardCheck, path: "/patient/risk-assessment", color: "emerald" },
-            { title: "My Goals", icon: Target, path: "/patient/goals", color: "amber" },
-            { title: "Progress", icon: TrendingUp, path: "/patient/progress", color: "cyan" },
-            { title: "Family Hub", icon: Users, path: "/patient/family", color: "indigo" },
-            { title: "Community", icon: Users, path: "/patient/community", color: "rose" },
-            { title: "Billing & Invoices", icon: CreditCard, path: "/patient/invoices", color: "purple" },
-          ].map((item) => {
+        <h2 className="text-xl font-bold text-slate-900 mb-4">{t("dashboardPatient.quickActionsHeader", "Quick Actions")}</h2>
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          {quickActionsData.map((item) => {
             const Icon = item.icon;
             return (
               <Card key={item.path} className="p-4 border-2 border-slate-200 hover:border-teal-300 hover:shadow-md transition-all cursor-pointer group">
-                <button onClick={() => navigate(item.path)} className="w-full text-left">
+                <button onClick={() => navigate(item.path)} type="button" className="w-full text-left">
                   <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <Icon className="w-5 h-5 text-teal-600" />
                   </div>
@@ -483,13 +460,12 @@ export function DashboardPage() {
                 <TrendingUp className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-slate-900">Recent Activity</h2>
-                <p className="text-sm text-slate-600">Your latest saved health events</p>
+                <h2 className="text-xl font-bold text-slate-900">{t("dashboardPatient.recentActivity", "Recent Activity")}</h2>
+                <p className="text-sm text-slate-600">{t("dashboardPatient.recentActivityDesc", "Your latest saved health events")}</p>
               </div>
             </div>
-
-            <Button variant="outline" onClick={() => navigate("/patient/doctors")}>
-              View All
+            <Button variant="outline" onClick={() => navigate("/patient/medical-history")}>
+              {t("notifications.tabs.all", "View All")}
             </Button>
           </div>
 
@@ -508,9 +484,9 @@ export function DashboardPage() {
           ) : (
             <Card className="p-8 text-center">
               <Activity className="w-10 h-10 text-slate-400 mx-auto mb-3" />
-              <h3 className="font-semibold text-slate-900 mb-1">No recent activity yet</h3>
-              <p className="text-sm text-slate-600 mb-4">Your scans and care updates will appear here.</p>
-              <Button onClick={() => navigate("/patient/upload")}>Start New Scan</Button>
+              <h3 className="font-semibold text-slate-900 mb-1">{t("dashboardPatient.scans.emptyActivity", "No recent activity yet")}</h3>
+              <p className="text-sm text-slate-600 mb-4">{t("dashboardPatient.scans.emptyActivityDesc", "Your scans and care updates will appear here.")}</p>
+              <Button onClick={() => navigate("/patient/upload")}>{t("dashboardPatient.scans.startBtn", "Start New Scan")}</Button>
             </Card>
           )}
         </motion.div>

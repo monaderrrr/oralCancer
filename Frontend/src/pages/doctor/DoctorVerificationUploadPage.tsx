@@ -4,8 +4,10 @@ import { Upload, FileText, User, CheckCircle, AlertCircle } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import API from '../../Api';
+import { useTranslation } from 'react-i18next'; 
 
 export function DoctorVerificationUploadPage() {
+  const { t } = useTranslation(); 
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email || localStorage.getItem('signupEmail');
@@ -19,12 +21,12 @@ export function DoctorVerificationUploadPage() {
   const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        setError('Profile image must be less than 5MB');
+      if (file.size > 5 * 1024 * 1024) { 
+        setError(t('verification.errors.profileSize', 'Profile image must be less than 5MB'));
         return;
       }
       if (!file.type.startsWith('image/')) {
-        setError('Please select a valid image file');
+        setError(t('verification.errors.invalidImage', 'Please select a valid image file'));
         return;
       }
       setProfileImage(file);
@@ -35,12 +37,12 @@ export function DoctorVerificationUploadPage() {
   const handleMedicalProofChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 10 * 1024 * 1024) { // 10MB limit
-        setError('Medical proof must be less than 10MB');
+      if (file.size > 10 * 1024 * 1024) { 
+        setError(t('verification.errors.documentSize', 'Medical proof must be less than 10MB'));
         return;
       }
       if (!['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'].includes(file.type)) {
-        setError('Please select a PDF or image file');
+        setError(t('verification.errors.invalidDoc', 'Please select a PDF or image file'));
         return;
       }
       setMedicalProof(file);
@@ -52,7 +54,7 @@ export function DoctorVerificationUploadPage() {
     e.preventDefault();
 
     if (!profileImage && !medicalProof) {
-      setError('Please upload at least one document');
+      setError(t('verification.errors.noDocs', 'Please upload at least one document'));
       return;
     }
 
@@ -75,7 +77,7 @@ export function DoctorVerificationUploadPage() {
       }
     } catch (err: any) {
       console.error('Upload error:', err);
-      setError(err.response?.data?.message || 'Failed to upload documents');
+      setError(err.response?.data?.message || t('auth.errors.resendFailed', 'Failed to upload documents'));
     } finally {
       setLoading(false);
     }
@@ -86,11 +88,11 @@ export function DoctorVerificationUploadPage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
         <Card className="w-full max-w-md p-8 text-center">
           <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Documents Uploaded!</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('verification.successTitle', 'Documents Uploaded!')}</h2>
           <p className="text-gray-600 mb-6">
-            Your verification documents have been submitted successfully. Please wait for admin approval.
+            {t('verification.successDesc', 'Your verification documents have been submitted successfully. Please wait for admin approval.')}
           </p>
-          <p className="text-sm text-gray-500">Redirecting to status page...</p>
+          <p className="text-sm text-gray-500">{t('verification.redirecting', 'Redirecting to status page...')}</p>
         </Card>
       </div>
     );
@@ -100,18 +102,18 @@ export function DoctorVerificationUploadPage() {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">Doctor Verification</h2>
+          <h2 className="text-3xl font-bold text-gray-900">{t('auth.signup.doctorSubtitle', 'Doctor Verification')}</h2>
           <p className="mt-2 text-gray-600">
-            Please upload your verification documents to complete registration
+            {t('verification.subtitle', 'Please upload your verification documents to complete registration')}
           </p>
         </div>
 
-        <Card className="p-6">
+        <Card className="p-6 text-left">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Profile Image Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Profile Image *
+                {t('admin.documents.profileImage', 'Profile Image')} *
               </label>
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-teal-400 transition-colors">
                 <input
@@ -124,7 +126,7 @@ export function DoctorVerificationUploadPage() {
                 <label htmlFor="profileImage" className="cursor-pointer">
                   <User className="w-8 h-8 text-gray-400 mx-auto mb-2" />
                   <p className="text-sm text-gray-600">
-                    {profileImage ? profileImage.name : 'Click to upload profile image'}
+                    {profileImage ? profileImage.name : t('verification.placeholders.profile', 'Click to upload profile image')}
                   </p>
                   <p className="text-xs text-gray-500 mt-1">JPG, PNG up to 5MB</p>
                 </label>
@@ -134,7 +136,7 @@ export function DoctorVerificationUploadPage() {
             {/* Medical Document Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Medical Document *
+                {t('admin.documents.medicalProof', 'Medical Document')} *
               </label>
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-teal-400 transition-colors">
                 <input
@@ -147,7 +149,7 @@ export function DoctorVerificationUploadPage() {
                 <label htmlFor="medicalDocument" className="cursor-pointer">
                   <FileText className="w-8 h-8 text-gray-400 mx-auto mb-2" />
                   <p className="text-sm text-gray-600">
-                    {medicalProof ? medicalProof.name : 'Click to upload medical document'}
+                    {medicalProof ? medicalProof.name : t('verification.placeholders.document', 'Click to upload medical document')}
                   </p>
                   <p className="text-xs text-gray-500 mt-1">PDF or image up to 10MB</p>
                 </label>
@@ -169,12 +171,12 @@ export function DoctorVerificationUploadPage() {
               {loading ? (
                 <>
                   <Upload className="w-4 h-4 mr-2 animate-spin" />
-                  Uploading...
+                  {t('paymentError.processingBtn', 'Uploading...')}
                 </>
               ) : (
                 <>
                   <Upload className="w-4 h-4 mr-2" />
-                  Submit Documents
+                  {t('verification.submitBtn', 'Submit Documents')}
                 </>
               )}
             </Button>

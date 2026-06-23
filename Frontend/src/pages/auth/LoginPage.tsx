@@ -8,29 +8,29 @@ import { Card } from "../../components/ui/Card";
 import { Mail, AlertCircle, ShieldCheck, Stethoscope, UserRound } from "lucide-react";
 import { PasswordInput } from "../../components/ui/PasswordInput";
 import logo from "../../assets/logo.png";
+import { useTranslation } from "react-i18next"; 
 
 export function LoginPage() {
+  const { t } = useTranslation(); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [selectedRole, setSelectedRole] = useState<"patient" | "doctor">("patient");
+  const [selectedRole, setSelectedRole] = useState<"patient" | "doctor" | "admin">("patient");
 
   const { login, isLoading } = useAuth();
   const navigate = useNavigate();
 
-  // ================= HANDLE SUBMIT =================
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
     if (!email || !password) {
-      setError("Please enter email and password");
+      setError(t("auth.errors.missingFields", "Please enter email and password"));
       return;
     }
 
     try {
       const loggedUser = await login(email, password);
-
       const role = loggedUser.role || "patient";
       localStorage.setItem("oral_scan_userRole", role);
 
@@ -43,7 +43,7 @@ export function LoginPage() {
       } else if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("Invalid email or password");
+        setError(t("auth.errors.invalidCredentials", "Invalid email or password"));
       }
       console.error("LOGIN ERROR:", err);
     }
@@ -64,12 +64,12 @@ export function LoginPage() {
         </Link>
 
         <h2 className="text-center text-3xl font-bold tracking-tight text-slate-900">
-          Sign in to your account
+          {t("auth.login.title", "Sign in to your account")}
         </h2>
         <p className="mt-2 text-center text-sm text-slate-600">
-          Or{" "}
+          {t("auth.login.or", "Or")}{" "}
           <Link to="/signup" className="font-medium text-teal-600 hover:text-teal-500">
-            create a new account
+            {t("auth.login.createAccountLink", "create a new account")}
           </Link>
         </p>
       </motion.div>
@@ -85,11 +85,11 @@ export function LoginPage() {
             <div className="w-11 h-11 rounded-xl bg-white flex items-center justify-center text-teal-700 shadow-sm">
               {selectedRole === "doctor" ? <Stethoscope className="w-5 h-5" /> : <UserRound className="w-5 h-5" />}
             </div>
-            <div>
+            <div className="text-left">
               <p className="text-sm font-bold text-slate-900">
-                {selectedRole === "doctor" ? "Doctor access" : "Patient access"}
+                {selectedRole === "doctor" ? t("auth.login.doctorAccess", "Doctor access") : t("auth.login.patientAccess", "Patient access")}
               </p>
-              <p className="text-xs text-slate-600">Secure sign in for your care workspace.</p>
+              <p className="text-xs text-slate-600">{t("auth.login.secureNotice", "Secure sign in for your care workspace.")}</p>
             </div>
             <ShieldCheck className="w-5 h-5 text-teal-600 ml-auto" />
           </div>
@@ -108,24 +108,22 @@ export function LoginPage() {
                 >
                   <span className="inline-flex items-center justify-center gap-2">
                     {role === "doctor" ? <Stethoscope className="w-4 h-4" /> : <UserRound className="w-4 h-4" />}
-                    {role.charAt(0).toUpperCase() + role.slice(1)}
+                    {role === "doctor" ? t("roles.doctor", "Doctor") : t("roles.patient", "Patient")}
                   </span>
                 </button>
               ))}
             </div>
 
-            {/* Error message */}
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded-md p-4 flex items-start gap-3">
+              <div className="bg-red-50 border border-red-200 rounded-md p-4 flex items-start gap-3 text-left">
                 <AlertCircle className="w-5 h-5 text-red-600 mt-0.5" />
                 <p className="text-sm text-red-700">{error}</p>
               </div>
             )}
 
-            {/* Email input */}
-            <div>
+            <div className="text-left">
               <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                Email address
+                {t("auth.inputs.email", "Email address")}
               </label>
               <Input
                 type="email"
@@ -140,10 +138,9 @@ export function LoginPage() {
               />
             </div>
 
-            {/* Password input */}
-            <div>
+            <div className="text-left">
               <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                Password
+                {t("auth.inputs.password", "Password")}
               </label>
               <PasswordInput
                 value={password}
@@ -160,11 +157,10 @@ export function LoginPage() {
                 to="/forgot-password"
                 className="font-medium text-teal-600 hover:text-teal-500"
               >
-                Forgot password?
+                {t("auth.login.forgotLink", "Forgot password?")}
               </Link>
             </div>
 
-            {/* Submit button */}
             <div>
               <Button
                 type="submit"
@@ -172,7 +168,7 @@ export function LoginPage() {
                 isLoading={isLoading}
                 disabled={isLoading}
               >
-                {isLoading ? "Signing in..." : "Sign in"}
+                {isLoading ? t("auth.buttons.signingIn", "Signing in...") : t("auth.buttons.signIn", "Sign in")}
               </Button>
             </div>
           </form>

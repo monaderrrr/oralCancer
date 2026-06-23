@@ -6,9 +6,11 @@ import { Button } from '../../components/ui/Button';
 import { TopNavigation } from '../../components/timeline/TopNavigation';
 import { RecommendationItem } from '../../components/timeline/RecommendationItem';
 import API from '../../Api';
+import { useTranslation } from 'react-i18next'; // إضافة الترجمة
 
 export function RecommendationsPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation(); // تفعيل الترجمة
 
   const [items, setItems] = useState<any[]>([]);
   const [filter, setFilter] = useState<'all' | 'active' | 'symptom'>('all');
@@ -34,30 +36,30 @@ export function RecommendationsPage() {
 
       //  Extract Unique Symptoms from Scans
       const symptomsMap = new Map();
-recommendations.forEach((rec) => {
-  const scan = rec.scanId;
-  if (scan && (scan.lesionType || scan.aiResult?.diagnosis)) {
-    const symptomId = `symp_${scan._id}`;
-    
-    if (!symptomsMap.has(symptomId)) {
-      let displayTitle = "Routine Check"; 
-      if (scan.riskLevel === "high") displayTitle = "Urgent Finding";
-      else if (scan.riskLevel === "medium") displayTitle = "Important Finding";
+      recommendations.forEach((rec) => {
+        const scan = rec.scanId;
+        if (scan && (scan.lesionType || scan.aiResult?.diagnosis)) {
+          const symptomId = `symp_${scan._id}`;
+          
+          if (!symptomsMap.has(symptomId)) {
+            let displayTitle = "Routine Check"; 
+            if (scan.riskLevel === "high") displayTitle = "Urgent Finding";
+            else if (scan.riskLevel === "medium") displayTitle = "Important Finding";
 
-      symptomsMap.set(symptomId, {
-        _id: symptomId,
-        itemType: 'symptom',
-        title: displayTitle, 
-        message: `Finding: ${scan.lesionType || 'Detected abnormality'} identified during oral scan.`,
-        urgency: scan.riskLevel === 'high' ? 'high' : (scan.riskLevel === 'medium' ? 'medium' : 'low'),
-        createdAt: scan.createdAt,
-        sortDate: new Date(scan.createdAt).getTime(),
-        isCompleted: false,
-        metadata: scan
+            symptomsMap.set(symptomId, {
+              _id: symptomId,
+              itemType: 'symptom',
+              title: displayTitle, 
+              message: `Finding: ${scan.lesionType || 'Detected abnormality'} identified during oral scan.`,
+              urgency: scan.riskLevel === 'high' ? 'high' : (scan.riskLevel === 'medium' ? 'medium' : 'low'),
+              createdAt: scan.createdAt,
+              sortDate: new Date(scan.createdAt).getTime(),
+              isCompleted: false,
+              metadata: scan
+            });
+          }
+        }
       });
-    }
-  }
-});
 
       const allItems = [...recommendations, ...Array.from(symptomsMap.values())];
       
@@ -135,32 +137,32 @@ recommendations.forEach((rec) => {
             onClick={() => navigate('/patient/dashboard')}
             className="mb-4 -ml-2 text-slate-500 hover:text-teal-600"
           >
-            <ArrowLeft className="w-4 h-4 mr-2" /> Back
+            <ArrowLeft className="w-4 h-4 mr-2" /> {t('common.back', 'Back')}
           </Button>
           
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Health Insights</h1>
-          <p className="text-slate-500 mt-1">Personalized findings from your latest scans</p>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">{t('recommendations.title', 'Health Insights')}</h1>
+          <p className="text-slate-500 mt-1">{t('recommendations.subtitle', 'Personalized findings from your latest scans')}</p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-            <StatCard label="Active Tasks" value={stats.active} color="teal" />
-            <StatCard label="Detected Signs" value={stats.symptoms} color="amber" />
-            <StatCard label="Critical Alerts" value={stats.urgent} color="rose" />
+            <StatCard label={t('recommendations.activeTasks', 'Active Tasks')} value={stats.active} color="teal" />
+            <StatCard label={t('recommendations.detectedSigns', 'Detected Signs')} value={stats.symptoms} color="amber" />
+            <StatCard label={t('recommendations.criticalAlerts', 'Critical Alerts')} value={stats.urgent} color="rose" />
           </div>
         </header>
 
         {/* NAVIGATION TABS */}
         <nav className="flex p-1 bg-slate-200/50 rounded-2xl w-fit mb-8">
-          {['all', 'active', 'symptom'].map((t) => (
+          {['all', 'active', 'symptom'].map((tab) => (
             <button
-              key={t}
-              onClick={() => setFilter(t as any)}
+              key={tab}
+              onClick={() => setFilter(tab as any)}
               className={`px-6 py-2.5 rounded-xl text-sm font-semibold transition-all ${
-                filter === t 
+                filter === tab 
                 ? 'bg-white text-teal-600 shadow-sm' 
                 : 'text-slate-500 hover:text-slate-800'
               }`}
             >
-              {t.charAt(0).toUpperCase() + t.slice(1)}
+              {t(`recommendations.tabs.${tab}`, tab.charAt(0).toUpperCase() + tab.slice(1))}
             </button>
           ))}
         </nav>
@@ -170,7 +172,7 @@ recommendations.forEach((rec) => {
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-24 opacity-50">
               <Loader2 className="w-8 h-8 animate-spin text-teal-600 mb-4" />
-              <p className="text-sm font-medium text-slate-500">Syncing with AI records...</p>
+              <p className="text-sm font-medium text-slate-500">{t('recommendations.syncing', 'Syncing with AI records...')}</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -195,9 +197,7 @@ recommendations.forEach((rec) => {
                 ))}
               </AnimatePresence>
 
-              {filteredItems.length === 0 && (
-                <EmptyState filter={filter} onReset={() => setFilter('all')} />
-              )}
+              {filteredItems.length === 0 && <EmptyState filter={filter} onReset={() => setFilter('all')} />}
             </div>
           )}
         </section>
@@ -223,14 +223,15 @@ function StatCard({ label, value, color }: any) {
 }
 
 function EmptyState({ filter, onReset }: any) {
+  const { t } = useTranslation();
   return (
     <div className="text-center py-20 bg-white border border-dashed border-slate-300 rounded-3xl">
       <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
         {filter === 'symptom' ? <AlertCircle className="w-8 h-8 text-slate-300" /> : <CheckCircle2 className="w-8 h-8 text-slate-300" />}
       </div>
-      <h3 className="text-lg font-bold text-slate-900">All clear here!</h3>
-      <p className="text-slate-500 max-w-xs mx-auto mb-6">No {filter} items found in your history.</p>
-      {filter !== 'all' && <Button onClick={onReset} variant="outline">View All History</Button>}
+      <h3 className="text-lg font-bold text-slate-900">{t('recommendations.allClear', 'All clear here!')}</h3>
+      <p className="text-slate-500 max-w-xs mx-auto mb-6">{t('recommendations.noItemsFound', 'No items found in your history.')}</p>
+      {filter !== 'all' && <Button onClick={onReset} variant="outline">{t('recommendations.viewAll', 'View All History')}</Button>}
     </div>
   );
 }
