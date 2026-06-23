@@ -6,10 +6,7 @@ import axios, {
 
 const API: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  headers: {
-    "Content-Type": "application/json",
-    "ngrok-skip-browser-warning": "true",
-  },
+  headers: { "Content-Type": "application/json" },
 });
 
 const publicAuthRoutes = [
@@ -26,9 +23,6 @@ export const IMAGE_BASE_URL = "http://localhost:5000";
 
 export const PredictAPI: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_AI_URL,
-  headers: {
-    "ngrok-skip-browser-warning": "true",
-  },
 });
 
 /* ================= REQUEST INTERCEPTOR ================= */
@@ -41,7 +35,6 @@ API.interceptors.request.use(
     if (token) {
   config.headers.Authorization = `Bearer ${token}`;
 }
-config.headers["ngrok-skip-browser-warning"] = "true";
 
 if (
   refreshToken &&
